@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -67,6 +68,13 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
     }
   }
 
+  Future<void> requestLocationPermission() async {
+    final PermissionStatus status = await Permission.location.request();
+    if (status != PermissionStatus.granted) {
+      print("Why tho");
+    }
+  }
+
   void sendToDevice(String message) async {
     if (connectedDevice == null) {
       return;
@@ -93,6 +101,7 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
 
   @override
   Widget build(BuildContext context) {
+    requestLocationPermission();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bluetooth Devices'),
