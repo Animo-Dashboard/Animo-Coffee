@@ -73,7 +73,6 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
 
   void _startScan() async {
     bool goForIt = false;
-    PermissionStatus permission;
     if (Platform.isAndroid) {
       if (await Permission.location.serviceStatus.isEnabled) goForIt = true;
     } else if (Platform.isIOS) {
@@ -86,12 +85,15 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
       _scanStream = flutterReactiveBle
           .scanForDevices(withServices: [_UART_UUID]).listen((device) {
         if (_foundBleUARTDevices.every((element) => element.id != device.id)) {
-          _foundBleUARTDevices.add(device);
+          setState(() {
+            _foundBleUARTDevices.add(device);
+          });
           refreshScreen();
         }
       }, onError: (Object error) {
-        _logTexts = "${_logTexts}ERROR while scanning:$error \n";
-        refreshScreen();
+        setState(() {
+          _logTexts = "${_logTexts}ERROR while scanning:$error \n";
+        });
       });
     } else {
       // await showNoPermissionDialog();
