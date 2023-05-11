@@ -82,8 +82,8 @@ class _BluetoothScreenState extends State<BluetoothScreen> {
       _foundBleUARTDevices = [];
       _scanning = true;
       refreshScreen();
-      _scanStream = flutterReactiveBle
-          .scanForDevices(withServices: [_UART_UUID]).listen((device) {
+      _scanStream =
+          flutterReactiveBle.scanForDevices(withServices: []).listen((device) {
         if (_foundBleUARTDevices.every((element) => element.id != device.id)) {
           setState(() {
             _foundBleUARTDevices.add(device);
