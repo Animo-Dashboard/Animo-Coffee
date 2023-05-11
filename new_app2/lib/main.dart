@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'dart:io' show Platform;
+
 import 'package:permission_handler/permission_handler.dart';
 
+Uuid _UART_UUID = Uuid.parse("6E400001-B5A3-F393-E0A9-E50E24DCCA9E");
 void main() {
   runApp(const MyApp());
 }
@@ -28,110 +32,197 @@ class BluetoothScreen extends StatefulWidget {
 }
 
 class _BluetoothScreenState extends State<BluetoothScreen> {
-  FlutterBlue flutterBlue = FlutterBlue.instance;
-  List<BluetoothDevice> devices = [];
-  BluetoothDevice? connectedDevice; // Add a nullability marker
+  final flutterReactiveBle = FlutterReactiveBle();
+  List<DiscoveredDevice> _foundBleUARTDevices = [];
+  late TextEditingController _dataToSendText;
+  bool _scanning = false;
+  bool _connected = false;
+  String _logTexts = "";
+  late StreamSubscription<DiscoveredDevice> _scanStream;
+  late StreamSubscription<ConnectionStateUpdate> _connection;
+  late Stream<List<int>> _receivedDataStream;
+  List<String> _receivedData = [];
+  late QualifiedCharacteristic _rxCharacteristic;
 
   @override
   void initState() {
     super.initState();
-    flutterBlue.state.listen((state) {
-      if (state == BluetoothState.on) {
-        scanDevices();
-      }
-    });
+    _dataToSendText = TextEditingController();
   }
 
-  void scanDevices() {
-    flutterBlue.startScan(timeout: const Duration(seconds: 4));
-    flutterBlue.scanResults.listen((results) {
-      for (ScanResult result in results) {
-        if (!devices.contains(result.device)) {
-          setState(() {
-            devices.add(result.device);
-          });
+  void refreshScreen() {
+    setState(() {});
+  }
+
+  void _disconnect() async {
+    await _connection.cancel();
+    _connected = false;
+    refreshScreen();
+  }
+
+  void _stopScan() async {
+    await _scanStream.cancel();
+    _scanning = false;
+    refreshScreen();
+  }
+
+  void _sendData() async {
+    await flutterReactiveBle.writeCharacteristicWithResponse(_rxCharacteristic,
+        value: _dataToSendText.text.codeUnits);
+  }
+
+  void _startScan() async {
+    bool goForIt = false;
+    PermissionStatus permission;
+    if (Platform.isAndroid) {
+      if (await Permission.location.serviceStatus.isEnabled) goForIt = true;
+    } else if (Platform.isIOS) {
+      goForIt = true;
+    }
+    if (goForIt) {
+      _foundBleUARTDevices = [];
+      _scanning = true;
+      refreshScreen();
+      _scanStream = flutterReactiveBle
+          .scanForDevices(withServices: [_UART_UUID]).listen((device) {
+        if (_foundBleUARTDevices.every((element) => element.id != device.id)) {
+          _foundBleUARTDevices.add(device);
+          refreshScreen();
         }
-      }
-    });
-  }
-
-  void connectToDevice(BluetoothDevice device) async {
-    flutterBlue.stopScan();
-    try {
-      await device.connect();
-      setState(() {
-        connectedDevice = device;
+      }, onError: (Object error) {
+        _logTexts = "${_logTexts}ERROR while scanning:$error \n";
+        refreshScreen();
       });
-      print('Connected to device: ${device.name}');
-    } catch (e) {
-      print('Failed to connect to device: ${device.name}, $e');
+    } else {
+      // await showNoPermissionDialog();
     }
   }
 
-  Future<void> requestLocationPermission() async {
-    final PermissionStatus status = await Permission.location.request();
-    if (status != PermissionStatus.granted) {
-      print("Why tho");
-    }
-  }
-
-  void sendToDevice(String message) async {
-    if (connectedDevice == null) {
-      return;
-    }
-
-    List<int> bytes = utf8.encode(message); // Convert message to bytes
-    List<BluetoothService> services = await connectedDevice!.discoverServices();
-
-    for (BluetoothService service in services) {
-      for (BluetoothCharacteristic characteristic in service.characteristics) {
-        // ignore: unrelated_type_equality_checks
-        if (characteristic.uuid == "someCharacteristicUuid") {
-          try {
-            await characteristic.write(bytes);
-            print('Sent message: $message');
-          } catch (e) {
-            print('Failed to send message: $message, $e');
-          }
-          return;
-        }
-      }
-    }
-  }
+  onConnectDevice(int index) {}
 
   @override
-  Widget build(BuildContext context) {
-    requestLocationPermission();
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bluetooth Devices'),
-      ),
-      body: Column(
-        children: [
-          const Text(
-            'Devices:',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Bluetooth Devices'),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const Text("BLE UART Devices found:"),
+              Container(
+                  margin: const EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.blue, width: 2)),
+                  height: 100,
+                  child: ListView.builder(
+                      itemCount: _foundBleUARTDevices.length,
+                      itemBuilder: (context, index) => Card(
+                              child: ListTile(
+                            dense: true,
+                            enabled: !((!_connected && _scanning) ||
+                                (!_scanning && _connected)),
+                            trailing: GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                (!_connected && _scanning) ||
+                                        (!_scanning && _connected)
+                                    ? () {}
+                                    : onConnectDevice(index);
+                              },
+                              child: Container(
+                                width: 48,
+                                height: 48,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4.0),
+                                alignment: Alignment.center,
+                                child: const Icon(Icons.add_link),
+                              ),
+                            ),
+                            subtitle: Text(_foundBleUARTDevices[index].id),
+                            title: Text(
+                                "$index: ${_foundBleUARTDevices[index].name}"),
+                          )))),
+              const Text("Status messages:"),
+              Container(
+                  margin: const EdgeInsets.all(3.0),
+                  width: 1400,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.blue, width: 2)),
+                  height: 90,
+                  child: Scrollbar(
+                      child: SingleChildScrollView(child: Text(_logTexts)))),
+              const Text("Received data:"),
+              Container(
+                  margin: const EdgeInsets.all(3.0),
+                  width: 1400,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.blue, width: 2)),
+                  height: 90,
+                  child: Text(_receivedData.join("\n"))),
+              const Text("Send message:"),
+              Container(
+                  margin: const EdgeInsets.all(3.0),
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.blue, width: 2)),
+                  child: Row(children: <Widget>[
+                    Expanded(
+                        child: TextField(
+                      enabled: _connected,
+                      controller: _dataToSendText,
+                      decoration: const InputDecoration(
+                          border: InputBorder.none, hintText: 'Enter a string'),
+                    )),
+                    ElevatedButton(
+                        onPressed: _connected ? _sendData : () {},
+                        child: Icon(
+                          Icons.send,
+                          color: _connected ? Colors.blue : Colors.grey,
+                        )),
+                  ]))
+            ],
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: devices.length,
-              itemBuilder: (context, index) {
-                final device = devices[index];
-                return ListTile(
-                  title: Text(device.name),
-                  subtitle: Text(device.id.toString()),
-                  trailing: connectedDevice == device
-                      ? const Text('Connected')
-                      : ElevatedButton(
-                          onPressed: () => connectToDevice(device),
-                          child: const Text('Connect'),
-                        ),
-                );
-              },
+        ),
+        persistentFooterButtons: [
+          Container(
+            height: 35,
+            child: Column(
+              children: [
+                if (_scanning)
+                  const Text("Scanning: Scanning")
+                else
+                  const Text("Scanning: Idle"),
+                if (_connected)
+                  const Text("Connected")
+                else
+                  const Text("disconnected."),
+              ],
             ),
           ),
+          ElevatedButton(
+            onPressed: !_scanning && !_connected ? _startScan : () {},
+            child: Icon(
+              Icons.play_arrow,
+              color: !_scanning && !_connected ? Colors.blue : Colors.grey,
+            ),
+          ),
+          ElevatedButton(
+              onPressed: _scanning ? _stopScan : () {},
+              child: Icon(
+                Icons.stop,
+                color: _scanning ? Colors.blue : Colors.grey,
+              )),
+          ElevatedButton(
+              onPressed: _connected ? _disconnect : () {},
+              child: Icon(
+                Icons.cancel,
+                color: _connected ? Colors.blue : Colors.grey,
+              ))
         ],
-      ),
-    );
-  }
+      );
 }
