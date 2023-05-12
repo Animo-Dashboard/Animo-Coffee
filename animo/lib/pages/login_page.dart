@@ -52,6 +52,8 @@ class _LoginPageState extends State<LoginPage> {
           image: DecorationImage(
             image: AssetImage('images/background.jpeg'),
             fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.5), BlendMode.dstATop),
           ),
         ),
         child: Padding(
