@@ -1,4 +1,5 @@
 import 'package:animo/pages/login_page.dart';
+import 'package:animo/pages/registration_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
         '/login': (context) => LoginPage(),
+        '/registration': (context) => RegistrationPage(),
       },
     );
   }
@@ -63,6 +66,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pushNamed(context, '/login');
               },
               child: const Text('Go to Login Page'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/registration');
+              },
+              child: const Text('Go to Registration Page'),
             ),
           ],
         ),

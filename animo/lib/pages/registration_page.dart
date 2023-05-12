@@ -3,12 +3,12 @@ import 'package:email_validator/email_validator.dart';
 
 enum FieldValidationState { empty, valid, invalid }
 
-class LoginPage extends StatefulWidget {
+class RegistrationPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegistrationPageState createState() => _RegistrationPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
 
   FieldValidationState _emailFieldState = FieldValidationState.empty;
@@ -19,8 +19,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      // Form is valid, do login logic here
-      print('Login successful!');
+      // Form is valid, do registration logic here
+      print('Registration successful!');
       print('Email: $_email');
       print('Password: $_password');
     }
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: _submitForm,
-                  child: Text('Login'),
+                  child: Text('Register'),
                 ),
               ],
             ),
