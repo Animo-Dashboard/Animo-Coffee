@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RegisteredDevicesPage extends StatefulWidget {
+  const RegisteredDevicesPage({super.key});
+
   @override
   _RegisteredDevicesPage createState() => _RegisteredDevicesPage();
 }

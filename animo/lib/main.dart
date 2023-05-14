@@ -1,3 +1,4 @@
+import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/login_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
@@ -14,16 +15,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Front-End Demo',
       theme: ThemeData(
         primarySwatch: getMaterialColor(Colors.blue),
         fontFamily: "FuturaStd",
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
-        '/login': (context) => LoginPage(),
-        '/registration': (context) => RegistrationPage(),
-        '/registeredDevices': (context) => RegisteredDevicesPage(),
+        '/login': (context) => const LoginPage(),
+        '/registration': (context) => const RegistrationPage(),
+        '/registeredDevices': (context) => const RegisteredDevicesPage(),
+        '/errorHandling': (context) => const ErrorHandlingPage(),
       },
     );
   }
@@ -108,6 +110,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pushNamed(context, '/registeredDevices');
               },
               child: const Text('Go to Devices Page'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/errorHandling');
+              },
+              child: const Text('Error Finding Page'),
             ),
           ],
         ),

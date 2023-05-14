@@ -4,6 +4,8 @@ import 'package:email_validator/email_validator.dart';
 enum FieldValidationState { empty, valid, invalid }
 
 class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
+
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
 }
@@ -62,7 +64,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Email',
                     hintText: 'Enter your email',
                     prefixIcon: Icon(Icons.email),
@@ -79,9 +81,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   },
                   onChanged: _validateEmail,
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Password',
                     hintText: 'Enter your password',
                     prefixIcon: Icon(Icons.lock),
@@ -98,10 +100,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   },
                   onChanged: _validatePassword,
                 ),
-                SizedBox(height: 32.0),
+                const SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: _submitForm,
-                  child: Text('Register'),
+                  child: const Text('Register'),
                 ),
               ],
             ),

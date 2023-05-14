@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
@@ -37,7 +40,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Email',
                     hintText: 'Enter your email',
                     prefixIcon: Icon(Icons.email),

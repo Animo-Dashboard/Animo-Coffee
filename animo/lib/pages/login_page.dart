@@ -4,6 +4,8 @@ import 'package:email_validator/email_validator.dart';
 enum FieldValidationState { empty, valid, invalid }
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -50,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/background.jpeg'),
+            image: const AssetImage('images/background.jpeg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
                 Colors.white.withOpacity(0.5), BlendMode.dstATop),
@@ -64,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Email',
                     hintText: 'Enter your email',
                     prefixIcon: Icon(Icons.email),
@@ -81,9 +83,9 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   onChanged: _validateEmail,
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Password',
                     hintText: 'Enter your password',
                     prefixIcon: Icon(Icons.lock),
@@ -100,10 +102,10 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   onChanged: _validatePassword,
                 ),
-                SizedBox(height: 32.0),
+                const SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: _submitForm,
-                  child: Text('Login'),
+                  child: const Text('Login'),
                 ),
               ],
             ),
