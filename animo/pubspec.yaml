@@ -67,6 +67,9 @@ flutter:
   - images/logoSymbolBlack.png
   - images/logoFullWhite.png
   - images/logoFullBlack.png
+  - images/touch2.png
+  - images/touch3.png
+  - images/touch4.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -92,7 +95,7 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   fonts:
-      - family: Futura std
+      - family: FuturaStd
         fonts:
           - asset: fonts/FuturaStd/FuturaStdLight.otf
             weight: 300

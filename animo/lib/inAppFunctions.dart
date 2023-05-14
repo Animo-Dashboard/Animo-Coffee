@@ -31,10 +31,7 @@ Text handleColorMoreMenuOptions(String value) {
 }
 
 void logOut(BuildContext context) {
-  print(context);
-  print(LoginPage());
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => const LoginPage()));
+  Navigator.pushReplacementNamed(context, '/login');
 }
 
 MaterialColor turnIntoMaterialColor(Color color) {

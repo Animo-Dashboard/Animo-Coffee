@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:animo/inAppFunctions.dart';
 
 enum FieldValidationState { empty, valid, invalid }
 
@@ -49,6 +50,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+          size: 40,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -70,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Email',
                     hintText: 'Enter your email',
                     prefixIcon: Icon(Icons.email),
+                    prefixIconColor: Colors.black,
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -89,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Password',
                     hintText: 'Enter your password',
                     prefixIcon: Icon(Icons.lock),
+                    prefixIconColor: Colors.black,
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -104,9 +115,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 32.0),
                 ElevatedButton(
-                  onPressed: _submitForm,
-                  child: const Text('Login'),
-                ),
+                    onPressed: _submitForm,
+                    child: const Text(
+                      'LOGIN',
+                    )),
               ],
             ),
           ),

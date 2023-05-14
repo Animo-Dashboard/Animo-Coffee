@@ -1,3 +1,4 @@
+import 'package:animo/pages/addNewDevice_page.dart';
 import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/login_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
@@ -20,6 +21,25 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: turnIntoMaterialColor(CustomColors.blue),
         fontFamily: "FuturaStd",
+        hintColor: Colors.black,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.all(
+                TextStyle(fontSize: 28, fontWeight: FontWeight.w300)),
+            padding: MaterialStateProperty.all(const EdgeInsets.only(
+                top: 10, bottom: 10, left: 50, right: 50)),
+            shape: MaterialStateProperty.all(
+              const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+            ),
+          ),
+        ),
+        textTheme: const TextTheme(
+            titleLarge: TextStyle(fontSize: 36.0),
+            titleMedium: TextStyle(fontSize: 24.0),
+            bodyLarge: TextStyle(fontSize: 20.0),
+            bodyMedium: TextStyle(fontSize: 16.0)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
@@ -27,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/registration': (context) => const RegistrationPage(),
         '/registeredDevices': (context) => const RegisteredDevicesPage(),
         '/errorHandling': (context) => const ErrorHandlingPage(),
+        '/addNewDevice': (context) => const AddNewDevicePage(),
       },
     );
   }
@@ -60,31 +81,27 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline6,
-            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
               child: const Text('Go to Login Page'),
             ),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/registration');
               },
               child: const Text('Go to Registration Page'),
             ),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/registeredDevices');
               },
               child: const Text('Go to Devices Page'),
             ),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/errorHandling');
@@ -93,11 +110,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

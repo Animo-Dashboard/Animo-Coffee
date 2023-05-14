@@ -103,7 +103,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 const SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: _submitForm,
-                  child: const Text('Register'),
+                  child: const Text('REGISTER'),
                 ),
               ],
             ),
