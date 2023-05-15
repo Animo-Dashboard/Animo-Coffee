@@ -51,6 +51,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          "Login",
+          style: TextStyle(color: Colors.black),
+        ),
         iconTheme: IconThemeData(
           color: Colors.black,
           size: 40,
@@ -74,6 +78,10 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Image(image: AssetImage("images/logoFullBlack.png")),
+                SizedBox(
+                  height: 90,
+                ),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Email',
