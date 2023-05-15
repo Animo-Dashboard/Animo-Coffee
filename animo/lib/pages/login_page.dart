@@ -76,51 +76,50 @@ class _LoginPageState extends State<LoginPage> {
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Image(image: AssetImage("images/logoFullBlack.png")),
-                SizedBox(
-                  height: 90,
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    hintText: 'Enter your email',
-                    prefixIcon: Icon(Icons.email),
-                    prefixIconColor: Colors.black,
+                Column(children: [
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      hintText: 'Enter your email',
+                      prefixIcon: Icon(Icons.email),
+                      prefixIconColor: Colors.black,
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your email';
+                      } else if (_emailFieldState ==
+                          FieldValidationState.invalid) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                    onChanged: _validateEmail,
                   ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (_emailFieldState ==
-                        FieldValidationState.invalid) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                  onChanged: _validateEmail,
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    hintText: 'Enter your password',
-                    prefixIcon: Icon(Icons.lock),
-                    prefixIconColor: Colors.black,
+                  const SizedBox(height: 16.0),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
+                      prefixIcon: Icon(Icons.lock),
+                      prefixIconColor: Colors.black,
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      } else if (_passwordFieldState ==
+                          FieldValidationState.empty) {
+                        return 'Please enter a password';
+                      }
+                      return null;
+                    },
+                    onChanged: _validatePassword,
                   ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your password';
-                    } else if (_passwordFieldState ==
-                        FieldValidationState.empty) {
-                      return 'Please enter a password';
-                    }
-                    return null;
-                  },
-                  onChanged: _validatePassword,
-                ),
+                ]),
                 const SizedBox(height: 32.0),
                 ElevatedButton(
                     onPressed: _submitForm,
