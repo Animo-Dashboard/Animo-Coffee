@@ -54,13 +54,15 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
                   ),
                   title: Text(
                     '${deviceItem.name}',
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 20),
                   ),
                   subtitle: Text(
                     '${deviceItem.model}',
-                    style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w300, fontSize: 16),
                   ),
-                  trailing: Icon(
+                  trailing: const Icon(
                     Icons.arrow_forward_ios_sharp,
                     size: 40,
                     color: Colors.black,
@@ -77,8 +79,7 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
   getDeviceImage(String s) {
     switch (s) {
       case "Optibean Touch 2":
-        return AssetImage("images/touch2.png");
-        break;
+        return const AssetImage("images/touch2.png");
       default:
     }
   }
