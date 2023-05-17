@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
       print('Login successful!');
       print('Email: $_email');
       print('Password: $_password');
+      Navigator.pushReplacementNamed(context, "/registeredDevices");
     }
   }
 
@@ -50,87 +51,143 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Login",
-          style: TextStyle(color: Colors.black),
-        ),
-        iconTheme: IconThemeData(
-          color: Colors.black,
-          size: 40,
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+      resizeToAvoidBottomInset: false,
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: const AssetImage('images/background.jpeg'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Colors.white.withOpacity(0.5), BlendMode.dstATop),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Image(image: AssetImage("images/logoFullBlack.png")),
-                Column(children: [
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      hintText: 'Enter your email',
-                      prefixIcon: Icon(Icons.email),
-                      prefixIconColor: Colors.black,
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your email';
-                      } else if (_emailFieldState ==
-                          FieldValidationState.invalid) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
-                    onChanged: _validateEmail,
-                  ),
-                  const SizedBox(height: 16.0),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      hintText: 'Enter your password',
-                      prefixIcon: Icon(Icons.lock),
-                      prefixIconColor: Colors.black,
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your password';
-                      } else if (_passwordFieldState ==
-                          FieldValidationState.empty) {
-                        return 'Please enter a password';
-                      }
-                      return null;
-                    },
-                    onChanged: _validatePassword,
-                  ),
-                ]),
-                const SizedBox(height: 32.0),
-                ElevatedButton(
-                    onPressed: _submitForm,
-                    child: const Text(
-                      'LOGIN',
-                    )),
-              ],
+          constraints:
+              BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: const AssetImage('images/background.jpeg'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.5), BlendMode.dstATop),
             ),
           ),
-        ),
-      ),
+          child: Column(
+            children: [
+              Expanded(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 24, right: 24),
+                    child: Image(image: AssetImage("images/logoFullBlack.png")),
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 36, right: 36, top: 72, bottom: 36),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Email',
+                                    hintText: 'Enter your email',
+                                    labelStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    hintStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    errorStyle: TextStyle(fontSize: 20),
+                                    prefixIcon: Icon(Icons.email),
+                                    prefixIconColor: Colors.black,
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your email';
+                                    } else if (_emailFieldState ==
+                                        FieldValidationState.invalid) {
+                                      return 'Please enter a valid email';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: _validateEmail,
+                                ),
+                                const SizedBox(height: 16.0),
+                                TextFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Password',
+                                    hintText: 'Enter your password',
+                                    labelStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    hintStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    errorStyle: TextStyle(fontSize: 20),
+                                    prefixIcon: Icon(Icons.lock),
+                                    prefixIconColor: Colors.black,
+                                  ),
+                                  obscureText: true,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your password';
+                                    } else if (_passwordFieldState ==
+                                        FieldValidationState.empty) {
+                                      return 'Please enter a password';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: _validatePassword,
+                                ),
+                                SizedBox(height: 26),
+                                TextButton(
+                                    onPressed: () {
+                                      // Navigator.pushNamed(
+                                      // context, '/registration');
+                                    },
+                                    child: const Text(
+                                      "Forgot password?",
+                                      style: TextStyle(fontSize: 24),
+                                    )),
+                                SizedBox(
+                                  height: 60,
+                                ),
+                                ElevatedButton(
+                                    onPressed: _submitForm,
+                                    child: Text(
+                                      'LOGIN',
+                                    )),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, '/registration');
+                                    },
+                                    child: const Text(
+                                      "Register new account",
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                      ),
+                                    )),
+                              ]),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+              ColoredBox(
+                color: Colors.black45,
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: const Text(
+                        "V16.05.23",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          )),
     );
   }
 }

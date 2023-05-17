@@ -99,7 +99,7 @@ flutter:
         fonts:
           - asset: fonts/FuturaStd/FuturaStdLight.otf
             weight: 300
-          - asset: fonts/FuturaStd/FuturaStdMedium.otf
+          - asset: fonts/FuturaStd/FuturaStdBook.otf
             weight: 500
           - asset: fonts/FuturaStd/FuturaStdBold.otf
             weight: 700
