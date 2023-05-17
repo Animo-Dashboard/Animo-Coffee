@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
+import 'DeviceInstallationPage .dart';
+import 'addNewDevice_page.dart';
 
 class RegisteredDevicesPage extends StatefulWidget {
   const RegisteredDevicesPage({super.key});
@@ -28,6 +30,15 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
         logOut(context);
         break;
     }
+  }
+
+  void viewInstallationGuide(DeviceItem deviceItem) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DeviceInstallationPage(deviceItem: deviceItem),
+      ),
+    );
   }
 
   void addNewDevice() {
@@ -57,27 +68,29 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
               itemBuilder: (context, index) {
                 final deviceItem = deviceItems[index];
                 return GridTile(
-                    child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Image(
-                      image: getDeviceImage(deviceItem.model),
-                      height: 170,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      deviceItem.name,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(deviceItem.model,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w300))
-                  ],
-                ));
+                    child: GestureDetector(
+                        onTap: () => viewInstallationGuide(deviceItem),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Image(
+                              image: getDeviceImage(deviceItem.model),
+                              height: 170,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              deviceItem.name,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(deviceItem.model,
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w300))
+                          ],
+                        )));
               },
               itemCount: deviceItems.length,
             )),
