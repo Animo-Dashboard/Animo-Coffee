@@ -61,10 +61,6 @@ class MyApp extends StatelessWidget {
         '/registerDevice': (context) => const RegisterDevicePage(),
         '/registeredDevices': (context) => const RegisteredDevicesPage(),
         '/errorHandling': (context) => const ErrorHandlingPage(),
-        '/addNewDevice': (context) => const AddNewDevicePage(),
-        '/admin': (context) => const AdminPage(),
-        '/dashboard': (context) => const DashboardPage(),
-        '/deviceStatistics': (context) => const DeviceStatisticsPage(),
       },
     );
   }
@@ -162,6 +158,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/registerDevice');
+              },
+              child: const Text('Register Device Page'),
+            )
           ],
         ),
       ),
