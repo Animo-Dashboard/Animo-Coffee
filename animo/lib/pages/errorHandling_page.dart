@@ -68,7 +68,7 @@ class _ErrorHandlingPageState extends State<ErrorHandlingPage> {
                     style: TextStyle(
                         fontWeight: FontWeight.w300,
                         color: CustomColors.red,
-                        fontSize: 14),
+                        fontSize: 16),
                   ),
                 ),
               ),

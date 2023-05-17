@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:animo/pages/addNewDevice_page.dart';
 import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/login_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
@@ -6,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'inAppFunctions.dart';
 import 'package:animo/pages/registerDevice_page.dart';
 
+final globalNavigatorKey = GlobalKey<NavigatorState>();
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -18,9 +22,31 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Front-End Demo',
+      navigatorKey: globalNavigatorKey,
       theme: ThemeData(
         primarySwatch: turnIntoMaterialColor(CustomColors.blue),
         fontFamily: "FuturaStd",
+        hintColor: Colors.black,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.all(const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w500,
+                fontFamily: "FuturaStd")),
+            padding: MaterialStateProperty.all(const EdgeInsets.only(
+                top: 16, bottom: 16, left: 78, right: 78)),
+            shape: MaterialStateProperty.all(
+              const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+            ),
+          ),
+        ),
+        textTheme: const TextTheme(
+            titleLarge: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
+            titleMedium: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
+            bodyLarge: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+            bodyMedium: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
@@ -29,6 +55,7 @@ class MyApp extends StatelessWidget {
         '/registeredDevices': (context) => const RegisteredDevicesPage(),
         '/errorHandling': (context) => const ErrorHandlingPage(),
         '/registerDevice': (context) => const RegisterDevicePage(),
+        '/addNewDevice': (context) => const AddNewDevicePage(),
       },
     );
   }
@@ -44,69 +71,73 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/background.jpeg'),
+              fit: BoxFit.cover,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline6,
+          ),
+          child: Column(children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 24, right: 24),
+                    child: Image(image: AssetImage("images/logoFullBlack.png")),
+                  ),
+                  FutureBuilder(
+                      future: Future.delayed(
+                          const Duration(seconds: 3),
+                          () => {
+                                const AsyncSnapshot.withData(
+                                    ConnectionState.done, "Done")
+                              }),
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.hasData) {
+                          Future.microtask(() => Navigator.pushReplacementNamed(
+                              context, '/login'));
+                        }
+                        return Column(
+                          children: const [
+                            Text(
+                              "Please wait...",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(height: 12),
+                            CircularProgressIndicator(
+                              strokeWidth: 3,
+                              color: Colors.black,
+                            ),
+                          ],
+                        );
+                      })
+                ],
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/login');
-              },
-              child: const Text('Go to Login Page'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/registration');
-              },
-              child: const Text('Go to Registration Page'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/registeredDevices');
-              },
-              child: const Text('Go to Devices Page'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/errorHandling');
-              },
-              child: const Text('Error Finding Page'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/registerDevice');
-              },
-              child: const Text('Register Device Page'),
+            ColoredBox(
+              color: Colors.black45,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    child: const Text(
+                      "V16.05.23",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
             )
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+          ])),
     );
   }
 }
