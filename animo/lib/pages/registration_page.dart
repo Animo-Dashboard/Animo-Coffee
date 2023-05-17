@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 enum FieldValidationState { empty, valid, invalid }
 
 class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
+
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
 }
@@ -16,9 +18,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   FieldValidationState _emailFieldState = FieldValidationState.empty;
   FieldValidationState _passwordFieldState = FieldValidationState.empty;
+  FieldValidationState _passwordRepeatFieldState = FieldValidationState.empty;
 
   String _email = "";
   String _password = "";
+  String _passwordRepeat = "";
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -65,70 +69,164 @@ class _RegistrationPageState extends State<RegistrationPage> {
     });
   }
 
+  void _validateRepeatPassword(String value) {
+    setState(() {
+      _passwordRepeatFieldState == _passwordFieldState
+          ? _passwordRepeatFieldState = FieldValidationState.valid
+          : _passwordRepeatFieldState = FieldValidationState.invalid;
+      _passwordRepeat = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black, size: 48),
+      ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('images/background.jpeg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    hintText: 'Enter your email',
-                    prefixIcon: Icon(Icons.email),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (_emailFieldState ==
-                        FieldValidationState.invalid) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                  onChanged: _validateEmail,
-                ),
-                SizedBox(height: 16.0),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    hintText: 'Enter your password',
-                    prefixIcon: Icon(Icons.lock),
-                  ),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your password';
-                    } else if (_passwordFieldState ==
-                        FieldValidationState.empty) {
-                      return 'Please enter a password';
-                    }
-                    return null;
-                  },
-                  onChanged: _validatePassword,
-                ),
-                SizedBox(height: 32.0),
-                ElevatedButton(
-                  onPressed: _submitForm,
-                  child: Text('Register'),
-                ),
-              ],
+          constraints:
+              BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: const AssetImage('images/background.jpeg'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.5), BlendMode.dstATop),
             ),
           ),
-        ),
-      ),
+          child: Column(
+            children: [
+              Expanded(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 24, right: 24),
+                    child: Image(image: AssetImage("images/logoFullBlack.png")),
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 36, right: 36, top: 72, bottom: 36),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Email',
+                                    hintText: 'Enter your email',
+                                    labelStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    hintStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    errorStyle: TextStyle(fontSize: 20),
+                                    prefixIcon: Icon(Icons.email),
+                                    prefixIconColor: Colors.black,
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your email';
+                                    } else if (_emailFieldState ==
+                                        FieldValidationState.invalid) {
+                                      return 'Please enter a valid email';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: _validateEmail,
+                                ),
+                                const SizedBox(height: 16.0),
+                                TextFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Password',
+                                    hintText: 'Enter your password',
+                                    labelStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    hintStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    errorStyle: TextStyle(fontSize: 20),
+                                    prefixIcon: Icon(Icons.lock),
+                                    prefixIconColor: Colors.black,
+                                  ),
+                                  obscureText: true,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your password';
+                                    } else if (_passwordFieldState ==
+                                        FieldValidationState.empty) {
+                                      return 'Please enter a password';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: _validatePassword,
+                                ),
+                                const SizedBox(height: 16.0),
+                                TextFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Repeat Password',
+                                    hintText: 'Enter your password again',
+                                    labelStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    hintStyle:
+                                        TextStyle(fontWeight: FontWeight.w300),
+                                    errorStyle: TextStyle(fontSize: 20),
+                                    prefixIcon: Icon(Icons.lock),
+                                    prefixIconColor: Colors.black,
+                                  ),
+                                  obscureText: true,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your password again';
+                                    } else if (_passwordRepeatFieldState ==
+                                        FieldValidationState.invalid) {
+                                      return 'Passwords don\'t match';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: _validateRepeatPassword,
+                                ),
+                                SizedBox(
+                                  height: 60,
+                                ),
+                                ElevatedButton(
+                                    onPressed: _submitForm,
+                                    child: Text(
+                                      'REGISTER',
+                                    )),
+                              ]),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+              ColoredBox(
+                color: Colors.black45,
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: const Text(
+                        "V16.05.23",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          )),
     );
   }
 }

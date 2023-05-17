@@ -1,7 +1,12 @@
+import 'dart:async';
+import 'package:animo/pages/addNewDevice_page.dart';
+import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/login_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
 import 'package:flutter/material.dart';
+import 'inAppFunctions.dart';
+import 'package:animo/pages/registerDevice_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -9,8 +14,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -19,46 +22,44 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Front-End Demo',
+      navigatorKey: globalNavigatorKey,
       theme: ThemeData(
-        primarySwatch: getMaterialColor(Colors.blue),
+        primarySwatch: turnIntoMaterialColor(CustomColors.blue),
         fontFamily: "FuturaStd",
+        hintColor: Colors.black,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.all(const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w500,
+                fontFamily: "FuturaStd")),
+            padding: MaterialStateProperty.all(const EdgeInsets.only(
+                top: 16, bottom: 16, left: 78, right: 78)),
+            shape: MaterialStateProperty.all(
+              const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+            ),
+          ),
+        ),
+        textTheme: const TextTheme(
+            titleLarge: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
+            titleMedium: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
+            bodyLarge: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+            bodyMedium: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)),
       ),
       home: const MyHomePage(title: 'Flutter Home Page'),
       routes: {
-        '/login': (context) => LoginPage(),
-        '/registration': (context) => RegistrationPage(),
-        '/registeredDevices': (context) => RegisteredDevicesPage(),
+        '/login': (context) => const LoginPage(),
+        '/registration': (context) => const RegistrationPage(),
+        '/registeredDevices': (context) => const RegisteredDevicesPage(),
+        '/errorHandling': (context) => const ErrorHandlingPage(),
+        '/registerDevice': (context) => const RegisterDevicePage(),
+        '/addNewDevice': (context) => const AddNewDevicePage(),
       },
     );
   }
-}
-
-class Colors {
-  static var red = Color(0xFFD54147);
-  static var blue = Color(0xFF6BA4B8);
-  static var grey = Color(0xFF919388);
-}
-
-MaterialColor getMaterialColor(Color color) {
-  final int red = color.red;
-  final int green = color.green;
-  final int blue = color.blue;
-
-  final Map<int, Color> shades = {
-    50: Color.fromRGBO(red, green, blue, .1),
-    100: Color.fromRGBO(red, green, blue, .2),
-    200: Color.fromRGBO(red, green, blue, .3),
-    300: Color.fromRGBO(red, green, blue, .4),
-    400: Color.fromRGBO(red, green, blue, .5),
-    500: Color.fromRGBO(red, green, blue, .6),
-    600: Color.fromRGBO(red, green, blue, .7),
-    700: Color.fromRGBO(red, green, blue, .8),
-    800: Color.fromRGBO(red, green, blue, .9),
-    900: Color.fromRGBO(red, green, blue, 1),
-  };
-
-  return MaterialColor(color.value, shades);
 }
 
 class MyHomePage extends StatefulWidget {
@@ -71,57 +72,73 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/background.jpeg'),
+              fit: BoxFit.cover,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline6,
+          ),
+          child: Column(children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 24, right: 24),
+                    child: Image(image: AssetImage("images/logoFullBlack.png")),
+                  ),
+                  FutureBuilder(
+                      future: Future.delayed(
+                          const Duration(seconds: 3),
+                          () => {
+                                const AsyncSnapshot.withData(
+                                    ConnectionState.done, "Done")
+                              }),
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.hasData) {
+                          Future.microtask(() => Navigator.pushReplacementNamed(
+                              context, '/login'));
+                        }
+                        return Column(
+                          children: const [
+                            Text(
+                              "Please wait...",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(height: 12),
+                            CircularProgressIndicator(
+                              strokeWidth: 3,
+                              color: Colors.black,
+                            ),
+                          ],
+                        );
+                      })
+                ],
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/login');
-              },
-              child: const Text('Go to Login Page'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/registration');
-              },
-              child: const Text('Go to Registration Page'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/registeredDevices');
-              },
-              child: const Text('Go to Devices Page'),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+            ColoredBox(
+              color: Colors.black45,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    child: const Text(
+                      "V16.05.23",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ])),
     );
   }
 }

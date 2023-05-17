@@ -1,97 +1,115 @@
+import 'dart:math';
+
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
+import 'package:animo/inAppFunctions.dart';
+import 'DeviceInstallationPage .dart';
+import 'addNewDevice_page.dart';
 
 class RegisteredDevicesPage extends StatefulWidget {
+  const RegisteredDevicesPage({super.key});
+
   @override
   _RegisteredDevicesPage createState() => _RegisteredDevicesPage();
 }
 
-void handleClick(String value) {
-  switch (value) {
-    case 'Add new device':
-      break;
-    case 'Settings':
-      break;
-    case 'Log out':
-      break;
-  }
-}
-
-Text handleColorMoreMenuOptions(String value) {
-  switch (value) {
-    case 'Add new device':
-      return Text(
-        value,
-        style: const TextStyle(fontWeight: FontWeight.w300, color: Colors.blue),
-      );
-      break;
-    case 'Settings':
-      return Text(
-        value,
-        style: const TextStyle(fontWeight: FontWeight.w300),
-      );
-      break;
-    case 'Log out':
-      return Text(
-        value,
-        style: const TextStyle(fontWeight: FontWeight.w300, color: Colors.red),
-      );
-      break;
-    default:
-      return Text(value);
-  }
-}
-
 class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
   final _formKey = GlobalKey<FormState>();
+  List<DeviceItem> deviceItems = [];
+  String pageTitle = "Your devices";
+
+  List<String> moreMenuOptions = ['Add new device', 'Settings', 'Log out'];
+  void handleClick(String value) {
+    switch (value) {
+      case 'Add new device':
+        Navigator.pushNamed(context, '/addNewDevice');
+        break;
+      case 'Settings':
+        break;
+      case 'Log out':
+        logOut(context);
+        break;
+    }
+  }
+
+  void viewInstallationGuide(DeviceItem deviceItem) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DeviceInstallationPage(deviceItem: deviceItem),
+      ),
+    );
+  }
+
+  void addNewDevice() {
+    DeviceItem newDevice = DeviceItem(
+      name: "Optibean Machine",
+      model: 'Optibean Touch 2',
+    );
+
+    setState(() {
+      deviceItems.add(newDevice);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: const AssetImage('images/background2.png'),
-            fit: BoxFit.cover,
-            alignment: Alignment.bottomCenter,
-            colorFilter: ColorFilter.mode(
-                Colors.white.withOpacity(0.5), BlendMode.dstATop),
-          ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: addNewDevice,
+          backgroundColor: CustomColors.blue,
+          child: Icon(Icons.plus_one),
         ),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        leading: Container(
-          padding: EdgeInsets.all(10),
-          child: const Image(
-            image: AssetImage('images/logoSymbolWhite.png'),
-            height: 1,
-            width: 1,
-          ),
-        ),
-        title: const Text(
-          "Your devices",
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 24),
-        ),
-        actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: handleClick,
-            icon: const Icon(
-              Icons.more_horiz_sharp,
-              size: 48,
-            ),
-            padding: const EdgeInsets.only(right: 30),
-            itemBuilder: (BuildContext context) {
-              return {'Add new device', 'Settings', 'Log out'}
-                  .map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: handleColorMoreMenuOptions(choice),
-                );
-              }).toList();
-            },
-          ),
-        ],
-      ),
-    );
+        body: Container(
+            decoration: getAppBackground(),
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: sqrt1_2),
+              itemBuilder: (context, index) {
+                final deviceItem = deviceItems[index];
+                return GridTile(
+                    child: GestureDetector(
+                        onTap: () => viewInstallationGuide(deviceItem),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Image(
+                              image: getDeviceImage(deviceItem.model),
+                              height: 170,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              deviceItem.name,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(deviceItem.model,
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w300))
+                          ],
+                        )));
+              },
+              itemCount: deviceItems.length,
+            )),
+        appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick));
   }
+
+  getDeviceImage(String s) {
+    switch (s) {
+      case "Optibean Touch 2":
+        return AssetImage("images/touch2.png");
+        break;
+      default:
+    }
+  }
+}
+
+class DeviceItem {
+  final String name;
+  final String model;
+
+  DeviceItem({required this.name, required this.model});
 }
