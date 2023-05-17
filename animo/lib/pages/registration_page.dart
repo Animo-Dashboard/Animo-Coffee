@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum FieldValidationState { empty, valid, invalid }
 
@@ -17,12 +20,30 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String _email = "";
   String _password = "";
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Form is valid, do registration logic here
-      print('Registration successful!');
-      print('Email: $_email');
-      print('Password: $_password');
+      try {
+        // Create a new user with the entered email and password
+        UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _email,
+          password: _password,
+        );
+
+        // Save the user's email and password to Firestore
+        await FirebaseFirestore.instance
+            .collection('Users')
+            .doc(userCredential.user!.uid)
+            .set({
+          'email': _email,
+          'password': _password,
+        });
+
+        print('Registration successful!');
+      } catch (e) {
+        print('Registration failed: $e');
+      }
     }
   }
 
