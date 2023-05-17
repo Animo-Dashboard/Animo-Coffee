@@ -31,14 +31,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Front-End Demo',
+      navigatorKey: globalNavigatorKey,
       theme: ThemeData(
         primarySwatch: turnIntoMaterialColor(CustomColors.blue),
         fontFamily: "FuturaStd",
         hintColor: Colors.black,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            textStyle: MaterialStateProperty.all(
-                TextStyle(fontSize: 28, fontWeight: FontWeight.w300)),
+            textStyle: MaterialStateProperty.all(const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w500,
+                fontFamily: "FuturaStd")),
             padding: MaterialStateProperty.all(const EdgeInsets.only(
                 top: 17, bottom: 17, left: 80, right: 80)),
             shape: MaterialStateProperty.all(

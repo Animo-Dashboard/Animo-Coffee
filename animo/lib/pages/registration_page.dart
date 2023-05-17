@@ -81,6 +81,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
       print('Verification email sent: ${sendReport.toString()}');
     } catch (e) {
       print('Error sending verification email: $e');
+      print('Registration successful!');
+      print('Email: $_email');
+      print('Password: $_password');
+      print('Password: $_passwordRepeat');
+      Navigator.pushReplacementNamed(context, '/login');
     }
   }
 
