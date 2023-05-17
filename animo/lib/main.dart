@@ -4,6 +4,7 @@ import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'inAppFunctions.dart';
+import 'package:animo/pages/registerDevice_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/registration': (context) => const RegistrationPage(),
         '/registeredDevices': (context) => const RegisteredDevicesPage(),
         '/errorHandling': (context) => const ErrorHandlingPage(),
+        '/registerDevice': (context) => const RegisterDevicePage(),
       },
     );
   }
@@ -91,6 +93,12 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('Error Finding Page'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/registerDevice');
+              },
+              child: const Text('Register Device Page'),
+            )
           ],
         ),
       ),
