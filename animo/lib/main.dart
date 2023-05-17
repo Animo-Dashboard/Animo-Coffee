@@ -1,10 +1,16 @@
 import 'dart:async';
+import 'package:animo/pages/addNewDevice_page.dart';
+import 'package:animo/pages/errorHandling_page.dart';
+import 'package:animo/pages/login_page.dart';
+import 'package:animo/pages/registerDevice_page.dart';
+import 'package:animo/pages/registeredDevices_page.dart';
+import 'package:animo/pages/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -45,7 +51,16 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
         ),
       ),
-      home: const MyHomePage(title: 'Flutter Home Page'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MyHomePage(title: 'Flutter Home Page'),
+        '/login': (context) => const LoginPage(),
+        '/registration': (context) => const RegistrationPage(),
+        '/registeredDevices': (context) => const RegisteredDevicesPage(),
+        '/errorHandling': (context) => const ErrorHandlingPage(),
+        '/registerDevice': (context) => const RegisterDevicePage(),
+        '/addNewDevice': (context) => const AddNewDevicePage(),
+      },
     );
   }
 }
@@ -68,7 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _navigateToNextPage() async {
     await Future.delayed(const Duration(seconds: 3));
-    Navigator.pushReplacementNamed(context, '/login');
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacementNamed(context, '/addNewDevice');
   }
 
   @override
@@ -124,10 +140,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
