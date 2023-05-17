@@ -7,10 +7,11 @@ import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -84,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _navigateToNextPage() async {
     await Future.delayed(const Duration(seconds: 3));
     // ignore: use_build_context_synchronously
-    Navigator.pushReplacementNamed(context, '/addNewDevice');
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override
