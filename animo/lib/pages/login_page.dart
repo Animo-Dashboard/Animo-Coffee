@@ -34,7 +34,8 @@ class _LoginPageState extends State<LoginPage> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => RegisteredDevicesPage()),
+          MaterialPageRoute(
+              builder: (context) => const RegisteredDevicesPage()),
         );
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found' || e.code == 'wrong-password') {

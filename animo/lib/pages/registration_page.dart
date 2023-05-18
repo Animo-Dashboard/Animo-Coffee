@@ -75,9 +75,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   void _validateRepeatPassword(String value) {
     setState(() {
-      _passwordRepeatFieldState == _passwordFieldState
-          ? _passwordRepeatFieldState = FieldValidationState.valid
-          : _passwordRepeatFieldState = FieldValidationState.invalid;
+      _passwordRepeatFieldState = value == _password
+          ? FieldValidationState.valid
+          : FieldValidationState.invalid;
       _passwordRepeat = value;
     });
   }
@@ -115,7 +115,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   Form(
                     key: _formKey,
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           left: 36, right: 36, top: 72, bottom: 36),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -197,12 +197,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   },
                                   onChanged: _validateRepeatPassword,
                                 ),
-                                SizedBox(
-                                  height: 60,
+                                const SizedBox(
+                                  height: 27,
                                 ),
                                 ElevatedButton(
                                     onPressed: _submitForm,
-                                    child: Text(
+                                    child: const Text(
                                       'REGISTER',
                                     )),
                               ]),
