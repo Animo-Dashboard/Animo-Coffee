@@ -74,6 +74,7 @@ class _RegisterDevicePage extends State<RegisterDevicePage> {
           children: [
             Image.asset(
               imageFilename,
+              'images/OptiBean-Touch-4-Open-Blue.png',
               width: 200,
               height: 200,
             ),

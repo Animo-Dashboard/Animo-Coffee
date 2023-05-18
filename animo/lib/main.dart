@@ -2,9 +2,12 @@ import 'dart:async';
 import 'package:animo/pages/addNewDevice_page.dart';
 import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/login_page.dart';
+import 'package:animo/pages/registerDevice_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'inAppFunctions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -54,6 +57,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => LoginPage(),
         '/registration': (context) => const RegistrationPage(),
+        '/registerDevice': (context) => const RegisterDevicePage(),
         '/registeredDevices': (context) => const RegisteredDevicesPage(),
         '/errorHandling': (context) => const ErrorHandlingPage(),
         '/registerDevice': (context) => const RegisterDevicePage(),
@@ -73,6 +77,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToNextPage();
+  }
+
+  Future<void> _navigateToNextPage() async {
+    await Future.delayed(const Duration(seconds: 3));
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacementNamed(context, '/login');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
