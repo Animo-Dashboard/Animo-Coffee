@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "77966571572",
+    "project_id": "amino-coffee",
+    "storage_bucket": "amino-coffee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77966571572:android:73e2ffcb2374d12352f261",
+        "android_client_info": {
+          "package_name": "com.example.animo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "77966571572-km8opt8k1sc2lj81s5ttbhfrq08a9rh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnbM4EAufb__Dl5GFaLta3pjxUq90Qkjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "77966571572-km8opt8k1sc2lj81s5ttbhfrq08a9rh3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "77966571572-f9q5vuoqj7uflfgpj38h5enugbuafdua.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.animo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
