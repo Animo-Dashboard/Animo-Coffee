@@ -5,9 +5,14 @@ import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'inAppFunctions.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,7 +48,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
-        '/login': (context) => const LoginPage(),
+        '/login': (context) => LoginPage(),
         '/registration': (context) => const RegistrationPage(),
         '/registeredDevices': (context) => const RegisteredDevicesPage(),
         '/errorHandling': (context) => const ErrorHandlingPage(),

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>77966571572-f9q5vuoqj7uflfgpj38h5enugbuafdua.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.77966571572-f9q5vuoqj7uflfgpj38h5enugbuafdua</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCgVxmArj0hhz9awYp3jmhCJr8p5bYfNYc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>77966571572</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.animo</string>
+	<key>PROJECT_ID</key>
+	<string>amino-coffee</string>
+	<key>STORAGE_BUCKET</key>
+	<string>amino-coffee.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:77966571572:ios:eaa04a54d736237252f261</string>
+</dict>
+</plist>
