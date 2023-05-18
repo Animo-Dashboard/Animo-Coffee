@@ -1,18 +1,19 @@
+import 'package:animo/pages/DeviceInstallationPage%20.dart';
+import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:animo/inAppFunctions.dart';
 
 enum FieldValidationState { empty, valid, invalid }
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   FieldValidationState _emailFieldState = FieldValidationState.empty;
   FieldValidationState _passwordFieldState = FieldValidationState.empty;
@@ -20,13 +21,28 @@ class _LoginPageState extends State<LoginPage> {
   String _email = "";
   String _password = "";
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Form is valid, do login logic here
-      print('Login successful!');
-      print('Email: $_email');
-      print('Password: $_password');
-      Navigator.pushReplacementNamed(context, "/registeredDevices");
+      try {
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: _email,
+          password: _password,
+        );
+
+        print('Login successful!');
+        print('Email: ${userCredential.user!.email}');
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => RegisteredDevicesPage()),
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+          print('Invalid email or password.');
+        } else {
+          print('Login error: ${e.message}');
+        }
+      }
     }
   }
 
