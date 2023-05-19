@@ -32,15 +32,6 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
     }
   }
 
-  void viewInstallationGuide(DeviceItem deviceItem) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => DeviceInstallationPage(deviceItem: deviceItem),
-      ),
-    );
-  }
-
   void addNewDevice() {
     DeviceItem newDevice = DeviceItem(
       name: "Optibean Machine",
@@ -58,39 +49,38 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: addNewDevice,
           backgroundColor: CustomColors.blue,
-          child: Icon(Icons.plus_one),
+          child: const Icon(Icons.plus_one),
         ),
         body: Container(
             decoration: getAppBackground(),
             child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, childAspectRatio: sqrt1_2),
               itemBuilder: (context, index) {
                 final deviceItem = deviceItems[index];
                 return GridTile(
                     child: GestureDetector(
-                        onTap: () => viewInstallationGuide(deviceItem),
                         child: Column(
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Image(
-                              image: getDeviceImage(deviceItem.model),
-                              height: 170,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              deviceItem.name,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Text(deviceItem.model,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w300))
-                          ],
-                        )));
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Image(
+                      image: getDeviceImage(deviceItem.model),
+                      height: 170,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      deviceItem.name,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(deviceItem.model,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w300))
+                  ],
+                )));
               },
               itemCount: deviceItems.length,
             )),
