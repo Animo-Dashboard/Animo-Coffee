@@ -105,9 +105,30 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 24, right: 24),
-                    child: Image(image: AssetImage("images/logoFullBlack.png")),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Image.asset(
+                      "images/logoFullBlack.png",
+                      height: 400,
+                      width: 300,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Column(
+                    children: const [
+                      Text(
+                        "Please wait...",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      CircularProgressIndicator(
+                        strokeWidth: 3,
+                        color: Colors.black,
+                      ),
+                    ],
                   ),
                   FutureBuilder(
                       future: Future.delayed(
