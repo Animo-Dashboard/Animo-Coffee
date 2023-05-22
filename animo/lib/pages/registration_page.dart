@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 enum FieldValidationState { empty, valid, invalid }
 
@@ -36,15 +38,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
           password: _password,
         );
 
-        // Save the user's email and password to Firestore
+        // Save the user's email and password to Firestore with "verified" field set to false
         await FirebaseFirestore.instance
             .collection('Users')
             .doc(userCredential.user!.uid)
             .set({
           'email': _email,
           'password': _password,
+          'verified':
+              false, // Set "verified" field to false during registration
         });
-        print('Registration successful!');
+
+        // Send verification email to the admin
+        await sendVerificationEmail(_email);
+
+        print('Registration successful! Verification email sent to admin.');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => LoginPage()),
@@ -52,6 +60,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
       } catch (e) {
         print('Registration failed: $e');
       }
+    }
+  }
+
+  Future<void> sendVerificationEmail(String userEmail) async {
+    final smtpServer = gmail('your-email@gmail.com',
+        'your-password'); // Replace with your own email server details
+
+    final message = Message()
+      ..from =
+          Address('your-email@gmail.com') // Replace with your own email address
+      ..recipients.add(
+          'admin-email@example.com') // Replace with the admin's email address
+      ..subject = 'New user registration: Verification required'
+      ..text =
+          'A new user with email $userEmail has registered and requires verification.';
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Verification email sent: ${sendReport.toString()}');
+    } catch (e) {
+      print('Error sending verification email: $e');
     }
   }
 

@@ -25,6 +25,16 @@ class _RegisterDevicePage extends State<RegisterDevicePage> {
     }
   }
 
+  String getDeviceImageFilename(String deviceName) {
+    // Remove any invalid characters from the device name
+    String sanitizedDeviceName = deviceName.replaceAll(RegExp(r'[^\w\s]+'), '');
+    // Replace spaces with underscores
+    sanitizedDeviceName = sanitizedDeviceName.replaceAll(' ', '_');
+    // Convert to lowercase
+    sanitizedDeviceName = sanitizedDeviceName.toLowerCase();
+    return 'assets/images/$sanitizedDeviceName.png';
+  }
+
   @override
   void initState() {
     super.initState();
@@ -55,6 +65,7 @@ class _RegisterDevicePage extends State<RegisterDevicePage> {
 
   @override
   Widget build(BuildContext context) {
+    String imageFilename = getDeviceImageFilename(name);
     return Scaffold(
       body: Container(
         decoration: getAppBackground(),
@@ -62,7 +73,7 @@ class _RegisterDevicePage extends State<RegisterDevicePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'images/OptiBean-Touch-4-Open-Blue.png',
+              imageFilename,
               width: 200,
               height: 200,
             ),

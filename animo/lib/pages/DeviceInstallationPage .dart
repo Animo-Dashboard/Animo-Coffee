@@ -1,35 +1,93 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
 
-import 'registeredDevices_page.dart';
+import 'addNewDevice_page.dart';
 
 class DeviceInstallationPage extends StatefulWidget {
   final DeviceItem deviceItem;
+  final Function markStep5Completed;
 
-  DeviceInstallationPage({required this.deviceItem});
+  const DeviceInstallationPage({
+    required this.deviceItem,
+    required this.markStep5Completed,
+  });
 
   @override
+  // ignore: library_private_types_in_public_api
   _DeviceInstallationPageState createState() => _DeviceInstallationPageState();
 }
 
 class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
   int currentPageIndex = 0;
+  String pageTitle = "Installation Guide";
 
   List<Widget> installationPages = [
-    // Add your installation steps as separate pages
-    InstallationStep1(),
-    InstallationStep2(),
-    InstallationStep3(),
-    // ...
+    const InstallationStep(
+      stepText:
+          'This installation process will take approximately 30 minutes. Are you ready to proceed?',
+      stepNumber: 1,
+    ),
+    const InstallationStep(
+      imagePath: 'images/step2_image.png',
+      stepText:
+          'Congratulations on having purchased an Optibean! To start, place the machine on a flat surface, preferably a cabinet.',
+      stepNumber: 2,
+    ),
+    const InstallationStep(
+      imagePath: 'images/step3_image.png',
+      stepText:
+          'To Level the Machine, make sure to turn the feet. An example is provided.',
+      stepNumber: 3,
+    ),
+    const InstallationStep(
+      imagePath: 'images/step4_image.png',
+      stepText:
+          'Next, connect the device (A) to a tap (B) with the air valve. After this, open the tap and check for any leakage.',
+      stepNumber: 4,
+    ),
+    const InstallationStep(
+      imagePath: 'images/step5_image.png',
+      stepText:
+          'OPTIONAL: If necessary, connect the machine (A) with the hose (B) to the filter machine (C), then connect the filter system with the hose (D) to a tap.',
+      stepNumber: 5,
+    ),
+    const InstallationStep(
+      imagePath: 'images/step6_image.png',
+      stepText:
+          'Please locate the power cord, and when found, connect it with the machine.',
+      stepNumber: 6,
+    ),
+    const InstallationStep(
+      imagePath: 'images/step7_image.png',
+      stepText:
+          'Open the drip tray discharge (A) with a drill (Ø 6 mm). Then, connect a waste hose to the drip tray.',
+      stepNumber: 7,
+    ),
   ];
+
+  List<String> moreMenuOptions = ['Settings', 'Log out'];
+  void handleClick(String value) {
+    switch (value) {
+      case 'Settings':
+        break;
+      case 'Log out':
+        logOut(context);
+        break;
+    }
+  }
+
+  void handleStepCompletion() {
+    if (currentPageIndex == 4) {
+      widget.markStep5Completed(widget.deviceItem);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Installation Guide'),
-      ),
+      appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick),
       body: Column(
         children: [
           LinearProgressIndicator(
@@ -47,6 +105,13 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
                         });
                       }
                     : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[300],
+                  foregroundColor: Colors.black,
+                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                ),
                 child: const Text('Previous'),
               ),
               const SizedBox(width: 10),
@@ -55,10 +120,18 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
                     ? () {
                         setState(() {
                           currentPageIndex++;
+                          handleStepCompletion();
                         });
                       }
                     : null,
-                child: Text('Next'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                ),
+                child: const Text('Next'),
               ),
             ],
           ),
@@ -68,32 +141,59 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
   }
 }
 
-class InstallationStep1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // Customize the content for step 1
-      child: Text('Step 1: ...'),
-    );
-  }
-}
+class InstallationStep extends StatelessWidget {
+  final String? imagePath;
+  final String stepText;
+  final int stepNumber;
 
-class InstallationStep2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // Customize the content for step 2
-      child: Text('Step 2: ...'),
-    );
-  }
-}
+  const InstallationStep({
+    Key? key,
+    this.imagePath,
+    required this.stepText,
+    required this.stepNumber,
+  }) : super(key: key);
 
-class InstallationStep3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Customize the content for step 3
-      child: Text('Step 3: ...'),
+      child: Column(
+        children: [
+          if (imagePath != null) ...[
+            SizedBox(height: 10),
+            Image.asset(
+              imagePath!,
+              height: 300,
+              width: 300,
+              fit: BoxFit.contain,
+            ),
+          ],
+          SizedBox(height: 20),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 1),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Step $stepNumber:',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    stepText,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
