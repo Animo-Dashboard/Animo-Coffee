@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
 
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 class AddNewDevicePage extends StatefulWidget {
   const AddNewDevicePage({super.key});
 
@@ -12,19 +15,51 @@ class AddNewDevicePage extends StatefulWidget {
 class _AddNewDevicePageState extends State<AddNewDevicePage> {
   List<DeviceItem> deviceItems = [];
   String pageTitle = "Add new device";
+  final zipCodeController = TextEditingController();
+
+  List<Map<dynamic, dynamic>> coordinates = [];
 
   List<String> moreMenuOptions = [];
   void handleClick(String value) {}
 
+  //retrieves coordinates that match zip code
+  Future<void> retrieveCoordinates(String zipCode) async {
+    final databaseReference = FirebaseDatabase.instance.ref();
+    final coordinatesReference = databaseReference.child('coordinates');
+
+    DataSnapshot snapshot = (await coordinatesReference.once()) as DataSnapshot;
+    Map<dynamic, dynamic>? values = snapshot.value as Map?;
+
+    setState(() {
+      coordinates = [];
+      values?.forEach((key, value) {
+        if (value['zipCode'] == zipCode) {
+          coordinates.add(value);
+        }
+      });
+    });
+  }
+
   void addNewDevice() {
     DeviceItem newDevice = DeviceItem(
-      name: "Optibean Machine",
-      model: 'Optibean Touch 2',
-    );
+        name: "Optibean Machine",
+        model: 'Optibean Touch 2',
+        zipcode: '7827 SP');
 
     setState(() {
       deviceItems.add(newDevice);
     });
+  }
+
+  void _saveZipCode(String zipCode) {
+    final database = FirebaseDatabase.instance.ref();
+    database.child('Machines').child('zipCode').set(zipCode);
+  }
+
+  @override
+  void dispose() {
+    zipCodeController.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,6 +77,53 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
           itemCount: deviceItems.length,
           itemBuilder: (context, index) {
             final deviceItem = deviceItems[index];
+            //zip code
+            TextField(
+              controller: zipCodeController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Zip Code',
+              ),
+            );
+            ElevatedButton(
+              onPressed: () {
+                _saveZipCode(zipCodeController.text);
+                retrieveCoordinates(zipCodeController.text);
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Success'),
+                        content: Text('Zip code saved to Firebase!'),
+                        actions: [
+                          TextButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              },
+              child: Text('Save'),
+            );
+            Text(
+              'Coordinates:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            );
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: coordinates.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text('X: ${coordinates[index]['x']}'),
+                  subtitle: Text('Y: ${coordinates[index]['y']}'),
+                  trailing: Text(
+                      'Numeriekewaarde: ${coordinates[index]['Numeriekewaarde']}'),
+                );
+              },
+            );
             return Padding(
               padding: const EdgeInsets.only(bottom: 3),
               child: Container(
@@ -88,6 +170,7 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
 class DeviceItem {
   final String name;
   final String model;
+  final String zipcode;
 
-  DeviceItem({required this.name, required this.model});
+  DeviceItem({required this.name, required this.model, required this.zipcode});
 }
