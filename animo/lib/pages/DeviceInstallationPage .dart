@@ -67,17 +67,6 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
     ),
   ];
 
-  List<String> moreMenuOptions = ['Settings', 'Log out'];
-  void handleClick(String value) {
-    switch (value) {
-      case 'Settings':
-        break;
-      case 'Log out':
-        logOut(context);
-        break;
-    }
-  }
-
   void handleStepCompletion() {
     if (currentPageIndex == 4) {
       widget.markStep5Completed(widget.deviceItem);
@@ -87,7 +76,7 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(

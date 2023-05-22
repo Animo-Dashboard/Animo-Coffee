@@ -74,17 +74,17 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
                     ),
                     Text(
                       deviceItem.name,
-                      style: TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 20),
                     ),
                     Text(deviceItem.model,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w300))
                   ],
                 )));
               },
               itemCount: deviceItems.length,
             )),
-        appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick));
+        appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick));
   }
 
   getDeviceImage(String s) {

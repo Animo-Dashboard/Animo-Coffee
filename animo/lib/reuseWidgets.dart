@@ -35,37 +35,45 @@ StatelessWidget getLeadingIcon(String title, BuildContext context) {
   }
 }
 
-AppBar getAppBar(
-  BuildContext context,
-  List<String> moreMenuOptions,
-  String pageTitle,
-  void Function(String value) handleClick,
-) {
-  return AppBar(
-    backgroundColor: Colors.black,
-    elevation: 0,
-    leading: getLeadingIcon(pageTitle, context),
-    title: Text(
-      pageTitle,
-      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 24),
-    ),
-    actions: <Widget>[
-      PopupMenuButton<String>(
-        onSelected: handleClick,
-        icon: const Icon(
-          Icons.more_horiz_sharp,
-          size: 48,
-        ),
-        padding: const EdgeInsets.only(right: 30),
-        itemBuilder: (BuildContext context) {
-          return moreMenuOptions.map((String choice) {
-            return PopupMenuItem<String>(
-              value: choice,
-              child: handleColorMoreMenuOptions(choice),
-            );
-          }).toList();
-        },
+AppBar getAppBar(BuildContext context, String pageTitle,
+    [List<String>? moreMenuOptions, void Function(String value)? handleClick]) {
+  if (moreMenuOptions != null) {
+    return AppBar(
+      backgroundColor: Colors.black,
+      elevation: 0,
+      leading: getLeadingIcon(pageTitle, context),
+      title: Text(
+        pageTitle,
+        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 24),
       ),
-    ],
-  );
+      actions: <Widget>[
+        PopupMenuButton<String>(
+          onSelected: handleClick,
+          icon: const Icon(
+            Icons.more_horiz_sharp,
+            size: 48,
+          ),
+          padding: const EdgeInsets.only(right: 30),
+          itemBuilder: (BuildContext context) {
+            return moreMenuOptions.map((String choice) {
+              return PopupMenuItem<String>(
+                value: choice,
+                child: handleColorMoreMenuOptions(choice),
+              );
+            }).toList();
+          },
+        ),
+      ],
+    );
+  } else {
+    return AppBar(
+      backgroundColor: Colors.black,
+      elevation: 0,
+      leading: getLeadingIcon(pageTitle, context),
+      title: Text(
+        pageTitle,
+        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 24),
+      ),
+    );
+  }
 }

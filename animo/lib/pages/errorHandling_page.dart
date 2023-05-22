@@ -42,7 +42,7 @@ class _ErrorHandlingPageState extends State<ErrorHandlingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick),
+      appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick),
       body: Container(
         decoration: getAppBackground(),
         child: ListView.builder(
