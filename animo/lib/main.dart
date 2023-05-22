@@ -111,8 +111,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Image.asset("images/logoFullBlack.png"),
+                    padding: const EdgeInsets.all(12),
+                    child: Image.asset(
+                      "images/logoFullBlack.png",
+                      height: 400,
+                      width: 300,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   Column(
                     children: const [
