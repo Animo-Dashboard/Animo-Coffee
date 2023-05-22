@@ -1,4 +1,5 @@
 import 'package:animo/pages/DeviceInstallationPage%20.dart';
+import 'package:animo/pages/forgotPasword_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -153,8 +154,12 @@ class _LoginPageState extends State<LoginPage> {
                                 SizedBox(height: 26),
                                 TextButton(
                                     onPressed: () {
-                                      // Navigator.pushNamed(
-                                      // context, '/registration');
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ForgotPasswordPage()),
+                                      );
                                     },
                                     child: const Text(
                                       "Forgot password?",
