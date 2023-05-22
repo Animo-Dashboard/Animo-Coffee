@@ -27,6 +27,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       } else {
         _showErrorNotification('Please enter your email');
       }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
     }
   }
 
