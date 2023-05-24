@@ -32,11 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         print('Login successful!');
         print('Email: ${userCredential.user!.email}');
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const RegisteredDevicesPage()),
-        );
+        Navigator.pushReplacementNamed(context, "/registeredDevices");
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found' || e.code == 'wrong-password') {
           print('Invalid email or password.');

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:animo/pages/addNewDevice_page.dart';
+import 'package:animo/pages/deviceStatistics_page.dart';
 import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/login_page.dart';
 import 'package:animo/pages/registerDevice_page.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         '/registeredDevices': (context) => const RegisteredDevicesPage(),
         '/errorHandling': (context) => const ErrorHandlingPage(),
         '/addNewDevice': (context) => const AddNewDevicePage(),
+        '/deviceStatistics': (context) => const DeviceStatisticsPage(),
       },
     );
   }
