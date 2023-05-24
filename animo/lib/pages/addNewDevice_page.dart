@@ -4,6 +4,7 @@ import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
 
 import 'DeviceInstallationPage .dart';
+import 'DeviceRegistrationPage.dart';
 
 class AddNewDevicePage extends StatefulWidget {
   const AddNewDevicePage({super.key});
@@ -14,6 +15,8 @@ class AddNewDevicePage extends StatefulWidget {
 }
 
 class _AddNewDevicePageState extends State<AddNewDevicePage> {
+  bool installationCompleted = false;
+
   List<DeviceItem> deviceItems = [];
   String pageTitle = "Add new device";
 
@@ -34,6 +37,7 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
   void markStep5Completed(DeviceItem deviceItem) {
     setState(() {
       deviceItem.installed = true;
+      installationCompleted = true;
     });
   }
 
@@ -45,6 +49,15 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
           deviceItem: deviceItem,
           markStep5Completed: markStep5Completed,
         ),
+      ),
+    );
+  }
+
+  void viewRegistrationGuide(DeviceItem deviceItem) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DeviceRegistrationPage(deviceItem: deviceItem),
       ),
     );
   }
@@ -66,7 +79,11 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
             final deviceItem = deviceItems[index];
             return GestureDetector(
                 onTap: () {
-                  viewInstallationGuide(deviceItem);
+                  if (installationCompleted == false) {
+                    viewInstallationGuide(deviceItem);
+                  } else {
+                    viewRegistrationGuide(deviceItem);
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 3),

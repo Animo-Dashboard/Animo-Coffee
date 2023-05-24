@@ -1,38 +1,34 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
-import 'package:animo/inAppFunctions.dart';
-import 'package:animo/reuseWidgets.dart';
 
+import '../inAppFunctions.dart';
+import '../reuseWidgets.dart';
 import 'addNewDevice_page.dart';
 
-class DeviceInstallationPage extends StatefulWidget {
+class DeviceRegistrationPage extends StatefulWidget {
   final DeviceItem deviceItem;
-  final Function markStep5Completed;
 
-  const DeviceInstallationPage({
+  const DeviceRegistrationPage({
+    super.key,
     required this.deviceItem,
-    required this.markStep5Completed,
   });
 
-  @override
   // ignore: library_private_types_in_public_api
-  _DeviceInstallationPageState createState() => _DeviceInstallationPageState();
+  _DeviceRegistrationPageState createState() => _DeviceRegistrationPageState();
 }
 
-class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
+class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
   int currentPageIndex = 0;
-  String pageTitle = "Installation Guide";
+  String pageTitle = "Registration Guide";
 
   List<Widget> installationPages = [
     const InstallationStep(
       stepText:
-          'This installation process will take approximately 30 minutes. Are you ready to proceed?',
+          'This registration process will take approximately an hour. Are you ready to proceed?',
       stepNumber: 1,
     ),
     const InstallationStep(
-      imagePath: 'images/step2_image.png',
       stepText:
-          'Congratulations on having purchased an Optibean! To start, place the machine on a flat surface, preferably a cabinet.',
+          'Congratulations on getting an installed Optibean device! To get started, follow these steps:\n1: Plug the machine into an earthed socket.\n2: Switch on the machine and follow the instructions on the display\n3: Place a bowl (min 1.5 L) under the outlet.\n4: Use the touchscreen to select a recipe and dispense the beverage\n5: Check whether taste and quality is as desirned\n6: Repeat the previous steps for every recipe to assure all recipes are as desired\n7: If the taste or quantity is not as desired, inform the dealer.',
       stepNumber: 2,
     ),
     const InstallationStep(
@@ -84,12 +80,6 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
     }
   }
 
-  void handleStepCompletion() {
-    if (currentPageIndex == 4) {
-      widget.markStep5Completed(widget.deviceItem);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,7 +116,6 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
                     ? () {
                         setState(() {
                           currentPageIndex++;
-                          handleStepCompletion();
                         });
                       }
                     : null,

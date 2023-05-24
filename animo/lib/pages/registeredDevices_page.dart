@@ -90,7 +90,7 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
   getDeviceImage(String s) {
     switch (s) {
       case "Optibean Touch 2":
-        return AssetImage("images/touch2.png");
+        return const AssetImage("images/touch2.png");
         break;
       default:
     }
