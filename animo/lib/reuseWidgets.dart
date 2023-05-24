@@ -16,6 +16,20 @@ BoxDecoration getAppBackground() {
   );
 }
 
+BoxDecoration getBackgroundIfError(String error) {
+  if (error.isNotEmpty) {
+    return BoxDecoration(
+      color: CustomColors.red.withAlpha(50),
+      border: Border.all(
+        color: CustomColors.red,
+        width: 2.0,
+      ),
+    );
+  } else {
+    return const BoxDecoration();
+  }
+}
+
 StatelessWidget getLeadingIcon(String title, BuildContext context) {
   if (title == "Your devices") {
     return Container(

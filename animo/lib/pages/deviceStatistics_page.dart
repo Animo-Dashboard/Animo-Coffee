@@ -58,7 +58,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
               child: Column(
             children: [
               Container(
-                  decoration: getBackgroundIfError(),
+                  decoration: getBackgroundIfError(device.error),
                   child: Padding(
                       padding: const EdgeInsets.only(
                           top: 12, bottom: 12, left: 25, right: 25),
@@ -354,20 +354,6 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
           context,
           pageTitle,
         ));
-  }
-
-  getBackgroundIfError() {
-    if (device.error.isNotEmpty) {
-      return BoxDecoration(
-        color: CustomColors.red.withAlpha(50),
-        border: Border.all(
-          color: CustomColors.red,
-          width: 2.0,
-        ),
-      );
-    } else {
-      return const BoxDecoration();
-    }
   }
 }
 

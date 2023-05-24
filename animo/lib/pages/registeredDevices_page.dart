@@ -66,32 +66,37 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
                 final device = devices[index].data() as Map<String, dynamic>;
                 final model = device["Model"];
                 final name = device["Name"];
+                final error = device["Error"] ?? "";
                 return GridTile(
                     child: GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(context, '/deviceStatistics',
                               arguments: {"device": device});
                         },
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Image(
-                              image: AssetImage("images/$model.png"),
-                              height: 170,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              name,
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            Text(model,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w300))
-                          ],
+                        child: Container(
+                          decoration: getBackgroundIfError(error),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Image(
+                                image: AssetImage("images/$model.png"),
+                                height: 170,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                name,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              Text(model,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w300))
+                            ],
+                          ),
                         )));
               },
               itemCount: devices.length,
