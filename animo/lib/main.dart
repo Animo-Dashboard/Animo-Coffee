@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
             textStyle: MaterialStateProperty.all(
                 TextStyle(fontSize: 28, fontWeight: FontWeight.w300)),
             padding: MaterialStateProperty.all(const EdgeInsets.only(
-                top: 10, bottom: 10, left: 50, right: 50)),
+                top: 17, bottom: 17, left: 80, right: 80)),
             shape: MaterialStateProperty.all(
               const RoundedRectangleBorder(
                 borderRadius: BorderRadius.zero,
@@ -48,9 +48,9 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: const TextTheme(
             titleLarge: TextStyle(fontSize: 36.0),
-            titleMedium: TextStyle(fontSize: 24.0),
-            bodyLarge: TextStyle(fontSize: 20.0),
-            bodyMedium: TextStyle(fontSize: 16.0)),
+            titleMedium: TextStyle(fontSize: 28.0),
+            bodyLarge: TextStyle(fontSize: 22.0),
+            bodyMedium: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
