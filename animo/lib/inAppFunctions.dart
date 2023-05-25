@@ -15,18 +15,17 @@ Text handleColorMoreMenuOptions(String value) {
         value,
         style: TextStyle(fontWeight: FontWeight.w300, color: CustomColors.blue),
       );
-    case 'Settings':
-      return Text(
-        value,
-        style: const TextStyle(fontWeight: FontWeight.w300),
-      );
+    case "Admin":
     case 'Log out':
       return Text(
         value,
         style: TextStyle(fontWeight: FontWeight.w300, color: CustomColors.red),
       );
     default:
-      return Text(value);
+      return Text(
+        value,
+        style: const TextStyle(fontWeight: FontWeight.w300),
+      );
   }
 }
 

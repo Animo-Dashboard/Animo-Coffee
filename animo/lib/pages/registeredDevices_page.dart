@@ -29,6 +29,8 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
       case 'Log out':
         logOut(context);
         break;
+      case 'Admin':
+        Navigator.pushNamed(context, '/admin');
     }
   }
 
@@ -45,6 +47,13 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+
+    if (arguments["role"].toString().toLowerCase() == "admin") {
+      moreMenuOptions = ['Add new device', 'Admin', 'Settings', 'Log out'];
+    }
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: addNewDevice,
