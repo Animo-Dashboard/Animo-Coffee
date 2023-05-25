@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
@@ -16,6 +17,7 @@ class AddNewDevicePage extends StatefulWidget {
 class _AddNewDevicePageState extends State<AddNewDevicePage> {
   List<DeviceItem> deviceItems = [];
   String pageTitle = "Add new device";
+  final zipCodeController = TextEditingController();
 
   List<String> moreMenuOptions = [];
   void handleClick(String value) {}
@@ -29,6 +31,17 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
     setState(() {
       deviceItems.add(newDevice);
     });
+  }
+
+  void _saveZipCode(String zipCode) {
+    final database = FirebaseDatabase.instance.ref();
+    database.child('Machines').child('zipCode').set(zipCode);
+  }
+
+  @override
+  void dispose() {
+    zipCodeController.dispose();
+    super.dispose();
   }
 
   void markStep5Completed(DeviceItem deviceItem) {
@@ -64,6 +77,35 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
           itemCount: deviceItems.length,
           itemBuilder: (context, index) {
             final deviceItem = deviceItems[index];
+            TextField(
+              controller: zipCodeController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Zip Code',
+              ),
+            );
+            ElevatedButton(
+              onPressed: () {
+                _saveZipCode(zipCodeController.text);
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Success'),
+                        content: Text('Zip code saved to Firebase!'),
+                        actions: [
+                          TextButton(
+                            child: Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              },
+              child: Text('Save'),
+            );
             return GestureDetector(
                 onTap: () {
                   viewInstallationGuide(deviceItem);
