@@ -5,6 +5,7 @@ import 'package:animo/pages/login_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
 import 'package:flutter/material.dart';
+import 'firebase_options.dart';
 import 'inAppFunctions.dart';
 import 'package:animo/pages/registerDevice_page.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -13,7 +14,9 @@ import 'package:firebase_core/firebase_core.dart';
 final globalNavigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
