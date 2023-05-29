@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
+import 'package:animo/circularDiagram.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -25,6 +26,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }).toList();
 
   List<String> moreMenuOptions = ['Add new error', 'Settings', 'Log out'];
+
   void handleClick(String value) {
     switch (value) {
       case 'Add new error':
@@ -43,38 +45,53 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick),
       body: Container(
-          constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height,
-              minWidth: MediaQuery.of(context).size.width),
-          decoration: getAppBackground(),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              DropdownButton<String>(
-                value: selectedOption == 'Select info to display'
-                    ? null
-                    : selectedOption, // Set the value to null if it's the sentinel value
-                hint: Text("Select info to display"),
-                onChanged: (value) {
-                  setState(() {
-                    selectedOption =
-                        value!; // Update the selected option when a new option is chosen
-                  });
-                },
-                items: dropdownItems,
+        constraints: BoxConstraints(
+          minHeight: MediaQuery.of(context).size.height,
+          minWidth: MediaQuery.of(context).size.width,
+        ),
+        decoration: getAppBackground(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            DropdownButton<String>(
+              value: selectedOption == 'Select info to display'
+                  ? null
+                  : selectedOption, // Set the value to null if it's the sentinel value
+              hint: Text("Select info to display"),
+              onChanged: (value) {
+                setState(() {
+                  selectedOption =
+                      value!; // Update the selected option when a new option is chosen
+                });
+              },
+              items: dropdownItems,
+            ),
+            const SizedBox(height: 20.0),
+            if (selectedOption == 'Option 1') ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildPercentageCircle(75.0, Colors.blue),
+                  _buildPercentageCircle(50.0, Colors.green),
+                  _buildPercentageCircle(90.0, Colors.orange),
+                  _buildPercentageCircle(25.0, Colors.red),
+                ],
               ),
-              Container(
-                child: Text(selectedOption),
-              )
             ],
-          )),
+          ],
+        ),
+      ),
     );
   }
-}
 
-class ErrorItem {
-  final int id;
-  final String name;
-
-  ErrorItem({required this.id, required this.name});
+  Widget _buildPercentageCircle(double percentage, Color color) {
+    return Container(
+      width: 100.0,
+      height: 100.0,
+      child: CircularDiagram(
+        percentage: percentage,
+        foregroundColor: color,
+      ),
+    );
+  }
 }
