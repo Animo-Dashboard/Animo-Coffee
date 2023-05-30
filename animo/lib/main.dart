@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:animo/pages/addNewDevice_page.dart';
+import 'package:animo/pages/calciumLevels_page.dart';
 import 'package:animo/pages/admin_page.dart';
 import 'package:animo/pages/dashboard_page.dart';
 import 'package:animo/pages/deviceStatistics_page.dart';
@@ -13,6 +14,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'inAppFunctions.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:animo/pages/addNewDevice_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
