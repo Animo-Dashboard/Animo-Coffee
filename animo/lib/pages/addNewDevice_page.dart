@@ -20,9 +20,6 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
   List<DeviceItem> deviceItems = [];
   String pageTitle = "Add new device";
 
-  List<String> moreMenuOptions = [];
-  void handleClick(String value) {}
-
   void addNewDevice() {
     DeviceItem newDevice = DeviceItem(
       name: "Optibean Machine",
@@ -70,7 +67,7 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
         backgroundColor: CustomColors.blue,
         child: Icon(Icons.plus_one),
       ),
-      appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick),
+      appBar: getAppBar(context, pageTitle),
       body: Container(
         decoration: getAppBackground(),
         child: ListView.builder(

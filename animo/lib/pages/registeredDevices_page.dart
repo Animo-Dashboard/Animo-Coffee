@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:animo/reuseWidgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'DeviceInstallationPage .dart';
@@ -15,7 +16,8 @@ class RegisteredDevicesPage extends StatefulWidget {
 
 class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
   final _formKey = GlobalKey<FormState>();
-  List<DeviceItem> deviceItems = [];
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  List<DocumentSnapshot> devices = [];
   String pageTitle = "Your devices";
 
   List<String> moreMenuOptions = ['Add new device', 'Settings', 'Log out'];
@@ -34,14 +36,12 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
     }
   }
 
-  void addNewDevice() {
-    DeviceItem newDevice = DeviceItem(
-      name: "Optibean Machine",
-      model: 'Optibean Touch 2',
-    );
-
-    setState(() {
-      deviceItems.add(newDevice);
+  Future<void> getMachines() async {
+    devices.clear();
+    await _db.collection("Machines").get().then((event) {
+      setState(() {
+        devices = event.docs;
+      });
     });
   }
 
@@ -52,11 +52,15 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
 
     if (arguments["role"].toString().toLowerCase() == "admin") {
       moreMenuOptions = ['Add new device', 'Admin', 'Settings', 'Log out'];
+    if (devices.isEmpty) {
+      getMachines();
     }
 
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: addNewDevice,
+          onPressed: () async {
+            await getMachines();
+          },
           backgroundColor: CustomColors.blue,
           child: const Icon(Icons.plus_one),
         ),
@@ -66,49 +70,44 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, childAspectRatio: sqrt1_2),
               itemBuilder: (context, index) {
-                final deviceItem = deviceItems[index];
+                final device = devices[index].data() as Map<String, dynamic>;
+                final model = device["Model"];
+                final name = device["Name"];
+                final error = device["Error"] ?? "";
                 return GridTile(
                     child: GestureDetector(
-                        child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Image(
-                      image: getDeviceImage(deviceItem.model),
-                      height: 170,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      deviceItem.name,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(deviceItem.model,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w300))
-                  ],
-                )));
+                        onTap: () {
+                          Navigator.pushNamed(context, '/deviceStatistics',
+                              arguments: {"device": device});
+                        },
+                        child: Container(
+                          decoration: getBackgroundIfError(error),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Image(
+                                image: AssetImage("images/$model.png"),
+                                height: 170,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                name,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              Text(model,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w300))
+                            ],
+                          ),
+                        )));
               },
-              itemCount: deviceItems.length,
+              itemCount: devices.length,
             )),
-        appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick));
+        appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick));
   }
-
-  getDeviceImage(String s) {
-    switch (s) {
-      case "Optibean Touch 2":
-        return const AssetImage("images/touch2.png");
-        break;
-      default:
-    }
-  }
-}
-
-class DeviceItem {
-  final String name;
-  final String model;
-
-  DeviceItem({required this.name, required this.model});
 }
