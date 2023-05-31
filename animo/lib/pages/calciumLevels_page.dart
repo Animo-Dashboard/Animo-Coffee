@@ -11,6 +11,7 @@ class _ZipCodePageState extends State<ZipCodePage> {
   final TextEditingController _zipCodeController = TextEditingController();
   String _latitude = '';
   String _longitude = '';
+  String _numeriekWaarde = '';
 
   Future<void> _checkZipCode() async {
     final String zipCode = _zipCodeController.text;
@@ -70,6 +71,7 @@ class _ZipCodePageState extends State<ZipCodePage> {
 
     // Add a null check to handle the case where no closestNumeriekewaarde is found
     if (closestNumeriekewaarde != null) {
+      _numeriekWaarde = closestNumeriekewaarde as String;
       return closestNumeriekewaarde;
     } else {
       // Handle the case where no closestNumeriekewaarde is found
@@ -108,6 +110,7 @@ class _ZipCodePageState extends State<ZipCodePage> {
             SizedBox(height: 16.0),
             Text('Latitude: $_latitude'),
             Text('Longitude: $_longitude'),
+            Text('Numeriekwaarde: $_numeriekWaarde'),
           ],
         ),
       ),
