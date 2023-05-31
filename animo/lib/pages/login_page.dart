@@ -1,6 +1,7 @@
 import 'package:animo/pages/DeviceInstallationPage%20.dart';
 import 'package:animo/pages/forgotPasword_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
@@ -33,11 +34,16 @@ class _LoginPageState extends State<LoginPage> {
         print('Login successful!');
         print('Email: ${userCredential.user!.email}');
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const RegisteredDevicesPage()),
-        );
+        var db = FirebaseFirestore.instance;
+        var uid = userCredential.user?.uid;
+        db.collection('Users').doc(uid).get().then((value) {
+          var userData = value.data();
+          Navigator.pushReplacementNamed(
+            context,
+            '/registeredDevices',
+            arguments: {"role": userData!["role"] ?? "user"},
+          );
+        });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found' || e.code == 'wrong-password') {
           print('Invalid email or password.');
