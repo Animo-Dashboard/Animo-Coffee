@@ -83,7 +83,7 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick),
+      appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick),
       body: Column(
         children: [
           LinearProgressIndicator(

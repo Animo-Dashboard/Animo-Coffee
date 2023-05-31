@@ -52,6 +52,7 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
 
     if (arguments["role"].toString().toLowerCase() == "admin") {
       moreMenuOptions = ['Add new device', 'Admin', 'Settings', 'Log out'];
+    }
     if (devices.isEmpty) {
       getMachines();
     }

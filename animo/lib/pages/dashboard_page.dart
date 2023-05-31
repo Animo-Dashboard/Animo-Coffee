@@ -43,7 +43,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, moreMenuOptions, pageTitle, handleClick),
+      appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick),
       body: Container(
         constraints: BoxConstraints(
           minHeight: MediaQuery.of(context).size.height,
