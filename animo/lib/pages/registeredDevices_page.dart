@@ -61,14 +61,15 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
       getMachines(arguments["email"]);
     }
 
+    _db
+        .collection("Machines")
+        .where("User" == arguments["email"])
+        .snapshots()
+        .listen((event) {
+      devices.addAll(event.docs);
+    });
+
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await getMachines(arguments["email"]);
-          },
-          backgroundColor: CustomColors.blue,
-          child: const Icon(Icons.plus_one),
-        ),
         body: Container(
             decoration: getAppBackground(),
             child: GridView.builder(
