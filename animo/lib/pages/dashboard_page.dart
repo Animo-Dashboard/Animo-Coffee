@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
-import 'package:animo/circularDiagram.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -14,8 +15,8 @@ class _DashboardPageState extends State<DashboardPage> {
   String pageTitle = "Dashboard";
   String selectedOption = "Select info to display";
   List<DropdownMenuItem<String>> dropdownItems = <String>[
-    'Option 1',
-    'Option 2',
+    'Current errors',
+    'Distribution of drinks',
     'Option 3',
     'Option 4',
   ].map<DropdownMenuItem<String>>((String value) {
@@ -60,38 +61,81 @@ class _DashboardPageState extends State<DashboardPage> {
               hint: Text("Select info to display"),
               onChanged: (value) {
                 setState(() {
-                  selectedOption =
-                      value!; // Update the selected option when a new option is chosen
+                  selectedOption = value!;
                 });
               },
               items: dropdownItems,
             ),
             const SizedBox(height: 20.0),
-            if (selectedOption == 'Option 1') ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildPercentageCircle(75.0, Colors.blue),
-                  _buildPercentageCircle(50.0, Colors.green),
-                  _buildPercentageCircle(90.0, Colors.orange),
-                  _buildPercentageCircle(25.0, Colors.red),
-                ],
-              ),
-            ],
+            FutureBuilder(
+              future: getDevices(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return getGraph(selectedOption, snapshot.data);
+                } else {
+                  return Text("Nothing to display");
+                }
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPercentageCircle(double percentage, Color color) {
-    return Container(
-      width: 100.0,
-      height: 100.0,
-      child: CircularDiagram(
-        percentage: percentage,
-        foregroundColor: color,
-      ),
-    );
+  Widget getGraph(String option, devices) {
+    switch (option) {
+      case "Distribution of drinks":
+        double coffee = 0;
+        double tea = 0;
+        double hotChocolate = 0;
+        for (var device in devices) {
+          var deviceData = device.data();
+          coffee += deviceData['CoffeeBrewed'];
+          tea += deviceData['TeaBrewed'];
+          hotChocolate += deviceData['HotChocolateBrewed'];
+        }
+        List<PieChartSectionData> chartData = [
+          PieChartSectionData(
+            color: Colors.blue,
+            value: coffee,
+            title: 'Coffee',
+            radius: 40,
+          ),
+          PieChartSectionData(
+            color: Colors.green,
+            value: tea,
+            title: 'Tea',
+            radius: 40,
+          ),
+          PieChartSectionData(
+            color: Colors.orange,
+            value: hotChocolate,
+            title: 'Hot Chocolate',
+            radius: 40,
+          ),
+        ];
+        return PieChart(
+          PieChartData(
+            sections: chartData,
+            sectionsSpace: 0,
+            centerSpaceRadius: 40,
+            startDegreeOffset: -90,
+            borderData: FlBorderData(show: false),
+          ),
+        );
+
+      default:
+        return Text("something went wrong");
+    }
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>?>
+      getDevices() async {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> devices = [];
+    await FirebaseFirestore.instance.collection("Machines").get().then((value) {
+      devices = value.docs;
+    });
+    return devices;
   }
 }
