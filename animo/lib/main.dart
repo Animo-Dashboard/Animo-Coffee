@@ -4,6 +4,7 @@ import 'package:animo/pages/admin_page.dart';
 import 'package:animo/pages/dashboard_page.dart';
 import 'package:animo/pages/deviceStatistics_page.dart';
 import 'package:animo/pages/errorHandling_page.dart';
+import 'package:animo/pages/forgotPasword_page.dart';
 import 'package:animo/pages/login_page.dart';
 import 'package:animo/pages/registerDevice_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
@@ -51,13 +52,14 @@ class MyApp extends StatelessWidget {
         textTheme: const TextTheme(
             titleLarge: TextStyle(fontSize: 36.0),
             titleMedium: TextStyle(fontSize: 28.0),
-            bodyLarge: TextStyle(fontSize: 22.0),
-            bodyMedium: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
+            bodyLarge: TextStyle(fontSize: 24.0),
+            bodyMedium: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
         '/login': (context) => LoginPage(),
         '/registration': (context) => const RegistrationPage(),
+        '/forgotPassword': (context) => const ForgotPasswordPage(),
         '/registerDevice': (context) => const RegisterDevicePage(),
         '/registeredDevices': (context) => const RegisteredDevicesPage(),
         '/errorHandling': (context) => const ErrorHandlingPage(),
