@@ -1,127 +1,141 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 
-class ZipCodePage extends StatefulWidget {
+class ZipCodeSearchPage extends StatefulWidget {
   @override
-  _ZipCodePageState createState() => _ZipCodePageState();
+  _ZipCodeSearchPageState createState() => _ZipCodeSearchPageState();
 }
 
-class _ZipCodePageState extends State<ZipCodePage> {
-  final TextEditingController _zipCodeController = TextEditingController();
-  String _latitude = '';
-  String _longitude = '';
-  String _numeriekWaarde = '';
+class _ZipCodeSearchPageState extends State<ZipCodeSearchPage> {
+  final TextEditingController zipCodeController = TextEditingController();
+  String longitude = "";
+  String latitude = "";
+  String xCoordinate = "";
+  String yCoordinate = "";
+  String closestNumeriekewaarde = "";
 
-  Future<void> _checkZipCode() async {
-    final String zipCode = _zipCodeController.text;
-    final CollectionReference machinesCollection =
-        FirebaseFirestore.instance.collection('Machines');
-    final CollectionReference fourPpCollection =
-        FirebaseFirestore.instance.collection('4pp');
+  Future<void> searchZipCode() async {
+    String zipCode = zipCodeController.text;
+    if (zipCode.length == 4) {
+      try {
+        QuerySnapshot querySnapshot =
+            await FirebaseFirestore.instance.collection('4pp').get();
 
-    final QuerySnapshot querySnapshot =
-        await fourPpCollection.where('postcode', isEqualTo: zipCode).get();
+        for (DocumentSnapshot docSnapshot in querySnapshot.docs) {
+          Map<String, dynamic> data =
+              docSnapshot.data() as Map<String, dynamic>;
+          if (data['postcode'] == int.parse(zipCode)) {
+            longitude = data['longitude'].toString();
+            latitude = data['latitude'].toString();
 
-    if (querySnapshot.docs.isNotEmpty) {
-      final DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
-      setState(() {
-        _latitude = documentSnapshot['latitude'];
-        _longitude = documentSnapshot['longitude'];
-      });
+            final position = await Geolocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.high);
+            final double centerLatitude = 0;
+            final double centerLongitude = 0;
+
+            final double x = await Geolocator.distanceBetween(position.latitude,
+                position.longitude, centerLatitude, position.longitude);
+            final double y = await Geolocator.distanceBetween(centerLatitude,
+                position.longitude, centerLatitude, centerLongitude);
+
+            xCoordinate = x.toStringAsFixed(2);
+            yCoordinate = y.toStringAsFixed(2);
+
+            final double? closestValue = await findClosestNumeriekewaarde(x, y);
+            closestNumeriekewaarde = closestValue.toString();
+
+            break;
+          }
+        }
+
+        if (longitude.isEmpty && latitude.isEmpty) {
+          longitude = "Not Found";
+          latitude = "Not Found";
+          xCoordinate = "";
+          yCoordinate = "";
+          closestNumeriekewaarde = "";
+        }
+      } catch (e) {
+        print(e);
+        longitude = "Error";
+        latitude = "Error";
+        xCoordinate = "";
+        yCoordinate = "";
+        closestNumeriekewaarde = "";
+      }
     } else {
-      setState(() {
-        _latitude = '';
-        _longitude = 'Please check your zip code again.';
-      });
+      longitude = "";
+      latitude = "";
+      xCoordinate = "";
+      yCoordinate = "";
+      closestNumeriekewaarde = "";
     }
 
-    // Save the zip code to Machines collection
-    await machinesCollection.doc().set({'ZipCode': zipCode});
+    setState(() {});
   }
 
-  Future<double> findClosestNumeriekewaarde(
-      double latitude, double longitude) async {
-    final CollectionReference collection =
-        FirebaseFirestore.instance.collection('IM-Metingen_2021_6_mnd11tm-12');
+  Future<double?> findClosestNumeriekewaarde(double x, double y) async {
+    final databaseReference = FirebaseFirestore.instance;
+    final collectionReference =
+        databaseReference.collection('IM-Metingen_2021_6_mnd11tm-12');
 
-    QuerySnapshot querySnapshot = await collection.get();
+    final snapshot = await collectionReference.get();
 
-    double closestX;
-    double closestY;
-    double smallestDistance = double.infinity;
-    double? closestNumeriekewaarde; // Initialize as nullable
+    double? closestNumeriekewaarde;
+    double minDifference = double.infinity;
 
-    for (DocumentSnapshot documentSnapshot in querySnapshot.docs) {
-      Map<String, dynamic>? data =
-          documentSnapshot.data() as Map<String, dynamic>?;
-      Map<String, dynamic> geometriePunt = data!['GeometriePunt'];
-      double x = geometriePunt['X'];
-      double y = geometriePunt['Y'];
+    for (final document in snapshot.docs) {
+      final geometriePunt =
+          document.data()['GeometriePunt'] as Map<String, dynamic>;
+      final documentX = geometriePunt['X'] as double;
+      final documentY = geometriePunt['Y'] as double;
 
-      double distance = calculateDistance(latitude, longitude, x, y);
+      final difference = (x - documentX).abs() + (y - documentY).abs();
 
-      if (distance < smallestDistance) {
-        smallestDistance = distance;
-        closestX = x;
-        closestY = y;
-        closestNumeriekewaarde = data['Numeriekewaarde'];
+      if (difference < minDifference) {
+        minDifference = difference;
+        closestNumeriekewaarde = document.data()['Numeriekewaarde'] as double;
       }
     }
 
-    // Add a null check to handle the case where no closestNumeriekewaarde is found
-    if (closestNumeriekewaarde != null) {
-      _numeriekWaarde = closestNumeriekewaarde as String;
-      return closestNumeriekewaarde;
-    } else {
-      // Handle the case where no closestNumeriekewaarde is found
-      throw Exception('No closest Numeriekewaarde found.');
-    }
-  }
-
-  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    // Can update the calciulation
-    double dx = lat1 - lat2;
-    double dy = lon1 - lon2;
-    return dx * dx + dy * dy;
+    return closestNumeriekewaarde;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Zip Code Checker'),
+        title: Text('Zip Code Search'),
       ),
       body: Container(
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
-              controller: _zipCodeController,
+              controller: zipCodeController,
+              keyboardType: TextInputType.number,
+              maxLength: 4,
               decoration: InputDecoration(
                 labelText: 'Enter Zip Code',
               ),
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _checkZipCode,
-              child: Text('Check'),
+              onPressed: () {
+                searchZipCode();
+              },
+              child: Text('Search'),
             ),
             SizedBox(height: 16.0),
-            Text('Latitude: $_latitude'),
-            Text('Longitude: $_longitude'),
-            Text('Numeriekwaarde: $_numeriekWaarde'),
+            Text('Longitude: $longitude'),
+            Text('Latitude: $latitude'),
+            Text('X Coordinate: $xCoordinate'),
+            Text('Y Coordinate: $yCoordinate'),
+            Text('Numeriekwaarde: $closestNumeriekewaarde'),
           ],
         ),
       ),
     );
   }
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MaterialApp(
-    home: ZipCodePage(),
-  ));
 }
