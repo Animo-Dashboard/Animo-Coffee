@@ -83,56 +83,65 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(context, pageTitle),
-      body: Column(
-        children: [
-          LinearProgressIndicator(
-            value: (currentPageIndex + 1) / installationPages.length,
-          ),
-          Expanded(child: installationPages[currentPageIndex]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: currentPageIndex > 0
-                    ? () {
-                        setState(() {
-                          currentPageIndex--;
-                        });
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[300],
-                  foregroundColor: Colors.black,
-                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      body: Container(
+        decoration: getAppBackground(),
+        child: Column(
+          children: [
+            LinearProgressIndicator(
+              value: (currentPageIndex + 1) / installationPages.length,
+            ),
+            Expanded(child: installationPages[currentPageIndex]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: currentPageIndex > 0
+                      ? () {
+                          setState(() {
+                            currentPageIndex--;
+                          });
+                        }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                  ),
+                  child: const Text('Previous'),
                 ),
-                child: const Text('Previous'),
-              ),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: currentPageIndex < installationPages.length - 1
-                    ? () {
-                        setState(() {
-                          currentPageIndex++;
-                          handleStepCompletion();
-                        });
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: currentPageIndex < installationPages.length - 1
+                      ? () {
+                          setState(() {
+                            currentPageIndex++;
+                            handleStepCompletion();
+                          });
+                        }
+                      : () {
+                          Navigator.pop(context);
+                        },
+                  style: ElevatedButton.styleFrom(
+                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                  ),
+                  child: getNextButtonText(),
                 ),
-                child: const Text('Next'),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  getNextButtonText() {
+    if (currentPageIndex == installationPages.length - 1) {
+      return Text("Finish");
+    } else {
+      return Text("Next");
+    }
   }
 }
 
@@ -163,28 +172,22 @@ class InstallationStep extends StatelessWidget {
             ),
           ],
           SizedBox(height: 20),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 1),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Step $stepNumber:',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    stepText,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: Colors.black26),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Step $stepNumber:',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  stepText,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
           ),
         ],

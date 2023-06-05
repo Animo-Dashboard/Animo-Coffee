@@ -2,8 +2,6 @@ import 'package:animo/reuseWidgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 
 class DeviceStatisticsPage extends StatefulWidget {
   const DeviceStatisticsPage({super.key});
@@ -14,7 +12,6 @@ class DeviceStatisticsPage extends StatefulWidget {
 
 class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
   final _formKey = GlobalKey<FormState>();
-  FirebaseFirestore _db = FirebaseFirestore.instance;
   String pageTitle = "Page";
   Device device = Device('name', 'model', "serialNumber", "", Timestamp.now(),
       Timestamp.now(), 0, 0, 0, 0, 0, 0);
@@ -258,7 +255,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
                           ))
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Column(
