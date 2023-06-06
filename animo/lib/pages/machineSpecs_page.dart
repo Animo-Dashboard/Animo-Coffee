@@ -9,10 +9,16 @@ class MachineSpecsPage extends StatefulWidget {
 class _MachineSpecsPageState extends State<MachineSpecsPage> {
   final CollectionReference machinesCollection =
       FirebaseFirestore.instance.collection('Machines');
+  final CollectionReference specsCollection =
+      FirebaseFirestore.instance.collection('MachineSpecs');
 
   List<String> machineModels = [];
   String? selectedModel;
   String? customModel;
+  List<String> columnNames = [];
+  Map<String, dynamic> columnValues = {};
+  bool showAccordions = false;
+  bool noSpecsFound = false;
 
   @override
   void initState() {
@@ -40,13 +46,42 @@ class _MachineSpecsPageState extends State<MachineSpecsPage> {
   void selectModel(String? value) {
     setState(() {
       selectedModel = value;
+      noSpecsFound = false;
     });
+  }
+
+  void fetchMachineSpecs() async {
+    if (selectedModel != null) {
+      columnNames.clear();
+      columnValues.clear();
+
+      QuerySnapshot snapshot = await specsCollection
+          .where('Name', isEqualTo: selectedModel)
+          .limit(1)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        Map<String, dynamic> data =
+            snapshot.docs[0].data() as Map<String, dynamic>;
+
+        setState(() {
+          columnNames = data.keys.toList();
+          columnValues = data;
+          showAccordions = true;
+          noSpecsFound = false;
+        });
+      } else {
+        setState(() {
+          noSpecsFound = true;
+        });
+      }
+    }
   }
 
   void confirmCustomModel() {
     if (customModel != null && customModel!.isNotEmpty) {
-      // Process the custom model here as needed
-      print('Custom Model: $customModel');
+      selectedModel = customModel;
+      fetchMachineSpecs();
     }
   }
 
@@ -54,7 +89,7 @@ class _MachineSpecsPageState extends State<MachineSpecsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Machine Dropdown Page'),
+        title: Text('Machine Specifications Page'),
       ),
       body: Center(
         child: Column(
@@ -98,7 +133,25 @@ class _MachineSpecsPageState extends State<MachineSpecsPage> {
                 ],
               ),
             SizedBox(height: 20),
-            Text('Selected Model: ${selectedModel ?? ""}'),
+            ElevatedButton(
+              onPressed: fetchMachineSpecs,
+              child: Text('Retrieve Machine Specs'),
+            ),
+            SizedBox(height: 20),
+            if (showAccordions)
+              Column(
+                children: columnNames.map((columnName) {
+                  return ExpansionTile(
+                    title: Text(columnName),
+                    children: [
+                      Text('${columnValues[columnName]}'),
+                    ],
+                  );
+                }).toList(),
+              ),
+            SizedBox(height: 20),
+            if (noSpecsFound)
+              Text('No specifications found for the ${selectedModel ?? ""}'),
           ],
         ),
       ),
