@@ -51,9 +51,9 @@ class _AdminPageState extends State<AdminPage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(builder: (context) => MachineSpecsPage()),
+                    '/machineSpecs',
                   );
                 },
                 child: Text('Go to Machine Page'),

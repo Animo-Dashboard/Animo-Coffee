@@ -5,6 +5,7 @@ import 'package:animo/pages/dashboard_page.dart';
 import 'package:animo/pages/deviceStatistics_page.dart';
 import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/login_page.dart';
+import 'package:animo/pages/machineSpecs_page.dart';
 import 'package:animo/pages/registerDevice_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         '/admin': (context) => const AdminPage(),
         '/dashboard': (context) => const DashboardPage(),
         '/deviceStatistics': (context) => const DeviceStatisticsPage(),
+        '/machineSpecs': (context) => MachineSpecsPage(),
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -7,6 +8,8 @@ class MachineSpecsPage extends StatefulWidget {
 }
 
 class _MachineSpecsPageState extends State<MachineSpecsPage> {
+  String pageTitle = 'Machine Specifications Page';
+
   final CollectionReference machinesCollection =
       FirebaseFirestore.instance.collection('Machines');
   final CollectionReference specsCollection =
@@ -34,7 +37,26 @@ class _MachineSpecsPageState extends State<MachineSpecsPage> {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
       String? model = data['Model'] as String?;
       if (model != null && !models.contains(model)) {
-        models.add(model);
+        switch (model) {
+          case "touch2":
+            if (!models.contains("OptiBean 2 Touch")) {
+              models.add("OptiBean 2 Touch");
+            }
+            break;
+          case "touch3":
+            if (!models.contains("OptiBean 3 Touch")) {
+              models.add("OptiBean 3 Touch");
+            }
+            break;
+          case "touch4":
+            if (!models.contains("OptiBean 4 Touch")) {
+              models.add("OptiBean 4 Touch");
+            }
+            break;
+          default:
+            models.add(model);
+            break;
+        }
       }
     }
 
@@ -52,6 +74,7 @@ class _MachineSpecsPageState extends State<MachineSpecsPage> {
 
   void fetchMachineSpecs() async {
     if (selectedModel != null) {
+      showAccordions = false;
       columnNames.clear();
       columnValues.clear();
 
@@ -80,6 +103,7 @@ class _MachineSpecsPageState extends State<MachineSpecsPage> {
 
   void confirmCustomModel() {
     if (customModel != null && customModel!.isNotEmpty) {
+      machineModels.add(customModel!);
       selectedModel = customModel;
       fetchMachineSpecs();
     }
@@ -88,71 +112,108 @@ class _MachineSpecsPageState extends State<MachineSpecsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Machine Specifications Page'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DropdownButtonFormField<String>(
-              value: selectedModel,
-              items: [
-                ...machineModels.map((model) {
-                  return DropdownMenuItem<String>(
-                    value: model,
-                    child: Text(model),
-                  );
-                }),
-                DropdownMenuItem<String>(
-                  value: 'not-found',
-                  child: Text("Can't find the machine you are looking for?"),
-                ),
-              ],
-              onChanged: selectModel,
-            ),
-            SizedBox(height: 20),
-            if (selectedModel == 'not-found')
-              Column(
-                children: [
-                  TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        customModel = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'Custom Model',
+      appBar: getAppBar(context, pageTitle),
+      body: Container(
+        constraints:
+            BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+        decoration: getAppBackground(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: DropdownButtonFormField<String>(
+                  decoration: InputDecoration(contentPadding: EdgeInsets.zero),
+                  menuMaxHeight: 400,
+                  isExpanded: true,
+                  value: selectedModel,
+                  items: [
+                    ...machineModels.map((model) {
+                      return DropdownMenuItem<String>(
+                        value: model,
+                        child: Text(model),
+                      );
+                    }),
+                    const DropdownMenuItem<String>(
+                      value: 'not-found',
+                      child:
+                          Text("Can't find the machine you are looking for?"),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: confirmCustomModel,
-                    child: Text('Confirm'),
-                  ),
-                ],
+                  ],
+                  onChanged: selectModel,
+                ),
               ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: fetchMachineSpecs,
-              child: Text('Retrieve Machine Specs'),
-            ),
-            SizedBox(height: 20),
-            if (showAccordions)
-              Column(
-                children: columnNames.map((columnName) {
-                  return ExpansionTile(
-                    title: Text(columnName),
-                    children: [
-                      Text('${columnValues[columnName]}'),
-                    ],
-                  );
-                }).toList(),
+              if (selectedModel == 'not-found')
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            customModel = value;
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.only(top: 0),
+                          labelText: 'Custom Model',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: confirmCustomModel,
+                      child: const Text('Confirm'),
+                    ),
+                  ],
+                ),
+              const SizedBox(
+                height: 20,
               ),
-            SizedBox(height: 20),
-            if (noSpecsFound)
-              Text('No specifications found for the ${selectedModel ?? ""}'),
-          ],
+              ElevatedButton(
+                onPressed: fetchMachineSpecs,
+                child: const Text('Retrieve Specs'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              if (showAccordions)
+                Column(
+                  children: columnNames.map((columnName) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: ExpansionTile(
+                        collapsedBackgroundColor: Colors.black26,
+                        backgroundColor: Colors.black26,
+                        textColor: Colors.black,
+                        iconColor: Colors.black,
+                        title: Text(columnName),
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            decoration:
+                                const BoxDecoration(color: Colors.white54),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                '${columnValues[columnName]}',
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              if (noSpecsFound)
+                Text('No specifications found for the ${selectedModel ?? ""}'),
+            ],
+          ),
         ),
       ),
     );
