@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:animo/pages/userData_page.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
@@ -79,6 +80,20 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
     }
   }
 
+  void navigateToUserDataPage() {
+    final DateTime now = DateTime.now();
+    final String currentDate = "${now.day}/${now.month}/${now.year}";
+    widget.deviceItem.installationDate = currentDate;
+    widget.deviceItem.lastTimeAccess = currentDate;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UserDataPage(deviceItem: widget.deviceItem),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,6 +132,9 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
                           currentPageIndex++;
                           handleStepCompletion();
                         });
+                        if (currentPageIndex == installationPages.length - 1) {
+                          navigateToUserDataPage();
+                        }
                       }
                     : null,
                 style: ElevatedButton.styleFrom(

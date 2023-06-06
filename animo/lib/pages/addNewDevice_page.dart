@@ -147,4 +147,8 @@ class DeviceItem {
   bool installed;
 
   DeviceItem({required this.name, required this.model, this.installed = false});
+
+  set lastTimeAccess(String lastTimeAccess) {}
+
+  set installationDate(String installationDate) {}
 }
