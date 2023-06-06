@@ -1,3 +1,4 @@
+import 'package:animo/pages/MaintenanceSelection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
@@ -57,10 +58,16 @@ class _AdminPageState extends State<AdminPage> {
                 height: 20,
               ),
               ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'LOREM IPSUM',
-                  )),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MaintenanceSelectionPage(),
+                    ),
+                  );
+                },
+                child: Text('Go to Maintenance Selection'),
+              ),
             ],
           )),
     );
