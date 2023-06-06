@@ -63,7 +63,7 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
 
     _db
         .collection("Machines")
-        .where("User" == arguments["email"])
+        .where("User", isEqualTo: arguments["email"])
         .snapshots()
         .listen((event) {
       devices.addAll(event.docs);

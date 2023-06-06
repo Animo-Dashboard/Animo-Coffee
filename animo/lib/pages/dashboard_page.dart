@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/rendering.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -41,6 +42,8 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
+  TextStyle pieChartTextStyle = TextStyle(fontWeight: FontWeight.w500);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +57,7 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(height: 20.0),
             DropdownButton<String>(
               value: selectedOption == 'Select info to display'
                   ? null
@@ -66,16 +70,18 @@ class _DashboardPageState extends State<DashboardPage> {
               },
               items: dropdownItems,
             ),
-            const SizedBox(height: 20.0),
-            FutureBuilder(
-              future: getDevices(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return getGraph(selectedOption, snapshot.data);
-                } else {
-                  return Text("Nothing to display");
-                }
-              },
+            Container(
+              height: MediaQuery.of(context).size.height - 200,
+              child: FutureBuilder(
+                future: getDevices(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return getGraph(selectedOption, snapshot.data);
+                  } else {
+                    return Text("Nothing to display");
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -99,20 +105,23 @@ class _DashboardPageState extends State<DashboardPage> {
           PieChartSectionData(
             color: Colors.blue,
             value: coffee,
-            title: 'Coffee',
-            radius: 40,
+            title: 'Coffee ${coffee.ceil()}',
+            titleStyle: pieChartTextStyle,
+            radius: 80,
           ),
           PieChartSectionData(
             color: Colors.green,
             value: tea,
-            title: 'Tea',
-            radius: 40,
+            title: 'Tea ${tea.ceil()}',
+            titleStyle: pieChartTextStyle,
+            radius: 80,
           ),
           PieChartSectionData(
             color: Colors.orange,
             value: hotChocolate,
-            title: 'Hot Chocolate',
-            radius: 40,
+            title: 'Hot Chocolate ${hotChocolate.ceil()}',
+            titleStyle: pieChartTextStyle,
+            radius: 80,
           ),
         ];
         return PieChart(
@@ -126,7 +135,7 @@ class _DashboardPageState extends State<DashboardPage> {
         );
 
       default:
-        return Text("something went wrong");
+        return Text("");
     }
   }
 
