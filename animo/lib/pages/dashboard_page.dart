@@ -27,27 +27,12 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }).toList();
 
-  List<String> moreMenuOptions = ['Add new error', 'Settings', 'Log out'];
-
-  void handleClick(String value) {
-    switch (value) {
-      case 'Add new error':
-        break;
-      case 'Settings':
-        // Handle 'Settings' action
-        break;
-      case 'Log out':
-        logOut(context);
-        break;
-    }
-  }
-
-  TextStyle pieChartTextStyle = TextStyle(fontWeight: FontWeight.w500);
+  TextStyle pieChartTextStyle = const TextStyle(fontWeight: FontWeight.w500);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick),
+      appBar: getAppBar(context, pageTitle),
       body: Container(
         constraints: BoxConstraints(
           minHeight: MediaQuery.of(context).size.height,
@@ -62,7 +47,7 @@ class _DashboardPageState extends State<DashboardPage> {
               value: selectedOption == 'Select info to display'
                   ? null
                   : selectedOption, // Set the value to null if it's the sentinel value
-              hint: Text("Select info to display"),
+              hint: const Text("Select info to display"),
               onChanged: (value) {
                 setState(() {
                   selectedOption = value!;
@@ -78,7 +63,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   if (snapshot.hasData) {
                     return getGraph(selectedOption, snapshot.data);
                   } else {
-                    return Text("Nothing to display");
+                    return const Text("Nothing to display");
                   }
                 },
               ),
@@ -135,7 +120,7 @@ class _DashboardPageState extends State<DashboardPage> {
         );
 
       default:
-        return Text("");
+        return const Text("");
     }
   }
 
