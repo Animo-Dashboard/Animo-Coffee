@@ -42,6 +42,7 @@ dependencies:
   flutter_blue: ^0.8.0
   mailer: ^4.0.0
   firebase_database: ^10.2.2
+  geolocator: ^7.0.3
   
 
 
