@@ -13,24 +13,10 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   String pageTitle = "Admin";
 
-  List<String> moreMenuOptions = ['Add new error', 'Settings', 'Log out'];
-  void handleClick(String value) {
-    switch (value) {
-      case 'Add new error':
-        break;
-      case 'Settings':
-        // Handle 'Settings' action
-        break;
-      case 'Log out':
-        logOut(context);
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick),
+      appBar: getAppBar(context, pageTitle),
       body: Container(
           constraints: BoxConstraints(
               minHeight: MediaQuery.of(context).size.height,

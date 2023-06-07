@@ -90,112 +90,113 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               Expanded(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 24, right: 24),
-                    child: Image(image: AssetImage("images/logoFullBlack.png")),
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 36, right: 36, top: 72, bottom: 36),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Email',
-                                    hintText: 'Enter your email',
-                                    labelStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    hintStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    errorStyle: TextStyle(fontSize: 20),
-                                    prefixIcon: Icon(Icons.email),
-                                    prefixIconColor: Colors.black,
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter your email';
-                                    } else if (_emailFieldState ==
-                                        FieldValidationState.invalid) {
-                                      return 'Please enter a valid email';
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: _validateEmail,
-                                ),
-                                const SizedBox(height: 16.0),
-                                TextFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Password',
-                                    hintText: 'Enter your password',
-                                    labelStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    hintStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    errorStyle: TextStyle(fontSize: 20),
-                                    prefixIcon: Icon(Icons.lock),
-                                    prefixIconColor: Colors.black,
-                                  ),
-                                  obscureText: true,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter your password';
-                                    } else if (_passwordFieldState ==
-                                        FieldValidationState.empty) {
-                                      return 'Please enter a password';
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: _validatePassword,
-                                ),
-                                SizedBox(height: 26),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ForgotPasswordPage()),
-                                      );
+                  child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 24, right: 24, top: 120),
+                      child:
+                          Image(image: AssetImage("images/logoFullBlack.png")),
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 36, right: 36, top: 72, bottom: 36),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Email',
+                                      hintText: 'Enter your email',
+                                      labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      errorStyle: TextStyle(fontSize: 20),
+                                      prefixIcon: Icon(Icons.email),
+                                      prefixIconColor: Colors.black,
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter your email';
+                                      } else if (_emailFieldState ==
+                                          FieldValidationState.invalid) {
+                                        return 'Please enter a valid email';
+                                      }
+                                      return null;
                                     },
-                                    child: const Text(
-                                      "Forgot password?",
-                                      style: TextStyle(fontSize: 24),
-                                    )),
-                                SizedBox(
-                                  height: 60,
-                                ),
-                                ElevatedButton(
-                                    onPressed: _submitForm,
-                                    child: Text(
-                                      'LOGIN',
-                                    )),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, '/registration');
+                                    onChanged: _validateEmail,
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Password',
+                                      hintText: 'Enter your password',
+                                      labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      errorStyle: TextStyle(fontSize: 20),
+                                      prefixIcon: Icon(Icons.lock),
+                                      prefixIconColor: Colors.black,
+                                    ),
+                                    obscureText: true,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter your password';
+                                      } else if (_passwordFieldState ==
+                                          FieldValidationState.empty) {
+                                        return 'Please enter a password';
+                                      }
+                                      return null;
                                     },
-                                    child: const Text(
-                                      "Register new account",
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                      ),
-                                    )),
-                              ]),
-                        ],
+                                    onChanged: _validatePassword,
+                                  ),
+                                  SizedBox(height: 26),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          '/forgotPassword',
+                                        );
+                                      },
+                                      child: const Text(
+                                        "Forgot password?",
+                                        style: TextStyle(fontSize: 24),
+                                      )),
+                                  SizedBox(
+                                    height: 60,
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: _submitForm,
+                                      child: Text(
+                                        'LOGIN',
+                                      )),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, '/registration');
+                                      },
+                                      child: const Text(
+                                        "Register new account",
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                        ),
+                                      )),
+                                ]),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )),
               ColoredBox(
                 color: Colors.black45,

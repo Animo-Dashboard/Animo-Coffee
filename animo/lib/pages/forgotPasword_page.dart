@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
@@ -14,6 +15,7 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   String _email = "";
+  String pageTitle = "Forgot password";
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
       GlobalKey<ScaffoldMessengerState>();
@@ -65,70 +67,119 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black, size: 48),
+      ),
       body: Container(
-        constraints:
-            BoxConstraints(minHeight: MediaQuery.of(context).size.height),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: const AssetImage('images/background.jpeg'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              Colors.white.withOpacity(0.5),
-              BlendMode.dstATop,
+          constraints:
+              BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: const AssetImage('images/background.jpeg'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.white.withOpacity(0.5), BlendMode.dstATop),
             ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 24, right: 24),
-              child: Image(image: AssetImage("images/logoFullBlack.png")),
-            ),
-            Card(
-              elevation: 2.0,
-              margin: const EdgeInsets.all(16.0),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          hintText: 'Enter your email',
-                          prefixIcon: Icon(Icons.email),
+          child: Column(
+            children: [
+              Expanded(
+                  child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(
+                          left: 24, right: 24, top: 50, bottom: 80),
+                      child:
+                          Image(image: AssetImage("images/logoFullBlack.png")),
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 36, right: 36, top: 72, bottom: 36),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Email',
+                                      hintText: 'Enter your email',
+                                      labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      errorStyle: TextStyle(fontSize: 20),
+                                      prefixIcon: Icon(Icons.email),
+                                      prefixIconColor: Colors.black,
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter your email';
+                                      } else if (!EmailValidator.validate(
+                                          value)) {
+                                        return 'Please enter a valid email';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _email = value;
+                                      });
+                                    },
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  ElevatedButton(
+                                    onPressed: _submitForm,
+                                    style: ButtonStyle(
+                                      textStyle:
+                                          MaterialStateProperty.all(TextStyle(
+                                        fontSize: 24,
+                                      )),
+                                      padding: MaterialStateProperty.all(
+                                          const EdgeInsets.only(
+                                              top: 17,
+                                              bottom: 17,
+                                              left: 10,
+                                              right: 10)),
+                                    ),
+                                    child:
+                                        const Text('Send Reset Password Link'),
+                                  ),
+                                ]),
+                          ],
                         ),
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your email';
-                          } else if (!EmailValidator.validate(value)) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            _email = value;
-                          });
-                        },
                       ),
-                      const SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: _submitForm,
-                        child: const Text('Send Reset Password Link'),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
+              )),
+              ColoredBox(
+                color: Colors.black45,
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: const Text(
+                        "V16.05.23",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          )),
     );
   }
 }

@@ -134,112 +134,115 @@ class _RegistrationPageState extends State<RegistrationPage> {
           child: Column(
             children: [
               Expanded(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 24, right: 24),
-                    child: Image(image: AssetImage("images/logoFullBlack.png")),
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 36, right: 36, top: 72, bottom: 36),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Email',
-                                    hintText: 'Enter your email',
-                                    labelStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    hintStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    errorStyle: TextStyle(fontSize: 20),
-                                    prefixIcon: Icon(Icons.email),
-                                    prefixIconColor: Colors.black,
+                  child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(left: 24, right: 24, top: 50),
+                      child:
+                          Image(image: AssetImage("images/logoFullBlack.png")),
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 36, right: 36, top: 72, bottom: 36),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Email',
+                                      hintText: 'Enter your email',
+                                      labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      errorStyle: TextStyle(fontSize: 20),
+                                      prefixIcon: Icon(Icons.email),
+                                      prefixIconColor: Colors.black,
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter your email';
+                                      } else if (_emailFieldState ==
+                                          FieldValidationState.invalid) {
+                                        return 'Please enter a valid email';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: _validateEmail,
                                   ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter your email';
-                                    } else if (_emailFieldState ==
-                                        FieldValidationState.invalid) {
-                                      return 'Please enter a valid email';
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: _validateEmail,
-                                ),
-                                const SizedBox(height: 16.0),
-                                TextFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Password',
-                                    hintText: 'Enter your password',
-                                    labelStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    hintStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    errorStyle: TextStyle(fontSize: 20),
-                                    prefixIcon: Icon(Icons.lock),
-                                    prefixIconColor: Colors.black,
+                                  const SizedBox(height: 16.0),
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Password',
+                                      hintText: 'Enter your password',
+                                      labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      errorStyle: TextStyle(fontSize: 20),
+                                      prefixIcon: Icon(Icons.lock),
+                                      prefixIconColor: Colors.black,
+                                    ),
+                                    obscureText: true,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter your password';
+                                      } else if (_passwordFieldState ==
+                                          FieldValidationState.empty) {
+                                        return 'Please enter a password';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: _validatePassword,
                                   ),
-                                  obscureText: true,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter your password';
-                                    } else if (_passwordFieldState ==
-                                        FieldValidationState.empty) {
-                                      return 'Please enter a password';
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: _validatePassword,
-                                ),
-                                const SizedBox(height: 16.0),
-                                TextFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: 'Repeat Password',
-                                    hintText: 'Enter your password again',
-                                    labelStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    hintStyle:
-                                        TextStyle(fontWeight: FontWeight.w300),
-                                    errorStyle: TextStyle(fontSize: 20),
-                                    prefixIcon: Icon(Icons.lock),
-                                    prefixIconColor: Colors.black,
+                                  const SizedBox(height: 16.0),
+                                  TextFormField(
+                                    decoration: const InputDecoration(
+                                      labelText: 'Repeat Password',
+                                      hintText: 'Enter your password again',
+                                      labelStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w300),
+                                      errorStyle: TextStyle(fontSize: 20),
+                                      prefixIcon: Icon(Icons.lock),
+                                      prefixIconColor: Colors.black,
+                                    ),
+                                    obscureText: true,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter your password again';
+                                      } else if (_passwordRepeatFieldState ==
+                                          FieldValidationState.invalid) {
+                                        return 'Passwords don\'t match';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: _validateRepeatPassword,
                                   ),
-                                  obscureText: true,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter your password again';
-                                    } else if (_passwordRepeatFieldState ==
-                                        FieldValidationState.invalid) {
-                                      return 'Passwords don\'t match';
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: _validateRepeatPassword,
-                                ),
-                                const SizedBox(
-                                  height: 27,
-                                ),
-                                ElevatedButton(
-                                    onPressed: _submitForm,
-                                    child: const Text(
-                                      'REGISTER',
-                                    )),
-                              ]),
-                        ],
+                                  const SizedBox(
+                                    height: 27,
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: _submitForm,
+                                      child: const Text(
+                                        'REGISTER',
+                                      )),
+                                ]),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )),
               ColoredBox(
                 color: Colors.black45,

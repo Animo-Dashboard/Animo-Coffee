@@ -97,11 +97,12 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
                               ),
                               Text(
                                 name,
-                                style: const TextStyle(fontSize: 20),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500),
                               ),
                               Text(model,
                                   style: const TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w300))
                             ],
                           ),
