@@ -5,7 +5,6 @@ import 'package:animo/reuseWidgets.dart';
 
 import 'DeviceInstallationPage .dart';
 import 'DeviceRegistrationPage.dart';
-import 'calciumLevels_page.dart';
 
 class AddNewDevicePage extends StatefulWidget {
   const AddNewDevicePage({super.key});
@@ -20,10 +19,6 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
 
   List<DeviceItem> deviceItems = [];
   String pageTitle = "Add new device";
-
-  TextEditingController nameController = TextEditingController();
-  TextEditingController zipCodeController = TextEditingController();
-  bool isInputValidated = false;
 
   void addNewDevice() {
     DeviceItem newDevice = DeviceItem(
@@ -107,25 +102,6 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              _showInputDialog(context);
-                            },
-                            child: Text('Add New Device'),
-                          ),
-                          SizedBox(height: 16.0),
-                          if (isInputValidated)
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ZipCodeSearchPage()),
-                                );
-                              },
-                              child: Text('Check Calcium Levels'),
-                            ),
                           Text(
                             '${deviceItem.model}',
                             style: const TextStyle(
@@ -162,66 +138,6 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
         return const AssetImage("images/touch2.png");
       default:
     }
-  }
-
-  void _showInputDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Enter Device Details'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText: 'Name',
-                ),
-              ),
-              TextField(
-                controller: zipCodeController,
-                decoration: InputDecoration(
-                  labelText: 'Zip Code',
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_validateInput()) {
-                  setState(() {
-                    isInputValidated = true;
-                  });
-                  Navigator.of(context).pop();
-                }
-              },
-              child: Text('Save'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  bool _validateInput() {
-    String name = nameController.text.trim();
-    String zipCode = zipCodeController.text.trim();
-
-    if (name.isEmpty || zipCode.isEmpty) {
-      return false;
-    }
-
-    // Perform additional validation if required
-
-    return true;
   }
 }
 
