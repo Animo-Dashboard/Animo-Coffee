@@ -23,7 +23,7 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
   void addNewDevice() {
     DeviceItem newDevice = DeviceItem(
       name: "Optibean Machine",
-      model: 'Optibean Touch 2',
+      model: 'Optibean Model',
     );
 
     setState(() {
@@ -89,9 +89,7 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
                       color: Colors.black12,
                     ),
                     child: ListTile(
-                      leading: Image(
-                        image: getDeviceImage('${deviceItem.model}'),
-                      ),
+                      leading: getModelImage("touch2"),
                       title: Text(
                         '${deviceItem.name}',
                         style: const TextStyle(
@@ -131,14 +129,6 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
       ),
     );
   }
-
-  getDeviceImage(String s) {
-    switch (s) {
-      case "Optibean Touch 2":
-        return const AssetImage("images/touch2.png");
-      default:
-    }
-  }
 }
 
 class DeviceItem {
@@ -147,4 +137,8 @@ class DeviceItem {
   bool installed;
 
   DeviceItem({required this.name, required this.model, this.installed = false});
+
+  set lastTimeAccess(String lastTimeAccess) {}
+
+  set installationDate(String installationDate) {}
 }

@@ -1,3 +1,5 @@
+import 'package:animo/pages/MaintenanceSelection_page.dart';
+import 'package:animo/pages/machineSpecs_page.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
@@ -12,24 +14,10 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   String pageTitle = "Admin";
 
-  List<String> moreMenuOptions = ['Add new error', 'Settings', 'Log out'];
-  void handleClick(String value) {
-    switch (value) {
-      case 'Add new error':
-        break;
-      case 'Settings':
-        // Handle 'Settings' action
-        break;
-      case 'Log out':
-        logOut(context);
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick),
+      appBar: getAppBar(context, pageTitle),
       body: Container(
           constraints: BoxConstraints(
               minHeight: MediaQuery.of(context).size.height,
@@ -49,18 +37,28 @@ class _AdminPageState extends State<AdminPage> {
                 height: 20,
               ),
               ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'LOREM IPSUM',
-                  )),
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/machineSpecs',
+                  );
+                },
+                child: Text('Go to Machine Page'),
+              ),
               SizedBox(
                 height: 20,
               ),
               ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'LOREM IPSUM',
-                  )),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MaintenanceSelectionPage(),
+                    ),
+                  );
+                },
+                child: Text('Go to Maintenance Selection'),
+              ),
             ],
           )),
     );

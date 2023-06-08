@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
-import 'package:animo/circularDiagram.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/rendering.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -14,8 +16,8 @@ class _DashboardPageState extends State<DashboardPage> {
   String pageTitle = "Dashboard";
   String selectedOption = "Select info to display";
   List<DropdownMenuItem<String>> dropdownItems = <String>[
-    'Option 1',
-    'Option 2',
+    'Current errors',
+    'Distribution of drinks',
     'Option 3',
     'Option 4',
   ].map<DropdownMenuItem<String>>((String value) {
@@ -25,25 +27,12 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }).toList();
 
-  List<String> moreMenuOptions = ['Add new error', 'Settings', 'Log out'];
-
-  void handleClick(String value) {
-    switch (value) {
-      case 'Add new error':
-        break;
-      case 'Settings':
-        // Handle 'Settings' action
-        break;
-      case 'Log out':
-        logOut(context);
-        break;
-    }
-  }
+  TextStyle pieChartTextStyle = const TextStyle(fontWeight: FontWeight.w500);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick),
+      appBar: getAppBar(context, pageTitle),
       body: Container(
         constraints: BoxConstraints(
           minHeight: MediaQuery.of(context).size.height,
@@ -53,45 +42,94 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(height: 20.0),
             DropdownButton<String>(
               value: selectedOption == 'Select info to display'
                   ? null
                   : selectedOption, // Set the value to null if it's the sentinel value
-              hint: Text("Select info to display"),
+              hint: const Text("Select info to display"),
               onChanged: (value) {
                 setState(() {
-                  selectedOption =
-                      value!; // Update the selected option when a new option is chosen
+                  selectedOption = value!;
                 });
               },
               items: dropdownItems,
             ),
-            const SizedBox(height: 20.0),
-            if (selectedOption == 'Option 1') ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildPercentageCircle(75.0, Colors.blue),
-                  _buildPercentageCircle(50.0, Colors.green),
-                  _buildPercentageCircle(90.0, Colors.orange),
-                  _buildPercentageCircle(25.0, Colors.red),
-                ],
+            Container(
+              height: MediaQuery.of(context).size.height - 200,
+              child: FutureBuilder(
+                future: getDevices(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return getGraph(selectedOption, snapshot.data);
+                  } else {
+                    return const Text("Nothing to display");
+                  }
+                },
               ),
-            ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPercentageCircle(double percentage, Color color) {
-    return Container(
-      width: 100.0,
-      height: 100.0,
-      child: CircularDiagram(
-        percentage: percentage,
-        foregroundColor: color,
-      ),
-    );
+  Widget getGraph(String option, devices) {
+    switch (option) {
+      case "Distribution of drinks":
+        double coffee = 0;
+        double tea = 0;
+        double hotChocolate = 0;
+        for (var device in devices) {
+          var deviceData = device.data();
+          coffee += deviceData['CoffeeBrewed'];
+          tea += deviceData['TeaBrewed'];
+          hotChocolate += deviceData['HotChocolateBrewed'];
+        }
+        List<PieChartSectionData> chartData = [
+          PieChartSectionData(
+            color: Colors.blue,
+            value: coffee,
+            title: 'Coffee ${coffee.ceil()}',
+            titleStyle: pieChartTextStyle,
+            radius: 80,
+          ),
+          PieChartSectionData(
+            color: Colors.green,
+            value: tea,
+            title: 'Tea ${tea.ceil()}',
+            titleStyle: pieChartTextStyle,
+            radius: 80,
+          ),
+          PieChartSectionData(
+            color: Colors.orange,
+            value: hotChocolate,
+            title: 'Hot Chocolate ${hotChocolate.ceil()}',
+            titleStyle: pieChartTextStyle,
+            radius: 80,
+          ),
+        ];
+        return PieChart(
+          PieChartData(
+            sections: chartData,
+            sectionsSpace: 0,
+            centerSpaceRadius: 40,
+            startDegreeOffset: -90,
+            borderData: FlBorderData(show: false),
+          ),
+        );
+
+      default:
+        return const Text("");
+    }
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>?>
+      getDevices() async {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> devices = [];
+    await FirebaseFirestore.instance.collection("Machines").get().then((value) {
+      devices = value.docs;
+    });
+    return devices;
   }
 }

@@ -20,6 +20,7 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
   int currentPageIndex = 0;
   String pageTitle = "Registration Guide";
 
+//Creates a list of pages that will be displayed based on a template. A picture is possible but not required
   List<Widget> installationPages = [
     const InstallationStep(
       stepText:
@@ -32,39 +33,36 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
       stepNumber: 2,
     ),
     const InstallationStep(
-      imagePath: 'images/step3_image.png',
+      imagePath: 'images/regStep1_image.png',
       stepText:
-          'To Level the Machine, make sure to turn the feet. An example is provided.',
+          'At the main screen of the touchscreen, tap and hold on the main message (A).\nThen tap to select the Operator menu.\nInsert the login code: A.E: 11111\nIf you do not have a login code, please contact your dealer',
       stepNumber: 3,
     ),
     const InstallationStep(
-      imagePath: 'images/step4_image.png',
       stepText:
-          'Next, connect the device (A) to a tap (B) with the air valve. After this, open the tap and check for any leakage.',
+          'These are all the steps neccesary to register into the machine itself. The following steps are optional.',
       stepNumber: 4,
     ),
     const InstallationStep(
-      imagePath: 'images/step5_image.png',
       stepText:
-          'OPTIONAL: If necessary, connect the machine (A) with the hose (B) to the filter machine (C), then connect the filter system with the hose (D) to a tap.',
+          'To upload media files, please follow these steps. Note that to do so a SD card or USB stick will be required.\n1: Access the sound and vision menu. Refer to the previous step.\n2: Natvigate to the <Advertising Screen> or the <Logo on Cup screen>.\n3: Select the desired media format\n4: Connect the SD card or the USB stick to the port.\n5: Tap the button of the type of storage device.\n6: Select the type and confirm the choice\n7: Finally, tap the confirmation button.',
       stepNumber: 5,
     ),
     const InstallationStep(
-      imagePath: 'images/step6_image.png',
+      imagePath: 'images/regStep2_image.png',
       stepText:
-          'Please locate the power cord, and when found, connect it with the machine.',
+          'To configure an image as the screensaver, please follow these steps.\n1: Upload the media file. Refer to the previous step.\n2: Tap on the <image> button.\n3: Tap on the <Choose Image> button\n4: Select the image file.\n5: When the file is loaded, tap the confirmation button.',
       stepNumber: 6,
     ),
     const InstallationStep(
-      imagePath: 'images/step7_image.png',
+      imagePath: 'images/regStep3_image.png',
       stepText:
-          'Open the drip tray discharge (A) with a drill (Ø 6 mm). Then, connect a waste hose to the drip tray.',
+          'To configure your own logo onto the cup buttons, please follow these steps.\n1: Upload the media file. Refer to step 5.\n2: Tap on the <Show logo on the cup> button\n3: Tap on the <Choose the logo> button.\n4: Select the logo file, and confirm your choice.\n5: Tap <X> to close the menu.',
       stepNumber: 7,
     ),
     const InstallationStep(
-      imagePath: 'images/step8_image.png',
       stepText:
-          'Open the machine door by placing the key inside the lock and turning it. After which place the stickers as shown (A & B)',
+          'Thank you for following the registration guide.\nYou can now safely leave the guide and enjoy your coffee!.',
       stepNumber: 8,
     ),
   ];
@@ -102,8 +100,6 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                       }
                     : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[300],
-                  foregroundColor: Colors.black,
                   textStyle: const TextStyle(fontWeight: FontWeight.bold),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -118,21 +114,29 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
                           currentPageIndex++;
                         });
                       }
-                    : null,
+                    : () {
+                        Navigator.pop(context);
+                      },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
                   textStyle: const TextStyle(fontWeight: FontWeight.bold),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 ),
-                child: const Text('Next'),
+                child: getNextButtonText(),
               ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  getNextButtonText() {
+    if (currentPageIndex == installationPages.length - 1) {
+      return Text("Finish");
+    } else {
+      return Text("Next");
+    }
   }
 }
 
@@ -163,28 +167,22 @@ class InstallationStep extends StatelessWidget {
             ),
           ],
           SizedBox(height: 20),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 1),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Step $stepNumber:',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    stepText,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: Colors.black26),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Step $stepNumber:',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  stepText,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
           ),
         ],

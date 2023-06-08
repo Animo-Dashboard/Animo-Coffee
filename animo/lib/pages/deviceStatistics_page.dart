@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:intl/intl.dart';
 
 class DeviceStatisticsPage extends StatefulWidget {
   const DeviceStatisticsPage({super.key});
@@ -15,9 +16,11 @@ class DeviceStatisticsPage extends StatefulWidget {
 class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
   final _formKey = GlobalKey<FormState>();
   FirebaseFirestore _db = FirebaseFirestore.instance;
+
   String pageTitle = "Page";
-  Device device = Device('name', 'model', "serialNumber", "", Timestamp.now(),
-      Timestamp.now(), 0, 0, 0, 0, 0, 0);
+
+  Device device =
+      Device('name', 'model', "serialNumber", "", "", "", 0, 0, 0, 0, 0, 0);
   EdgeInsets headerPadding =
       const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16);
   EdgeInsets nonHeaderPadding =
@@ -28,6 +31,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     try {
+      DateFormat format = DateFormat("dd/MM/yyyy");
       var data = arguments["device"];
       pageTitle = data["Name"];
       device = Device(
@@ -35,14 +39,14 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
         data["Model"] as String? ?? "Default Model",
         data["SerialNumber"] as String? ?? "Default Serial Number",
         data["Error"] as String? ?? "",
-        data["InstallationDate"] as Timestamp? ?? Timestamp.now(),
-        data["LastTimeAccess"] as Timestamp? ?? Timestamp.now(),
+        data["InstallationDate"] as String? ?? format.format(DateTime.now()),
+        data["LastTimeAccess"] as String? ?? format.format(DateTime.now()),
         data["CoffeeBrewed"] as int? ?? 0,
         data["TeaBrewed"] as int? ?? 0,
         data["HotChocolateBrewed"] as int? ?? 0,
-        data["Beans"] as int? ?? 0,
-        data["Milk"] as int? ?? 0,
-        data["Chocolate"] as int? ?? 0,
+        data["BeansPerc"] as int? ?? 0,
+        data["MilkPerc"] as int? ?? 0,
+        data["ChocolatePerc"] as int? ?? 0,
       );
     } catch (e) {
       print("whoopsie device couldn't be gotten :'3");
@@ -74,15 +78,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
                                 ),
                                 child: SizedBox(
                                     height: 170,
-                                    child: Image.asset(
-                                      "images/${device.model}.png",
-                                      errorBuilder: (BuildContext context,
-                                          Object exception,
-                                          StackTrace? stackTrace) {
-                                        return Image.asset(
-                                            "images/touch2.png"); // Fallback image
-                                      },
-                                    )),
+                                    child: getModelImage(device.model)),
                               ),
                               Expanded(
                                 child: Column(
@@ -120,18 +116,12 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
                                       height: 6,
                                     ),
                                     const Text("Installation date"),
-                                    Text(DateTime.fromMillisecondsSinceEpoch(
-                                            device.installationDate
-                                                .millisecondsSinceEpoch)
-                                        .toString()),
+                                    Text(device.installationDate),
                                     const SizedBox(
                                       height: 6,
                                     ),
                                     const Text("Last accessed"),
-                                    Text(DateTime.fromMillisecondsSinceEpoch(
-                                            device.lastAccessDate
-                                                .millisecondsSinceEpoch)
-                                        .toString()),
+                                    Text(device.lastAccessDate),
                                     TextButton(
                                         onPressed: () {
                                           //TODO: delete device
@@ -258,7 +248,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
                           ))
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Column(
@@ -350,10 +340,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
             ],
           )),
         ),
-        appBar: getAppBar(
-          context,
-          pageTitle,
-        ));
+        appBar: getAppBar(context, pageTitle));
   }
 }
 
@@ -362,8 +349,8 @@ class Device {
   final String model;
   final String serialNumber;
   final String error;
-  final Timestamp installationDate;
-  final Timestamp lastAccessDate;
+  final String installationDate;
+  final String lastAccessDate;
   final int coffeeBrewed;
   final int teaBrewed;
   final int hotChocolateBrewed;
