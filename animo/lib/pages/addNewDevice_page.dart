@@ -23,7 +23,7 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
   void addNewDevice() {
     DeviceItem newDevice = DeviceItem(
       name: "Optibean Machine",
-      model: 'Optibean Touch 2',
+      model: 'Optibean Model',
     );
 
     setState(() {

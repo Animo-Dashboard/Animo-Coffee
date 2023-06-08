@@ -63,7 +63,7 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
     const InstallationStep(
       stepText:
           'Thank you for following the registration guide.\nYou can now safely leave the guide and enjoy your coffee!.',
-      stepNumber: 7,
+      stepNumber: 8,
     ),
   ];
 
