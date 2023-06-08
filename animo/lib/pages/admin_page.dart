@@ -1,4 +1,5 @@
 import 'package:animo/pages/MaintenanceSelection_page.dart';
+import 'package:animo/pages/machineSpecs_page.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
@@ -36,10 +37,14 @@ class _AdminPageState extends State<AdminPage> {
                 height: 20,
               ),
               ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'LOREM IPSUM',
-                  )),
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/machineSpecs',
+                  );
+                },
+                child: Text('Go to Machine Page'),
+              ),
               SizedBox(
                 height: 20,
               ),

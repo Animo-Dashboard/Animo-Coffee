@@ -18,8 +18,9 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
   String pageTitle = "Page";
-  Device device =
-      Device('name', 'model', "serialNumber", "", "", "", 0, 0, 0, 0, 0, 0);
+
+  Device device = Device('name', 'model', "serialNumber", "", Timestamp.now(),
+      Timestamp.now(), 0, 0, 0, 0, 0, 0);
   EdgeInsets headerPadding =
       const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16);
   EdgeInsets nonHeaderPadding =
@@ -77,15 +78,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
                                 ),
                                 child: SizedBox(
                                     height: 170,
-                                    child: Image.asset(
-                                      "images/${device.model}.png",
-                                      errorBuilder: (BuildContext context,
-                                          Object exception,
-                                          StackTrace? stackTrace) {
-                                        return Image.asset(
-                                            "images/touch2.png"); // Fallback image
-                                      },
-                                    )),
+                                    child: getModelImage(device.model)),
                               ),
                               Expanded(
                                 child: Column(
@@ -347,10 +340,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
             ],
           )),
         ),
-        appBar: getAppBar(
-          context,
-          pageTitle,
-        ));
+        appBar: getAppBar(context, pageTitle));
   }
 }
 

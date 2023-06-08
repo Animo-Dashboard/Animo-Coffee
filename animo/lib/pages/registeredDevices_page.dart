@@ -96,9 +96,9 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Image(
-                                image: AssetImage("images/$model.png"),
-                                height: 170,
+                              Container(
+                                constraints: BoxConstraints(maxHeight: 160),
+                                child: getModelImage(model),
                               ),
                               const SizedBox(
                                 height: 10,

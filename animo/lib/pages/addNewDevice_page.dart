@@ -89,9 +89,7 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
                       color: Colors.black12,
                     ),
                     child: ListTile(
-                      leading: Image(
-                        image: getDeviceImage('${deviceItem.model}'),
-                      ),
+                      leading: getModelImage("touch2"),
                       title: Text(
                         '${deviceItem.name}',
                         style: const TextStyle(
@@ -130,14 +128,6 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
         ),
       ),
     );
-  }
-
-  getDeviceImage(String s) {
-    switch (s) {
-      case "Optibean Touch 2":
-        return const AssetImage("images/touch2.png");
-      default:
-    }
   }
 }
 

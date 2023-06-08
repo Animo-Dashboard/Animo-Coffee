@@ -91,3 +91,27 @@ AppBar getAppBar(BuildContext context, String pageTitle,
     );
   }
 }
+
+Image getModelImage(String modelName) {
+  List<String> modelImageNames = ["touch2", "touch3", "touch4"];
+  if (modelImageNames.contains(modelName)) {
+    return Image.asset('images/$modelName.png');
+  } else {
+    String imageName = modelName;
+    switch (modelName) {
+      case "OptiBean 2 Touch":
+        imageName = "touch2";
+        break;
+      case "OptiBean 3 Touch":
+        imageName = "touch3";
+        break;
+      case "OptiBean 4 Touch":
+        imageName = "touch4";
+        break;
+      default:
+        imageName = "touch2";
+        break;
+    }
+    return Image.asset('images/$imageName.png');
+  }
+}
