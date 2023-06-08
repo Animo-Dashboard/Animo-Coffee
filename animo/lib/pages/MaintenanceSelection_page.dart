@@ -9,15 +9,14 @@ import 'package:animo/pages/Mainenance%20Pages/cleaningTheDripTray_page.dart';
 import 'package:animo/pages/Mainenance%20Pages/cleaningTouchScreen_page.dart';
 import 'package:animo/pages/Mainenance%20Pages/emptyingWasteBins_page.dart';
 import 'package:animo/pages/Mainenance%20Pages/usingTheRinsingProgram_page.dart';
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class MaintenanceSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Maintenance Selection'),
-      ),
+      appBar: getAppBar(context, "Maintenance"),
       body: Padding(
         padding: const EdgeInsets.only(top: 16.0),
         child: SingleChildScrollView(
@@ -25,7 +24,13 @@ class MaintenanceSelectionPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('What maintenance would you like to perform?'),
+                const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'What maintenance would you like to perform?',
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
                 // rinsing program
                 ElevatedButton(
                   onPressed: () {

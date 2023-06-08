@@ -19,6 +19,15 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
 
   String pageTitle = "Page";
 
+  List<String> moreMenuOptions = ['Maintenance'];
+  void handleClick(String value) {
+    switch (value) {
+      case 'Maintenance':
+        Navigator.pushNamed(context, '/maintenance');
+        break;
+    }
+  }
+
   Device device =
       Device('name', 'model', "serialNumber", "", "", "", 0, 0, 0, 0, 0, 0);
   EdgeInsets headerPadding =
@@ -340,7 +349,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
             ],
           )),
         ),
-        appBar: getAppBar(context, pageTitle));
+        appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick));
   }
 }
 

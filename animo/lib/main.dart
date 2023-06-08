@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:animo/pages/MaintenanceSelection_page.dart';
 import 'package:animo/pages/addNewDevice_page.dart';
 import 'package:animo/pages/admin_page.dart';
 import 'package:animo/pages/dashboard_page.dart';
@@ -41,8 +42,8 @@ class MyApp extends StatelessWidget {
           style: ButtonStyle(
             textStyle: MaterialStateProperty.all(
                 TextStyle(fontSize: 28, fontWeight: FontWeight.w300)),
-            padding: MaterialStateProperty.all(const EdgeInsets.only(
-                top: 17, bottom: 17, left: 80, right: 80)),
+            padding: MaterialStateProperty.all(const EdgeInsets.all(16)),
+            fixedSize: MaterialStateProperty.all(Size.fromWidth(350)),
             shape: MaterialStateProperty.all(
               const RoundedRectangleBorder(
                 borderRadius: BorderRadius.zero,
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardPage(),
         '/deviceStatistics': (context) => const DeviceStatisticsPage(),
         '/machineSpecs': (context) => MachineSpecsPage(),
+        '/maintenance': (context) => MaintenanceSelectionPage()
       },
     );
   }
@@ -84,14 +86,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
