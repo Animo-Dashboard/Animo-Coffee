@@ -41,7 +41,10 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacementNamed(
             context,
             '/registeredDevices',
-            arguments: {"role": userData!["role"] ?? "user"},
+            arguments: {
+              "role": userData!["role"] ?? "user",
+              "email": userData["email"]
+            },
           );
         });
       } on FirebaseAuthException catch (e) {

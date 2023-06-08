@@ -36,9 +36,13 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
     }
   }
 
-  Future<void> getMachines() async {
+  Future<void> getMachines(String email) async {
     devices.clear();
-    await _db.collection("Machines").get().then((event) {
+    await _db
+        .collection("Machines")
+        .where("User", isEqualTo: email)
+        .get()
+        .then((event) {
       setState(() {
         devices = event.docs;
       });
@@ -54,17 +58,18 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
       moreMenuOptions = ['Add new device', 'Admin', 'Settings', 'Log out'];
     }
     if (devices.isEmpty) {
-      getMachines();
+      getMachines(arguments["email"]);
     }
 
+    _db
+        .collection("Machines")
+        .where("User", isEqualTo: arguments["email"])
+        .snapshots()
+        .listen((event) {
+      devices.addAll(event.docs);
+    });
+
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await getMachines();
-          },
-          backgroundColor: CustomColors.blue,
-          child: const Icon(Icons.plus_one),
-        ),
         body: Container(
             decoration: getAppBackground(),
             child: GridView.builder(
@@ -73,7 +78,10 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
               itemBuilder: (context, index) {
                 final device = devices[index].data() as Map<String, dynamic>;
                 final model = device["Model"];
-                final name = device["Name"];
+                var name = device["Name"] as String;
+                if (name.length >= 15) {
+                  name = "${name.substring(0, 12)}...";
+                }
                 final error = device["Error"] ?? "";
                 return GridTile(
                     child: GestureDetector(
