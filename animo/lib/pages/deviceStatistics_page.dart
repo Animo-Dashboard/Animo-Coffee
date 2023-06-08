@@ -19,8 +19,8 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
 
   String pageTitle = "Page";
 
-  Device device = Device('name', 'model', "serialNumber", "", Timestamp.now(),
-      Timestamp.now(), 0, 0, 0, 0, 0, 0);
+  Device device = Device('name', 'model', "serialNumber", "",
+      Timestamp.now() as String, Timestamp.now() as String, 0, 0, 0, 0, 0, 0);
   EdgeInsets headerPadding =
       const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16);
   EdgeInsets nonHeaderPadding =
