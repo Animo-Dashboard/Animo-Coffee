@@ -89,8 +89,8 @@ class _ContactPageState extends State<ContactPage> {
               ),
               const SizedBox(height: 8.0),
               const Text('Phone: +31 (0)592 - 376376'),
-              const Text('Email:  info@animo.nl '),
-              const Text('Dr. A.F. Philipsweg 47'),
+              const Text('Email: info@animo.nl '),
+              const Text('Address: Dr. A.F. Philipsweg 47'),
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
@@ -99,7 +99,6 @@ class _ContactPageState extends State<ContactPage> {
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   shape: const RoundedRectangleBorder(),
