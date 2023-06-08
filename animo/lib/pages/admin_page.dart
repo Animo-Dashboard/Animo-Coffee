@@ -43,21 +43,19 @@ class _AdminPageState extends State<AdminPage> {
                     '/machineSpecs',
                   );
                 },
-                child: Text('Go to Machine Page'),
+                child: Text('MACHINE PAGE'),
               ),
               SizedBox(
                 height: 20,
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => MaintenanceSelectionPage(),
-                    ),
+                    "/maintenance",
                   );
                 },
-                child: Text('Go to Maintenance Selection'),
+                child: Text('MAINTENANCE'),
               ),
             ],
           )),

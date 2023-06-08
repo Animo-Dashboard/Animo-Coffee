@@ -118,8 +118,8 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
                   backgroundColor: Colors.grey[300],
                   foregroundColor: Colors.black,
                   textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  fixedSize: Size.fromWidth(150),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                 ),
                 child: const Text('Previous'),
               ),
@@ -140,8 +140,8 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                   textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  fixedSize: Size.fromWidth(150),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                 ),
                 child: const Text('Next'),
               ),
@@ -167,7 +167,7 @@ class InstallationStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SingleChildScrollView(
       child: Column(
         children: [
           if (imagePath != null) ...[
