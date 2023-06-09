@@ -19,18 +19,18 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
       appBar: AppBar(
         title: Text('Machine Errors'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'New Errors',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                'New Errors',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
+            StreamBuilder<QuerySnapshot>(
               stream: machinesCollection.snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -56,6 +56,8 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                     .toList();
 
                 return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: machinesWithNewErrors.length,
                   itemBuilder: (context, index) {
                     final machine = machinesWithNewErrors[index];
@@ -89,16 +91,14 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                 );
               },
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Text(
-              'Current Errors',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                'Current Errors',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
+            StreamBuilder<QuerySnapshot>(
               stream: machinesCollection.snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -124,12 +124,14 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                     .toList();
 
                 return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: machinesWithCurrentErrors.length,
                   itemBuilder: (context, index) {
                     final machine = machinesWithCurrentErrors[index];
-                    final currentErrors = (machine.data()
-                            as Map<String, dynamic>)['CurrentError'] ??
-                        [];
+                    final currentErrors =
+                        (machine.data() as Map<String, dynamic>)['CurrentError']
+                            as List<dynamic>;
 
                     return ListTile(
                       title: Text(
@@ -139,7 +141,7 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: List.generate(
                           currentErrors.length,
-                          (index) => Text(currentErrors[index]),
+                          (index) => Text(currentErrors[index].toString()),
                         ),
                       ),
                       trailing: ElevatedButton(
@@ -163,8 +165,8 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                 );
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
