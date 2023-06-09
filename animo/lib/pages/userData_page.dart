@@ -1,4 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../inAppFunctions.dart';
@@ -34,19 +34,14 @@ class _UserDataPageState extends State<UserDataPage> {
       String zipCode = _zipCodeController.text;
       String machineName = _machineNameController.text;
       String? model = _selectedModel;
-      String email =
-          _emailController.text; // Assuming you have an email input field
+      String email = _emailController.text;
 
       String installationDate = DateTime.now().toString().split(' ')[0];
       String lastTimeAccess = DateTime.now().toString().split(' ')[0];
 
       try {
-        // Save the machine data to the Firebase Realtime Database
-        await FirebaseDatabase.instance
-            .reference()
-            .child('Machines')
-            .push()
-            .set({
+        // Save the machine data to Firestore
+        await FirebaseFirestore.instance.collection('Machines').add({
           'BeansPerc': '',
           'ChocolatePerc': '',
           'CoffeeBrewed': '',
@@ -60,15 +55,15 @@ class _UserDataPageState extends State<UserDataPage> {
           'User': email,
           'ZipCode': zipCode,
         });
-
-        // Redirect to the next page
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const AddNewDevicePage()),
-        );
       } catch (error) {
         print('Error submitting user data: $error');
       }
+
+      // Redirect to the next page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AddNewDevicePage()),
+      );
     }
   }
 
