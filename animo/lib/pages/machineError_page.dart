@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import 'deviceStatistics_page.dart';
+import 'notificationService.dart';
 
 class MachineErrorPage extends StatefulWidget {
   @override
@@ -15,15 +17,17 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final notificationService =
+        Provider.of<NotificationService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Machine Errors'),
+        title: const Text('Machine Errors'),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10),
               child: Text(
                 'New Errors',
@@ -40,7 +44,7 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -55,9 +59,19 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                         false)
                     .toList();
 
+                if (machinesWithNewErrors.isEmpty) {
+                  return const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'No new errors found.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  );
+                }
+
                 return ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: machinesWithNewErrors.length,
                   itemBuilder: (context, index) {
                     final machine = machinesWithNewErrors[index];
@@ -75,7 +89,8 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DeviceStatisticsPage(),
+                              builder: (context) =>
+                                  const DeviceStatisticsPage(),
                               settings: RouteSettings(
                                 arguments: {
                                   'device': machine.data(),
@@ -84,14 +99,14 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                             ),
                           );
                         },
-                        child: Text('Go to Machine'),
+                        child: const Text('Go to Machine'),
                       ),
                     );
                   },
                 );
               },
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(10),
               child: Text(
                 'Current Errors',
@@ -108,7 +123,7 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -123,9 +138,19 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                         false)
                     .toList();
 
+                if (machinesWithCurrentErrors.isEmpty) {
+                  return const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'No current errors found.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  );
+                }
+
                 return ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: machinesWithCurrentErrors.length,
                   itemBuilder: (context, index) {
                     final machine = machinesWithCurrentErrors[index];
@@ -149,7 +174,8 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DeviceStatisticsPage(),
+                              builder: (context) =>
+                                  const DeviceStatisticsPage(),
                               settings: RouteSettings(
                                 arguments: {
                                   'device': machine.data(),
@@ -158,7 +184,7 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                             ),
                           );
                         },
-                        child: Text('Go to Machine'),
+                        child: const Text('Go to Machine'),
                       ),
                     );
                   },
