@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -22,41 +21,27 @@ class _UserDataPageState extends State<UserDataPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _zipCodeController = TextEditingController();
   final TextEditingController _machineNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   String? _selectedModel;
-  String? currentUserEmail;
   List<String> modelList = [
     'Optibean 2 Touch',
     'Optibean 3 Touch',
     'Optibean 4 Touch'
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    getCurrentUser();
-  }
-
-  void getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      setState(() {
-        currentUserEmail = user.email;
-      });
-    }
-  }
-
   void _submitUserData() async {
     if (_formKey.currentState!.validate()) {
       String zipCode = _zipCodeController.text;
       String machineName = _machineNameController.text;
-      String? model =
-          _selectedModel; // Replace _selectedModel with the selected value from the dropdown list
-      String currentUser = currentUserEmail ?? '';
+      String? model = _selectedModel;
+      String email =
+          _emailController.text; // Assuming you have an email input field
 
       String installationDate = DateTime.now().toString().split(' ')[0];
       String lastTimeAccess = DateTime.now().toString().split(' ')[0];
 
       try {
+        // Save the machine data to the Firebase Realtime Database
         await FirebaseDatabase.instance
             .reference()
             .child('Machines')
@@ -72,16 +57,14 @@ class _UserDataPageState extends State<UserDataPage> {
           'Model': model,
           'Name': machineName,
           'Status': 'Ready for use',
-          'TeaBrewed': '',
-          'User': currentUser,
+          'User': email,
           'ZipCode': zipCode,
         });
 
+        // Redirect to the next page
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const AddNewDevicePage(),
-          ),
+          MaterialPageRoute(builder: (context) => const AddNewDevicePage()),
         );
       } catch (error) {
         print('Error submitting user data: $error');
@@ -115,6 +98,16 @@ class _UserDataPageState extends State<UserDataPage> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a machine name';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _emailController,
+                decoration: const InputDecoration(labelText: 'Email'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an email';
                   }
                   return null;
                 },
