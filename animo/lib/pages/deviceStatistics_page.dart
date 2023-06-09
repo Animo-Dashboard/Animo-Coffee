@@ -15,6 +15,7 @@ class DeviceStatisticsPage extends StatefulWidget {
 
 class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
   final _formKey = GlobalKey<FormState>();
+
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
   String pageTitle = "Page";
@@ -29,7 +30,8 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
   @override
   Widget build(BuildContext context) {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+        <String, dynamic>{}) as Map<String, dynamic>;
+    var data = arguments['device'];
     try {
       DateFormat format = DateFormat("dd/MM/yyyy");
       var data = arguments["device"];
