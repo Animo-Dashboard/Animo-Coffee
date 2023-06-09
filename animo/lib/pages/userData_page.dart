@@ -54,16 +54,12 @@ class _UserDataPageState extends State<UserDataPage> {
           'Status': 'Ready for use',
           'User': email,
           'ZipCode': zipCode,
+          'TeaBrewed': '',
         });
       } catch (error) {
         print('Error submitting user data: $error');
       }
-
-      // Redirect to the next page
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AddNewDevicePage()),
-      );
+      Navigator.popUntil(context, ModalRoute.withName('/addNewDevice'));
     }
   }
 
