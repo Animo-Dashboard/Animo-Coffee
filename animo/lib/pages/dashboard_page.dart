@@ -18,8 +18,6 @@ class _DashboardPageState extends State<DashboardPage> {
   List<DropdownMenuItem<String>> dropdownItems = <String>[
     'Current errors',
     'Distribution of drinks',
-    'Option 3',
-    'Option 4',
   ].map<DropdownMenuItem<String>>((String value) {
     return DropdownMenuItem<String>(
       value: value,
@@ -39,43 +37,121 @@ class _DashboardPageState extends State<DashboardPage> {
           minWidth: MediaQuery.of(context).size.width,
         ),
         decoration: getAppBackground(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20.0),
-            DropdownButton<String>(
-              value: selectedOption == 'Select info to display'
-                  ? null
-                  : selectedOption, // Set the value to null if it's the sentinel value
-              hint: const Text("Select info to display"),
-              onChanged: (value) {
-                setState(() {
-                  selectedOption = value!;
-                });
-              },
-              items: dropdownItems,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height - 200,
-              child: FutureBuilder(
-                future: getDevices(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return getGraph(selectedOption, snapshot.data);
-                  } else {
-                    return const Text("Nothing to display");
-                  }
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20.0),
+              DropdownButton<String>(
+                value: selectedOption == 'Select info to display'
+                    ? null
+                    : selectedOption, // Set the value to null if it's the sentinel value
+                hint: const Text("Select info to display"),
+                onChanged: (value) {
+                  setState(() {
+                    selectedOption = value!;
+                  });
                 },
+                items: dropdownItems,
               ),
-            ),
-          ],
+              Container(
+                height: MediaQuery.of(context).size.height - 200,
+                child: FutureBuilder(
+                  future: getDevices(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return getGraph(selectedOption, snapshot.data!);
+                    } else {
+                      return const Text("Nothing to display");
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget getGraph(String option, devices) {
+  Widget getGraph(String option,
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> devices) {
     switch (option) {
+      case "Current errors":
+        Map<String, int> errorCounts = {};
+        for (var device in devices) {
+          var deviceData = device.data();
+          String error = deviceData['Error'] ?? "";
+          if (error.isNotEmpty) {
+            if (errorCounts.containsKey(error)) {
+              errorCounts[error] = errorCounts[error]! + 1;
+            } else {
+              errorCounts[error] = 1;
+            }
+          }
+        }
+
+        BarChartGroupData makeGroupData(
+          int x,
+          int y, {
+          Color? barColor,
+          double width = 10,
+          List<int> showTooltips = const [],
+        }) {
+          barColor = Colors.black;
+          return BarChartGroupData(
+            x: x,
+            barRods: [
+              BarChartRodData(
+                toY: y.toDouble(),
+                borderRadius: BorderRadius.all(Radius.zero),
+                color: barColor,
+                width: width,
+                borderSide: const BorderSide(color: Colors.white, width: 0),
+                backDrawRodData: BackgroundBarChartRodData(
+                  show: true,
+                ),
+              ),
+            ],
+            showingTooltipIndicators: showTooltips,
+          );
+        }
+
+        List<BarChartGroupData> chartData =
+            List.generate(errorCounts.length, (index) {
+          return makeGroupData(index, errorCounts.values.elementAt(index));
+        });
+
+        return BarChart(
+          BarChartData(
+              maxY: errorCounts.values
+                      .toList()
+                      .reduce(
+                          (value, element) => value > element ? value : element)
+                      .toDouble() *
+                  1.1,
+              alignment: BarChartAlignment.spaceEvenly,
+              barTouchData: BarTouchData(enabled: false),
+              titlesData: FlTitlesData(
+                  rightTitles:
+                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles:
+                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                    showTitles: true,
+                    getTitlesWidget: (value, meta) {
+                      const style =
+                          TextStyle(fontSize: 10, fontWeight: FontWeight.w500);
+                      String text = errorCounts.keys.elementAt(value.toInt());
+                      return SideTitleWidget(
+                        axisSide: meta.axisSide,
+                        child: Text(text, style: style),
+                      );
+                    },
+                  ))),
+              barGroups: chartData),
+        );
       case "Distribution of drinks":
         double coffee = 0;
         double tea = 0;

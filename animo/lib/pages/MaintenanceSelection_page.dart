@@ -53,6 +53,7 @@ class _MaintenanceSelectionPageState extends State<MaintenanceSelectionPage> {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(10),
