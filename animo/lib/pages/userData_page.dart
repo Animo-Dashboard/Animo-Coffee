@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../inAppFunctions.dart';
@@ -38,9 +39,9 @@ class _UserDataPageState extends State<UserDataPage> {
 
       String installationDate = DateTime.now().toString().split(' ')[0];
       String lastTimeAccess = DateTime.now().toString().split(' ')[0];
+      String adminEmail = FirebaseAuth.instance.currentUser!.email!;
 
       try {
-        // Save the machine data to Firestore
         await FirebaseFirestore.instance.collection('Machines').add({
           'BeansPerc': '',
           'ChocolatePerc': '',
@@ -55,6 +56,7 @@ class _UserDataPageState extends State<UserDataPage> {
           'User': email,
           'ZipCode': zipCode,
           'TeaBrewed': '',
+          'AdminEmail': adminEmail,
         });
       } catch (error) {
         print('Error submitting user data: $error');
@@ -75,7 +77,15 @@ class _UserDataPageState extends State<UserDataPage> {
             children: [
               TextFormField(
                 controller: _zipCodeController,
-                decoration: const InputDecoration(labelText: 'Zip Code'),
+                decoration: InputDecoration(
+                  labelText: 'Zip Code',
+                  hintText: 'Enter your zip code',
+                  helperText: 'We use this to check water pH levels',
+                  helperStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a zip code';
@@ -85,7 +95,15 @@ class _UserDataPageState extends State<UserDataPage> {
               ),
               TextFormField(
                 controller: _machineNameController,
-                decoration: const InputDecoration(labelText: 'Machine Name'),
+                decoration: InputDecoration(
+                  labelText: 'Machine Name',
+                  hintText: 'Enter the name of the machine',
+                  helperText: 'Choose a unique name for your customers machine',
+                  helperStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a machine name';
@@ -95,7 +113,15 @@ class _UserDataPageState extends State<UserDataPage> {
               ),
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  hintText: 'Enter your customers email',
+                  helperText: 'We need your customer email for identification',
+                  helperStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an email';
@@ -116,7 +142,15 @@ class _UserDataPageState extends State<UserDataPage> {
                     child: Text(model),
                   );
                 }).toList(),
-                decoration: const InputDecoration(labelText: 'Select Model'),
+                decoration: InputDecoration(
+                  labelText: 'Select Model',
+                  hintText: 'Choose the model of the machine',
+                  helperText: 'Select the appropriate model from the list',
+                  helperStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please select a model';
