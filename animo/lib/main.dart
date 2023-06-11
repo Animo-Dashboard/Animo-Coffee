@@ -39,10 +39,12 @@ class MyApp extends StatelessWidget {
         hintColor: Colors.black,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
+            alignment: AlignmentDirectional.center,
             textStyle: MaterialStateProperty.all(
                 TextStyle(fontSize: 28, fontWeight: FontWeight.w300)),
             padding: MaterialStateProperty.all(const EdgeInsets.only(
-                top: 17, bottom: 17, left: 80, right: 80)),
+                top: 16, bottom: 16, left: 20, right: 20)),
+            maximumSize: MaterialStateProperty.all(Size.fromWidth(350)),
             shape: MaterialStateProperty.all(
               const RoundedRectangleBorder(
                 borderRadius: BorderRadius.zero,

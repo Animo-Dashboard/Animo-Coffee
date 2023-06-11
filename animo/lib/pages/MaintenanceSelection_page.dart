@@ -24,6 +24,7 @@ class MaintenanceSelectionPage extends StatelessWidget {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('What maintenance would you like to perform?'),
                 // rinsing program
