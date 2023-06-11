@@ -11,12 +11,42 @@ import 'package:animo/pages/Mainenance%20Pages/emptyingWasteBins_page.dart';
 import 'package:animo/pages/Mainenance%20Pages/usingTheRinsingProgram_page.dart';
 import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
+import 'package:animo/pages/contact_page.dart';
 
-class MaintenanceSelectionPage extends StatelessWidget {
+class MaintenanceSelectionPage extends StatefulWidget {
+  const MaintenanceSelectionPage({super.key});
+
+  @override
+  _MaintenanceSelectionPageState createState() =>
+      _MaintenanceSelectionPageState();
+}
+
+class _MaintenanceSelectionPageState extends State<MaintenanceSelectionPage> {
+  final List<String> moreMenuOptions = ['Contact', 'Settings', 'Log out'];
+
+  void handleClick(String value) {
+    switch (value) {
+      case 'Contact':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ContactPage(),
+          ),
+        );
+        break;
+      case 'Settings':
+        // Handle settings option
+        break;
+      case 'Log out':
+        // Handle log out option
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, "Maintenance"),
+      appBar: getAppBar(context, "Maintenance", moreMenuOptions, handleClick),
       body: Padding(
         padding: const EdgeInsets.only(top: 16.0),
         child: SingleChildScrollView(
