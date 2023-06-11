@@ -43,19 +43,19 @@ class _UserDataPageState extends State<UserDataPage> {
 
       try {
         await FirebaseFirestore.instance.collection('Machines').add({
-          'BeansPerc': '',
-          'ChocolatePerc': '',
-          'CoffeeBrewed': '',
-          'HotChocolateBrewed': '',
+          'BeansPerc': 0,
+          'ChocolatePerc': 0,
+          'CoffeeBrewed': 0,
+          'HotChocolateBrewed': 0,
           'InstallationDate': installationDate,
           'LastTimeAccess': lastTimeAccess,
-          'MilkPerc': '',
+          'MilkPerc': 0,
           'Model': model,
           'Name': machineName,
           'Status': 'Ready for use',
           'User': email,
           'ZipCode': zipCode,
-          'TeaBrewed': '',
+          'TeaBrewed': 0,
           'AdminEmail': adminEmail,
         });
       } catch (error) {
