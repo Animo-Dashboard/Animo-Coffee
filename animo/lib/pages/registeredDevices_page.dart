@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'DeviceInstallationPage .dart';
 import 'addNewDevice_page.dart';
+import 'machineError_page.dart';
 
 class RegisteredDevicesPage extends StatefulWidget {
   const RegisteredDevicesPage({super.key});
@@ -20,7 +21,12 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
   List<DocumentSnapshot> devices = [];
   String pageTitle = "Your devices";
 
-  List<String> moreMenuOptions = ['Add new device', 'Settings', 'Log out'];
+  List<String> moreMenuOptions = [
+    'Add new device',
+    'Settings',
+    'Log out',
+    'All errors'
+  ];
   void handleClick(String value) {
     switch (value) {
       case 'Add new device':
@@ -33,6 +39,15 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
         break;
       case 'Admin':
         Navigator.pushNamed(context, '/admin');
+        break;
+      case 'All errors':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MachineErrorPage(),
+          ),
+        );
+        break;
     }
   }
 
@@ -55,7 +70,13 @@ class _RegisteredDevicesPage extends State<RegisteredDevicesPage> {
         <String, dynamic>{}) as Map;
 
     if (arguments["role"].toString().toLowerCase() == "admin") {
-      moreMenuOptions = ['Add new device', 'Admin', 'Settings', 'Log out'];
+      moreMenuOptions = [
+        'Add new device',
+        'Admin',
+        'Settings',
+        'Log out',
+        'All errors'
+      ];
     }
     if (devices.isEmpty) {
       getMachines(arguments["email"]);
