@@ -17,8 +17,6 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final notificationService =
-        Provider.of<NotificationService>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Machine Errors'),

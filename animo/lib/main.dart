@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'inAppFunctions.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -24,8 +23,6 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   final notificationService = NotificationService();
-  await notificationService.initialize();
-  notificationService.configure();
   runApp(const MyApp());
 }
 
