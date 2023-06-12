@@ -138,20 +138,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   const SizedBox(height: 16.0),
                                   ElevatedButton(
                                     onPressed: _submitForm,
-                                    style: ButtonStyle(
-                                      textStyle:
-                                          MaterialStateProperty.all(TextStyle(
-                                        fontSize: 24,
-                                      )),
-                                      padding: MaterialStateProperty.all(
-                                          const EdgeInsets.only(
-                                              top: 17,
-                                              bottom: 17,
-                                              left: 10,
-                                              right: 10)),
-                                    ),
-                                    child:
-                                        const Text('Send Reset Password Link'),
+                                    child: const Text('SEND LINK'),
                                   ),
                                 ]),
                           ],

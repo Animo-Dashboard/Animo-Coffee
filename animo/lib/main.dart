@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:animo/pages/MaintenanceSelection_page.dart';
 import 'package:animo/pages/addNewDevice_page.dart';
 import 'package:animo/pages/admin_page.dart';
 import 'package:animo/pages/dashboard_page.dart';
@@ -7,6 +8,7 @@ import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/forgotPasword_page.dart';
 import 'package:animo/pages/login_page.dart';
 import 'package:animo/pages/machineSpecs_page.dart';
+import 'package:animo/pages/notificationService.dart';
 import 'package:animo/pages/registerDevice_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
@@ -14,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'inAppFunctions.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -22,6 +23,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final notificationService = NotificationService();
   runApp(const MyApp());
 }
 
@@ -39,10 +41,12 @@ class MyApp extends StatelessWidget {
         hintColor: Colors.black,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
+            alignment: AlignmentDirectional.center,
             textStyle: MaterialStateProperty.all(
                 TextStyle(fontSize: 28, fontWeight: FontWeight.w300)),
             padding: MaterialStateProperty.all(const EdgeInsets.only(
-                top: 17, bottom: 17, left: 80, right: 80)),
+                top: 16, bottom: 16, left: 20, right: 20)),
+            maximumSize: MaterialStateProperty.all(Size.fromWidth(350)),
             shape: MaterialStateProperty.all(
               const RoundedRectangleBorder(
                 borderRadius: BorderRadius.zero,
@@ -69,6 +73,7 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardPage(),
         '/deviceStatistics': (context) => const DeviceStatisticsPage(),
         '/machineSpecs': (context) => MachineSpecsPage(),
+        '/maintenance': (context) => MaintenanceSelectionPage()
       },
     );
   }
@@ -84,14 +89,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   void initState() {
     super.initState();

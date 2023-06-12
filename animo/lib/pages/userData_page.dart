@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../inAppFunctions.dart';
@@ -22,70 +22,46 @@ class _UserDataPageState extends State<UserDataPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _zipCodeController = TextEditingController();
   final TextEditingController _machineNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   String? _selectedModel;
-  String? currentUserEmail;
   List<String> modelList = [
     'Optibean 2 Touch',
     'Optibean 3 Touch',
     'Optibean 4 Touch'
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    getCurrentUser();
-  }
-
-  void getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      setState(() {
-        currentUserEmail = user.email;
-      });
-    }
-  }
-
   void _submitUserData() async {
     if (_formKey.currentState!.validate()) {
       String zipCode = _zipCodeController.text;
       String machineName = _machineNameController.text;
-      String? model =
-          _selectedModel; // Replace _selectedModel with the selected value from the dropdown list
-      String currentUser = currentUserEmail ?? '';
+      String? model = _selectedModel;
+      String email = _emailController.text;
 
       String installationDate = DateTime.now().toString().split(' ')[0];
       String lastTimeAccess = DateTime.now().toString().split(' ')[0];
+      String adminEmail = FirebaseAuth.instance.currentUser!.email!;
 
       try {
-        await FirebaseDatabase.instance
-            .reference()
-            .child('Machines')
-            .push()
-            .set({
-          'BeansPerc': '',
-          'ChocolatePerc': '',
-          'CoffeeBrewed': '',
-          'HotChocolateBrewed': '',
+        await FirebaseFirestore.instance.collection('Machines').add({
+          'BeansPerc': 0,
+          'ChocolatePerc': 0,
+          'CoffeeBrewed': 0,
+          'HotChocolateBrewed': 0,
           'InstallationDate': installationDate,
           'LastTimeAccess': lastTimeAccess,
-          'MilkPerc': '',
+          'MilkPerc': 0,
           'Model': model,
           'Name': machineName,
           'Status': 'Ready for use',
-          'TeaBrewed': '',
-          'User': currentUser,
+          'User': email,
           'ZipCode': zipCode,
+          'TeaBrewed': 0,
+          'AdminEmail': adminEmail,
         });
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const AddNewDevicePage(),
-          ),
-        );
       } catch (error) {
         print('Error submitting user data: $error');
       }
+      Navigator.popUntil(context, ModalRoute.withName('/addNewDevice'));
     }
   }
 
@@ -101,7 +77,15 @@ class _UserDataPageState extends State<UserDataPage> {
             children: [
               TextFormField(
                 controller: _zipCodeController,
-                decoration: const InputDecoration(labelText: 'Zip Code'),
+                decoration: InputDecoration(
+                  labelText: 'Zip Code',
+                  hintText: 'Enter your zip code',
+                  helperText: 'We use this to check water pH levels',
+                  helperStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a zip code';
@@ -111,10 +95,36 @@ class _UserDataPageState extends State<UserDataPage> {
               ),
               TextFormField(
                 controller: _machineNameController,
-                decoration: const InputDecoration(labelText: 'Machine Name'),
+                decoration: InputDecoration(
+                  labelText: 'Machine Name',
+                  hintText: 'Enter the name of the machine',
+                  helperText: 'Choose a unique name for your customers machine',
+                  helperStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a machine name';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  hintText: 'Enter your customers email',
+                  helperText: 'We need your customer email for identification',
+                  helperStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an email';
                   }
                   return null;
                 },
@@ -132,7 +142,15 @@ class _UserDataPageState extends State<UserDataPage> {
                     child: Text(model),
                   );
                 }).toList(),
-                decoration: const InputDecoration(labelText: 'Select Model'),
+                decoration: InputDecoration(
+                  labelText: 'Select Model',
+                  hintText: 'Choose the model of the machine',
+                  helperText: 'Select the appropriate model from the list',
+                  helperStyle: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please select a model';

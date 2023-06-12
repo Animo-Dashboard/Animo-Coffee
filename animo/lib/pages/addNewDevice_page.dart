@@ -76,7 +76,7 @@ class _AddNewDevicePageState extends State<AddNewDevicePage> {
             final deviceItem = deviceItems[index];
             return GestureDetector(
                 onTap: () {
-                  if (installationCompleted == false) {
+                  if (deviceItem.installed == false) {
                     viewInstallationGuide(deviceItem);
                   } else {
                     viewRegistrationGuide(deviceItem);

@@ -29,7 +29,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Form is valid, do registration logic here
       try {
         // Create a new user with the entered email and password
         UserCredential userCredential =
