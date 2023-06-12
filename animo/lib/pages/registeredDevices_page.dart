@@ -19,7 +19,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   List<DocumentSnapshot> devices = [];
   String pageTitle = "Your devices";
-  List<String> moreMenuOptions = ['Settings', 'Log out'];
+  List<String> moreMenuOptions = ['Settings', 'Log out', 'All errors'];
 
   void handleClick(String value) {
     switch (value) {
@@ -33,6 +33,14 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
         break;
       case 'Admin':
         Navigator.pushNamed(context, '/admin');
+        break;
+      case 'All errors':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MachineErrorPage(),
+          ),
+        );
         break;
     }
   }
@@ -59,9 +67,15 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
     final role = arguments["role"].toString().toLowerCase();
 
     if (role == "admin") {
-      moreMenuOptions = ['Add new device', 'Admin', 'Settings', 'Log out'];
+      moreMenuOptions = [
+        'Add new device',
+        'Admin',
+        'Settings',
+        'All errors',
+        'Log out'
+      ];
     } else if (role == "dealer") {
-      moreMenuOptions = ['Add new device', 'Settings', 'Log out'];
+      moreMenuOptions = ['Add new device', 'Settings', 'All errors', 'Log out'];
     }
 
     if (devices.isEmpty) {
