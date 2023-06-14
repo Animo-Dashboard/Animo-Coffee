@@ -80,15 +80,15 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
 
     if (devices.isEmpty) {
       getMachines(arguments["email"]);
-    }
 
-    _db
-        .collection("Machines")
-        .where("User", isEqualTo: arguments["email"])
-        .snapshots()
-        .listen((event) {
-      devices.addAll(event.docs);
-    });
+      _db
+          .collection("Machines")
+          .where("User", isEqualTo: arguments["email"])
+          .snapshots()
+          .listen((event) {
+        devices = event.docs;
+      });
+    }
 
     return Scaffold(
       body: Container(
@@ -100,7 +100,20 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
           ),
           itemBuilder: (context, index) {
             final device = devices[index].data() as Map<String, dynamic>;
-            final model = device["Model"];
+            var model = device["Model"];
+            switch (model) {
+              case "touch2":
+                model = "OptiBean 2 Touch";
+                break;
+              case "touch3":
+                model = "OptiBean 3 Touch";
+                break;
+              case "touch4":
+                model = "OptiBean 4 Touch";
+                break;
+              default:
+                break;
+            }
             var name = device["Name"] as String;
             if (name.length >= 15) {
               name = "${name.substring(0, 12)}...";
@@ -130,13 +143,14 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
                       Text(
                         name,
                         style: const TextStyle(
+                          fontSize: 22,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       Text(
                         model,
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.w300,
                         ),
                       ),

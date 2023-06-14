@@ -29,6 +29,50 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
     }
   }
 
+  Map<String, String> errorDescriptions = {
+    "E3":
+        "E3 Fill error: Boiler is filling up too slowly. Check the water pressure. Turn the water supply tap completely open. Check the connection tube for any kinks. Switch the machine off and on again.",
+    "E5":
+        "E5 Brewer error: Brewer error during start-up. Switch the machine off and on again. Contact the daeler of service engineer.",
+    "E6":
+        "E6 High temperature: Temperature sensor problem. Contact the dealer of service engineer",
+    "E7":
+        "E7 Brewer motor error: Brewer motor overload/stuck. Remove he brewer from the machine, clean and install the brewer correctly. Switch the machine off and on again. Use the brush to clean the brewer. Contact the dealer of service engineer.",
+    "E8":
+        "E8 Mixer 2 error: Mixer 2 overload/stuck. Remove the mixer from the machine, clean and install the mixer correctly. Switch the machine off and on again.",
+    "E10":
+        "E10 Valve error: Valve overload/stuck. Contact the dealer or service engineer.",
+    "E11":
+        "E11 Ingredient motor error: Ingredient motor overload/stuck. Clean the canisters. Switch the machine off and on again.",
+    "E13":
+        "E13 Mixer group error: Brewer and mixed group overload. Clean the mixer rotor. Switch the machine off and on again.",
+    "E14":
+        "E14 Output error: Outlet group of the ingredient motor overload. Clean the canisters. Switch the machine off and on again.",
+    "E17":
+        "E17 MDB error: There is no communication betewen the machine and MDB payment system. Switch the machine off and on again. Contact the dealer or service engineer.",
+    "E18":
+        "E18 Mixer group FET error: Brewer or mixer motor still active. Contact the dealer or service engineer.",
+    "E19":
+        "E19 Output FET error: Ingredient motor, valve or ventilation motor still active. Contact the dealer or service engineer.",
+    "E20":
+        "E20 Software error: Software error. Switch the machine off and on again. Contact the dealer or service engineer.",
+    "E21":
+        "E21 Boiler timeout: Boiler is not heating. Contact the dealer or service engineer.",
+    "E22":
+        "E22 Brew timeout: Brewer process too long. Switch the machine off and on again. Clean or rinse the machine. Contact the dealer or service engineer.",
+    "E23":
+        "E23 Inletvalve error: Inlet valve is leaking. Close the water tap. Contact the dealer or service engineer.",
+    "E24":
+        "E24 Brewer error: Brewer error during coffee making. Switch the machine off and on again. Contact the dealer or service engineer.",
+    "E25":
+        "E25 Flowmeter error: No water pressure, water tank is empty (if applicable). Check water pressure. Open the water supply. Check the water hose. Switch the machine off and on again.",
+    "E26":
+        "E26 Low temperature: Temperature sensor problem. Contact the dealer or service engineer.",
+    "E27":
+        "E27 NTC short circuit: Temperature sensor problem. Contact the dealer or service engineer.",
+    "E28":
+        "E28 NTC not detected: Temperature sensor problem. Contact the dealer or service engineer.",
+  };
   Device device =
       Device('name', 'model', "serialNumber", "", "", "", 0, 0, 0, 0, 0, 0);
   EdgeInsets headerPadding =
@@ -44,10 +88,24 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
     try {
       DateFormat format = DateFormat("dd/MM/yyyy");
       var data = arguments["device"];
+      var model = data["Model"];
+      switch (model) {
+        case "touch2":
+          model = "OptiBean 2 Touch";
+          break;
+        case "touch3":
+          model = "OptiBean 3 Touch";
+          break;
+        case "touch4":
+          model = "OptiBean 4 Touch";
+          break;
+        default:
+          break;
+      }
       pageTitle = data["Name"];
       device = Device(
         data["Name"] as String? ?? "Default Name",
-        data["Model"] as String? ?? "Default Model",
+        model as String? ?? "Default Model",
         data["SerialNumber"] as String? ?? "Default Serial Number",
         data["Error"] as String? ?? "",
         data["InstallationDate"] as String? ?? format.format(DateTime.now()),
@@ -153,7 +211,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
                             ],
                           ),
                           Text(
-                            device.error,
+                            errorDescriptions[device.error] ?? "",
                             style: TextStyle(
                                 fontSize: 18,
                                 color: CustomColors.red,

@@ -9,7 +9,7 @@ BoxDecoration getAppBackground() {
       fit: BoxFit.cover,
       alignment: Alignment.bottomCenter,
       colorFilter: ColorFilter.mode(
-        Colors.white.withOpacity(0.5),
+        Colors.white.withOpacity(0.3),
         BlendMode.dstATop,
       ),
     ),
@@ -19,7 +19,7 @@ BoxDecoration getAppBackground() {
 BoxDecoration getBackgroundIfError(String error) {
   if (error.isNotEmpty) {
     return BoxDecoration(
-      color: CustomColors.red.withAlpha(50),
+      color: CustomColors.red.withAlpha(80),
       border: Border.all(
         color: CustomColors.red,
         width: 2.0,

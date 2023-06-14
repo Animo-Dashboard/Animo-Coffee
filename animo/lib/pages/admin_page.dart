@@ -83,9 +83,9 @@ class _AdminPageState extends State<AdminPage> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/maintenance');
+                    Navigator.pushNamed(context, '/api');
                   },
-                  child: Text('MAINTENANCE'),
+                  child: Text('ZIP SEARCH'),
                 ),
               ],
             ),
