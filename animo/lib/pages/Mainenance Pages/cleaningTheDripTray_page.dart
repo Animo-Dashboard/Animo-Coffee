@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class CleaningTheDripTrayPage extends StatefulWidget {
@@ -37,9 +38,7 @@ class _CleaningTheDripTrayPageState extends State<CleaningTheDripTrayPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-      ),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(

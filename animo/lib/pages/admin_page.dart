@@ -36,7 +36,7 @@ class _AdminPageState extends State<AdminPage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             appBar: getAppBar(context, pageTitle),
-            body: Center(child: CircularProgressIndicator()),
+            body: const Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -46,7 +46,7 @@ class _AdminPageState extends State<AdminPage> {
           if (userRole != "admin") {
             return Scaffold(
               appBar: getAppBar(context, pageTitle),
-              body: Center(
+              body: const Center(
                 child: Text(
                   "Access Denied",
                   style: TextStyle(fontSize: 20),
@@ -71,21 +71,21 @@ class _AdminPageState extends State<AdminPage> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/dashboard');
                   },
-                  child: Text('DASHBOARD'),
+                  child: const Text('DASHBOARD'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/machineSpecs');
                   },
-                  child: Text('MACHINE PAGE'),
+                  child: const Text('MACHINE PAGE'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/api');
                   },
-                  child: Text('ZIP SEARCH'),
+                  child: const Text('ZIP SEARCH'),
                 ),
               ],
             ),

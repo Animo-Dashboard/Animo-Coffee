@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class CleaningTouchScreenPage extends StatefulWidget {
@@ -29,9 +30,7 @@ class _CleaningTouchScreenPageState extends State<CleaningTouchScreenPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-      ),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(

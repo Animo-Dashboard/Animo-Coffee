@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class CleaningInstantCanisterPage extends StatefulWidget {
@@ -63,9 +64,7 @@ class _CleaningInstantCanisterPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-      ),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(
