@@ -8,7 +8,6 @@ import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/forgotPasword_page.dart';
 import 'package:animo/pages/login_page.dart';
 import 'package:animo/pages/machineSpecs_page.dart';
-import 'package:animo/pages/notificationService.dart';
 import 'package:animo/pages/registerDevice_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:animo/pages/registration_page.dart';
@@ -23,7 +22,6 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final notificationService = NotificationService();
   runApp(const MyApp());
 }
 

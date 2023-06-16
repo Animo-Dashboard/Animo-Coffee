@@ -24,7 +24,7 @@ void main() {
           .thenReturn(mockCollectionReference);
       when(mockCollectionReference.get())
           // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
-          .thenAnswer((MockCollectionReference) async => MockQuerySnapshot([]));
+          .thenAnswer((_) async => MockQuerySnapshot([]));
 
       await tester.pumpWidget(
         const MaterialApp(
