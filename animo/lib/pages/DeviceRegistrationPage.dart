@@ -137,7 +137,7 @@ class _DeviceRegistrationPageState extends State<DeviceRegistrationPage> {
 
   getNextButtonText() {
     if (currentPageIndex == installationPages.length - 1) {
-      return Text("Finish");
+      return const Text("Finish");
     } else {
       return Text("Next");
     }

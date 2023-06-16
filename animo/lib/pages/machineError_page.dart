@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'deviceStatistics_page.dart';
-import 'notificationService.dart';
 
 class MachineErrorPage extends StatefulWidget {
   @override

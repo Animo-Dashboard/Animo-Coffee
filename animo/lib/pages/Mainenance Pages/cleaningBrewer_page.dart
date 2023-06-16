@@ -14,23 +14,23 @@ class _CleaningBrewerPageState extends State<CleaningBrewerPage> {
   List<Widget> maintenanceSteps = [
     const MainenanceStep(
       stepText: "Open the machine door.",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
     const MainenanceStep(
       stepText: "Switch off the machine.",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
     const MainenanceStep(
       stepText: "Remove and clean the hood (A)",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
     const MainenanceStep(
       stepText: "Clean the surface of the brewer with the brush.",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
     const MainenanceStep(
       stepText: "Replace the hood (A).",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
   ];
 

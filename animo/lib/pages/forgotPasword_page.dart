@@ -6,7 +6,9 @@ import 'package:email_validator/email_validator.dart';
 import 'login_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+  final FirebaseAuth? auth;
+
+  const ForgotPasswordPage({Key? key, this.auth}) : super(key: key);
 
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();

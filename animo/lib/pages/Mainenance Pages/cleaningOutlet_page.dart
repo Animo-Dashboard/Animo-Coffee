@@ -48,11 +48,11 @@ class _CleaningOutletPageState extends State<CleaningOutletPage> {
     ),
     const MainenanceStep(
       stepText: "Clean the parts.",
-      imagePath: 'images/cleaning the outlet 4.PNG.PNG',
+      imagePath: 'images/cleaning the outlet 4.PNG',
     ),
     const MainenanceStep(
       stepText: "Replace the outlet hoses.",
-      imagePath: 'images/cleaning the outlet 4.PNG.PNG',
+      imagePath: 'images/cleaning the outlet 4.PNG',
     ),
   ];
 

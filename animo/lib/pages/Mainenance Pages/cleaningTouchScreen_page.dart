@@ -19,11 +19,11 @@ class _CleaningTouchScreenPageState extends State<CleaningTouchScreenPage> {
     ),
     const MainenanceStep(
       stepText: "Tap 'Clean the touchscreen'",
-      imagePath: 'images/using the rinsing program.png',
+      imagePath: 'images/using the rinsing program.PNG',
     ),
     const MainenanceStep(
       stepText: "Follow the instructions on the touchscreen",
-      imagePath: 'images/using the rinsing program.png',
+      imagePath: 'images/using the rinsing program.PNG',
     ),
   ];
 
