@@ -47,7 +47,7 @@ dependencies:
   provider: ^6.0.5
   firebase_messaging: ^14.6.2
   mockito: ^5.4.0
-  
+    
 
 
 

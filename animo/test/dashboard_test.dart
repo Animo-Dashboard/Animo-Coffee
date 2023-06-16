@@ -96,6 +96,7 @@ void main() {
   });
 }
 
+// ignore: must_be_immutable
 class MockCollectionReference extends Mock
     implements CollectionReference<Map<String, dynamic>> {}
 
@@ -110,6 +111,7 @@ class MockQuerySnapshot extends Mock
       data.map((d) => MockQueryDocumentSnapshot(d)).toList();
 }
 
+// ignore: subtype_of_sealed_class
 class MockQueryDocumentSnapshot extends Mock
     implements QueryDocumentSnapshot<Map<String, dynamic>> {
   final Map<String, dynamic> documentData;

@@ -71,7 +71,7 @@ class _ContactPageState extends State<ContactPage> {
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/background_image.jpg"),
+              image: AssetImage("images/background.jpeg"),
               fit: BoxFit.cover,
             ),
           ),
