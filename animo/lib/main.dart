@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:animo/pages/MaintenanceSelection_page.dart';
 import 'package:animo/pages/addNewDevice_page.dart';
 import 'package:animo/pages/admin_page.dart';
+import 'package:animo/pages/calciumLevels_page.dart';
 import 'package:animo/pages/dashboard_page.dart';
 import 'package:animo/pages/deviceStatistics_page.dart';
 import 'package:animo/pages/errorHandling_page.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
                 TextStyle(fontSize: 28, fontWeight: FontWeight.w300)),
             padding: MaterialStateProperty.all(const EdgeInsets.only(
                 top: 16, bottom: 16, left: 20, right: 20)),
-            maximumSize: MaterialStateProperty.all(Size.fromWidth(350)),
+            maximumSize: MaterialStateProperty.all(Size.fromWidth(300)),
             shape: MaterialStateProperty.all(
               const RoundedRectangleBorder(
                 borderRadius: BorderRadius.zero,
@@ -71,7 +72,8 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardPage(),
         '/deviceStatistics': (context) => const DeviceStatisticsPage(),
         '/machineSpecs': (context) => MachineSpecsPage(),
-        '/maintenance': (context) => MaintenanceSelectionPage()
+        '/maintenance': (context) => MaintenanceSelectionPage(),
+        '/api': (context) => ZipCodeSearchPage()
       },
     );
   }
