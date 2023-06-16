@@ -1,7 +1,7 @@
 import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+//import 'package:flutter_blue/flutter_blue.dart';
 
 class RegisterDevicePage extends StatefulWidget {
   const RegisterDevicePage({super.key});
@@ -38,10 +38,10 @@ class _RegisterDevicePage extends State<RegisterDevicePage> {
   @override
   void initState() {
     super.initState();
-    retrieveBluetoothAddressAndName();
+    // retrieveBluetoothAddressAndName();
   }
 
-  Future<void> retrieveBluetoothAddressAndName() async {
+  /**  Future<void> retrieveBluetoothAddressAndName() async {
     FlutterBlue flutterBlue = FlutterBlue.instance;
     await flutterBlue.startScan(timeout: Duration(seconds: 4));
     flutterBlue.scanResults.listen((results) {
@@ -62,6 +62,8 @@ class _RegisterDevicePage extends State<RegisterDevicePage> {
       }
     });
   }
+
+  */
 
   @override
   Widget build(BuildContext context) {

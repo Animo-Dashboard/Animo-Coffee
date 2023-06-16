@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 import 'package:intl/intl.dart';
 
 class DeviceStatisticsPage extends StatefulWidget {
