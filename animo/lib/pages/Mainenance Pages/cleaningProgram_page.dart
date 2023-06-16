@@ -17,11 +17,11 @@ class _CleaningProgramPageState extends State<CleaningProgramPage> {
     ),
     const MainenanceStep(
       stepText: "Tap 'Clean'.",
-      imagePath: 'images/using the rinsing program.png',
+      imagePath: 'images/using the rinsing program.PNG',
     ),
     const MainenanceStep(
       stepText: "Follow the instructions on the touchscreen",
-      imagePath: 'images/using the rinsing program.png',
+      imagePath: 'images/using the rinsing program.PNG',
     ),
     const MainenanceStep(
       stepText: "Put the cleaning product (B) in the brewer.",
@@ -29,15 +29,15 @@ class _CleaningProgramPageState extends State<CleaningProgramPage> {
     ),
     const MainenanceStep(
       stepText: "Close the door of the machine.",
-      imagePath: 'images/using the cleaning program.png',
+      imagePath: 'images/using the cleaning program.PNG',
     ),
     const MainenanceStep(
       stepText: "Place a bowl (min. 1.5 l) under the outlet.",
-      imagePath: 'images/using the cleaning program.png',
+      imagePath: 'images/using the cleaning program.PNG',
     ),
     const MainenanceStep(
       stepText: "Continue to follow the instructions on the touchscreen.",
-      imagePath: 'images/using the cleaning program.png',
+      imagePath: 'images/using the cleaning program.PNG',
     ),
   ];
 

@@ -15,7 +15,7 @@ class _CleaningExteriorAndInteriorPageState
   List<Widget> maintenanceSteps = [
     const MaintenanceStep(
       stepText: "Clean the exterior and interior with a damp cloth.",
-      imagePath: "images/using the cleaning program.png",
+      imagePath: "images/using the cleaning program.PNG",
     ),
   ];
 
