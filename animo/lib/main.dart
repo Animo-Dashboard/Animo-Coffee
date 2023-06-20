@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Front-End Demo',
+      title: 'Animo Application',
       theme: ThemeData(
         primarySwatch: turnIntoMaterialColor(CustomColors.blue),
         fontFamily: "FuturaStd",
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
                 TextStyle(fontSize: 28, fontWeight: FontWeight.w300)),
             padding: MaterialStateProperty.all(const EdgeInsets.only(
                 top: 16, bottom: 16, left: 20, right: 20)),
-            maximumSize: MaterialStateProperty.all(Size.fromWidth(300)),
+            maximumSize: MaterialStateProperty.all(const Size.fromWidth(300)),
             shape: MaterialStateProperty.all(
               const RoundedRectangleBorder(
                 borderRadius: BorderRadius.zero,
