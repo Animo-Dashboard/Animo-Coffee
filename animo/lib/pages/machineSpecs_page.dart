@@ -124,7 +124,8 @@ class _MachineSpecsPageState extends State<MachineSpecsPage> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: DropdownButtonFormField<String>(
-                  decoration: InputDecoration(contentPadding: EdgeInsets.zero),
+                  decoration:
+                      const InputDecoration(contentPadding: EdgeInsets.zero),
                   menuMaxHeight: 400,
                   isExpanded: true,
                   value: selectedModel,
