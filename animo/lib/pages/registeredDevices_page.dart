@@ -17,6 +17,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
   List<DocumentSnapshot> devices = [];
   String pageTitle = "Your devices";
   String user = "";
+  String role = "";
   List<String> moreMenuOptions = ['Settings', 'Log out', 'All errors'];
 
   void handleClick(String value) {
@@ -33,6 +34,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
       case 'All errors':
         Navigator.pushNamed(context, '/machineErrors', arguments: {
           "User": user,
+          "Role": role,
         });
         break;
     }
@@ -57,7 +59,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
         (ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?) ??
             {};
 
-    final role = arguments["role"].toString().toLowerCase();
+    role = arguments["role"].toString().toLowerCase();
     user = arguments["email"].toString().toLowerCase();
 
     if (role == "admin") {

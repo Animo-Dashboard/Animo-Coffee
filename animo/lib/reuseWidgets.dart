@@ -118,7 +118,10 @@ Image getModelImage(String modelName) {
 }
 
 StreamBuilder<QuerySnapshot> getErrorStreamBuilder(
-    CollectionReference machinesCollection, String errorType, String user) {
+    CollectionReference machinesCollection,
+    String errorType,
+    String user,
+    String role) {
   return StreamBuilder<QuerySnapshot>(
     stream: machinesCollection.snapshots(),
     builder: (context, snapshot) {
@@ -136,8 +139,14 @@ StreamBuilder<QuerySnapshot> getErrorStreamBuilder(
 
       final machines = snapshot.data?.docs ?? [];
 
-      final userMachines = machines.where((machine) =>
-          (machine.data() as Map<String, dynamic>)["User"] == user);
+      var userMachines;
+      if (role == "admin") {
+        userMachines = machines;
+      } else {
+        userMachines = machines.where((machine) =>
+            (machine.data() as Map<String, dynamic>)["User"] == user);
+      }
+
       // Filter machines with new errors
       final machinesWithNewErrors = userMachines
           .where((machine) =>

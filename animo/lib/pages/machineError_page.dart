@@ -19,6 +19,8 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
             {};
 
     final user = arguments["User"].toString().toLowerCase();
+    final role = arguments["Role"].toString().toLowerCase();
+
     return Scaffold(
       appBar: getAppBar(context, "Machine Errors"),
       body: Container(
@@ -38,7 +40,7 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                   ),
                 ),
               ),
-              getErrorStreamBuilder(machinesCollection, "Error", user),
+              getErrorStreamBuilder(machinesCollection, "Error", user, role),
               const Center(
                 child: Padding(
                   padding: EdgeInsets.all(16),
@@ -48,7 +50,8 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                   ),
                 ),
               ),
-              getErrorStreamBuilder(machinesCollection, "CurrentError", user),
+              getErrorStreamBuilder(
+                  machinesCollection, "CurrentError", user, role),
             ],
           ),
         ),
