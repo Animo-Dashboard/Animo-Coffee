@@ -118,7 +118,21 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
             if (name.length >= 15) {
               name = "${name.substring(0, 12)}...";
             }
-            final error = device["Error"] ?? "";
+            String newError = device["Error"] ?? "";
+            List<String> currentErrors = [];
+            List<dynamic> currentErrorFromDatabase =
+                device["CurrentError"] ?? [];
+            for (var error in currentErrorFromDatabase) {
+              currentErrors.add(error.toString());
+            }
+
+            List<String> errors = [];
+            if (currentErrors.isNotEmpty) {
+              errors.addAll(currentErrors);
+            }
+            if (newError != "") {
+              errors.add(newError);
+            }
 
             return GridTile(
               child: GestureDetector(
@@ -127,7 +141,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
                       arguments: {"device": device, "id": documentId});
                 },
                 child: Container(
-                  decoration: getBackgroundIfError(error),
+                  decoration: getBackgroundIfError(errors),
                   child: Column(
                     children: [
                       const SizedBox(

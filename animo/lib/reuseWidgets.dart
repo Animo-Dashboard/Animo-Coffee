@@ -17,8 +17,8 @@ BoxDecoration getAppBackground() {
   );
 }
 
-BoxDecoration getBackgroundIfError(String error) {
-  if (error.isNotEmpty) {
+BoxDecoration getBackgroundIfError(List<String> errors) {
+  if (errors.isNotEmpty) {
     return BoxDecoration(
       color: CustomColors.red.withAlpha(80),
       border: Border.all(

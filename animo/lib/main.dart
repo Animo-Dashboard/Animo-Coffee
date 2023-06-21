@@ -155,8 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8),
-                    child: const Text(
-                      "V16.05.23",
+                    child: Text(
+                      getVersion(),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
