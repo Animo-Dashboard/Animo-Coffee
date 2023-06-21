@@ -69,100 +69,104 @@ class _UserDataPageState extends State<UserDataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(context, 'User Data', [], null),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _zipCodeController,
-                decoration: InputDecoration(
-                  labelText: 'Zip Code',
-                  hintText: 'Enter your zip code',
-                  helperText: 'We use this to check water pH levels',
-                  helperStyle: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    color: Colors.grey,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _zipCodeController,
+                  decoration: InputDecoration(
+                    labelText: 'Zip Code',
+                    hintText: 'Enter your zip code',
+                    helperText: 'We use this to check water pH levels',
+                    helperStyle: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey,
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a zip code';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a zip code';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _machineNameController,
-                decoration: InputDecoration(
-                  labelText: 'Machine Name',
-                  hintText: 'Enter the name of the machine',
-                  helperText: 'Choose a unique name for your customers machine',
-                  helperStyle: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    color: Colors.grey,
+                TextFormField(
+                  controller: _machineNameController,
+                  decoration: InputDecoration(
+                    labelText: 'Machine Name',
+                    hintText: 'Enter the name of the machine',
+                    helperText:
+                        'Choose a unique name for your customers machine',
+                    helperStyle: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey,
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a machine name';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a machine name';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  hintText: 'Enter your customers email',
-                  helperText: 'We need your customer email for identification',
-                  helperStyle: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    color: Colors.grey,
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'Enter your customers email',
+                    helperText:
+                        'We need your customer email for identification',
+                    helperStyle: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey,
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an email';
-                  }
-                  return null;
-                },
-              ),
-              DropdownButtonFormField<String>(
-                value: _selectedModel,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedModel = newValue;
-                  });
-                },
-                items: modelList.map((model) {
-                  return DropdownMenuItem<String>(
-                    value: model,
-                    child: Text(model),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Select Model',
-                  hintText: 'Choose the model of the machine',
-                  helperText: 'Select the appropriate model from the list',
-                  helperStyle: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    color: Colors.grey,
+                DropdownButtonFormField<String>(
+                  value: _selectedModel,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedModel = newValue;
+                    });
+                  },
+                  items: modelList.map((model) {
+                    return DropdownMenuItem<String>(
+                      value: model,
+                      child: Text(model),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    labelText: 'Select Model',
+                    hintText: 'Choose the model of the machine',
+                    helperText: 'Select the appropriate model from the list',
+                    helperStyle: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey,
+                    ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select a model';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select a model';
-                  }
-                  return null;
-                },
-              ),
-              ElevatedButton(
-                onPressed: _submitUserData,
-                child: const Text('Submit'),
-              ),
-            ],
+                ElevatedButton(
+                  onPressed: _submitUserData,
+                  child: const Text('Submit'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -23,8 +23,6 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
 
   void handleClick(String value) {
     switch (value) {
-      case 'Settings':
-        break;
       case 'Log out':
         logOut(context);
         break;
@@ -67,15 +65,9 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
     final role = arguments["role"].toString().toLowerCase();
 
     if (role == "admin") {
-      moreMenuOptions = [
-        'Add new device',
-        'Admin',
-        'Settings',
-        'All errors',
-        'Log out'
-      ];
+      moreMenuOptions = ['Add new device', 'Admin', 'All errors', 'Log out'];
     } else if (role == "dealer") {
-      moreMenuOptions = ['Add new device', 'Settings', 'All errors', 'Log out'];
+      moreMenuOptions = ['Add new device', 'Log out'];
     }
 
     if (devices.isEmpty) {
@@ -91,6 +83,12 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
     }
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: CustomColors.blue,
+          child: Icon(Icons.refresh),
+          onPressed: () {
+            setState(() {});
+          }),
       body: Container(
         decoration: getAppBackground(),
         child: GridView.builder(
@@ -99,7 +97,8 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
             childAspectRatio: sqrt1_2,
           ),
           itemBuilder: (context, index) {
-            final device = devices[index].data() as Map<String, dynamic>;
+            var device = devices[index].data() as Map<String, dynamic>;
+            device["documentID"] = devices[index].id;
             var model = device["Model"];
             switch (model) {
               case "touch2":

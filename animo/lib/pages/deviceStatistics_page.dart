@@ -18,6 +18,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
   String pageTitle = "Page";
+  String documentID = "";
 
   List<String> moreMenuOptions = ['Maintenance'];
   void handleClick(String value) {
@@ -88,6 +89,7 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
       DateFormat format = DateFormat("dd/MM/yyyy");
       var data = arguments["device"];
       var model = data["Model"];
+      documentID = data["documentID"];
       switch (model) {
         case "touch2":
           model = "OptiBean 2 Touch";
@@ -117,7 +119,6 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
         data["ChocolatePerc"] as int? ?? 0,
       );
     } catch (e) {
-      print("whoopsie device couldn't be gotten :'3");
       print(e);
     }
 
@@ -192,7 +193,8 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
                                     Text(device.lastAccessDate),
                                     TextButton(
                                         onPressed: () {
-                                          //TODO: delete device
+                                          deleteDevice(documentID);
+                                          Navigator.pop(context);
                                         },
                                         style: const ButtonStyle(
                                             padding: MaterialStatePropertyAll(
@@ -410,6 +412,11 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
         ),
         appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick));
   }
+}
+
+Future<void> deleteDevice(String documentID) async {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  await _db.collection("Machines").doc(documentID).delete();
 }
 
 class Device {

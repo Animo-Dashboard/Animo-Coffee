@@ -1,3 +1,4 @@
+import 'package:animo/inAppFunctions.dart';
 import 'package:animo/pages/DeviceInstallationPage%20.dart';
 import 'package:animo/pages/forgotPasword_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
@@ -207,8 +208,8 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        "V16.05.23",
+                      child: Text(
+                        getVersion(),
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,

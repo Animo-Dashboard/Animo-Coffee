@@ -36,21 +36,22 @@ class _MachineSpecsPageState extends State<MachineSpecsPage> {
     for (QueryDocumentSnapshot doc in snapshot.docs) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
       String? model = data['Model'] as String?;
+      model = model?.toLowerCase();
       if (model != null && !models.contains(model)) {
         switch (model) {
           case "touch2":
-            if (!models.contains("OptiBean 2 Touch")) {
-              models.add("OptiBean 2 Touch");
+            if (!models.contains("optibean 2 touch")) {
+              models.add("optibean 2 touch");
             }
             break;
           case "touch3":
-            if (!models.contains("OptiBean 3 Touch")) {
-              models.add("OptiBean 3 Touch");
+            if (!models.contains("optibean 3 touch")) {
+              models.add("optibean 3 touch");
             }
             break;
           case "touch4":
-            if (!models.contains("OptiBean 4 Touch")) {
-              models.add("OptiBean 4 Touch");
+            if (!models.contains("optibean 4 touch")) {
+              models.add("optibean 4 touch");
             }
             break;
           default:

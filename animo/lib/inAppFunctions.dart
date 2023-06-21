@@ -33,6 +33,10 @@ void logOut(BuildContext context) {
   Navigator.pushReplacementNamed(context, '/login');
 }
 
+String getVersion() {
+  return "v21.06.23";
+}
+
 MaterialColor turnIntoMaterialColor(Color color) {
   final int red = color.red;
   final int green = color.green;

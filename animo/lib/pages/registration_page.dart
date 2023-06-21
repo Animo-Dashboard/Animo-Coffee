@@ -1,3 +1,4 @@
+import 'package:animo/inAppFunctions.dart';
 import 'package:animo/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -248,8 +249,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        "V16.05.23",
+                      child: Text(
+                        getVersion(),
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,

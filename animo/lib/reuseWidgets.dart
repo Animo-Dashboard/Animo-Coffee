@@ -1,6 +1,7 @@
 import 'package:animo/pages/errorHandling_page.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 BoxDecoration getAppBackground() {
   return BoxDecoration(
@@ -113,5 +114,118 @@ Image getModelImage(String modelName) {
         break;
     }
     return Image.asset('images/$imageName.png');
+  }
+}
+
+StreamBuilder<QuerySnapshot> getErrorStreamBuilder(
+    CollectionReference machinesCollection, String errorType) {
+  return StreamBuilder<QuerySnapshot>(
+    stream: machinesCollection.snapshots(),
+    builder: (context, snapshot) {
+      if (snapshot.hasError) {
+        return Center(
+          child: Text('Error: ${snapshot.error}'),
+        );
+      }
+
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+      final machines = snapshot.data?.docs ?? [];
+
+      // Filter machines with new errors
+      final machinesWithNewErrors = machines
+          .where((machine) =>
+              (machine.data() as Map<String, dynamic>?)
+                  ?.containsKey(errorType) ??
+              false)
+          .toList();
+
+      if (machinesWithNewErrors.isEmpty) {
+        return const Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            'No errors found.',
+            style: TextStyle(fontSize: 16),
+          ),
+        );
+      }
+
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: machinesWithNewErrors.length,
+        itemBuilder: (context, index) {
+          final machine = machinesWithNewErrors[index];
+
+          return ListTile(
+            title: Text(
+              (machine.data() as Map<String, dynamic>)['Name'] ?? '',
+            ),
+            subtitle: getSubtitleText(errorType, machine),
+            trailing: IconButton(
+              icon: Icon(
+                Icons.arrow_forward_ios_sharp,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                moveToCurrentErrors(machine.id, machinesCollection);
+                Navigator.pushNamed(context, '/deviceStatistics',
+                    arguments: {"device": machine.data()});
+              },
+            ),
+          );
+        },
+      );
+    },
+  );
+}
+
+getSubtitleText(String errorType, QueryDocumentSnapshot<Object?> machine) {
+  switch (errorType) {
+    case "Error":
+      return Text(
+        (machine.data() as Map<String, dynamic>)['Error'] ?? '',
+      );
+    case "CurrentError":
+      final currentErrors = (machine.data()
+          as Map<String, dynamic>)['CurrentError'] as List<dynamic>;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: List.generate(
+          currentErrors.length,
+          (index) => Text(currentErrors[index].toString()),
+        ),
+      );
+    default:
+      return Text("Whoops");
+  }
+}
+
+Future<void> moveToCurrentErrors(
+    String machineId, CollectionReference machinesCollection) async {
+  try {
+    // Get the document reference for the machine
+    final machineDoc = machinesCollection.doc(machineId);
+
+    // Fetch the current error value
+    final machineSnapshot = await machineDoc.get();
+    final machineData = machineSnapshot.data() as Map<String, dynamic>?;
+
+    if (machineData != null) {
+      final currentErrors = machineData['CurrentError'] ?? [];
+      final error = machineData['Error'];
+
+      // Update the document to move the machine to current errors list
+      await machineDoc.update({
+        'CurrentError': FieldValue.arrayUnion([error]),
+        'Error': FieldValue.delete(),
+      });
+    }
+  } catch (error) {
+    print('Error moving machine to current errors: $error');
   }
 }

@@ -1,3 +1,4 @@
+import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -155,8 +156,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        "V16.05.23",
+                      child: Text(
+                        getVersion(),
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,

@@ -118,139 +118,141 @@ class _ZipCodeSearchPageState extends State<ZipCodeSearchPage> {
       appBar: getAppBar(context, pageTitle),
       body: Container(
         decoration: getAppBackground(),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: TextFormField(
-                controller: zipCodeController,
-                keyboardType: TextInputType.number,
-                maxLength: 4,
-                initialValue: arguments["zipCode"],
-                decoration: InputDecoration(
-                  labelText: 'Enter Zip Code',
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: TextFormField(
+                  controller: zipCodeController,
+                  keyboardType: TextInputType.number,
+                  maxLength: 4,
+                  initialValue: arguments["zipCode"],
+                  decoration: InputDecoration(
+                    labelText: 'Enter Zip Code',
+                  ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                searchZipCode();
-              },
-              child: Text('SEARCH'),
-            ),
-            SizedBox(height: 32.0),
-            Column(
-              children: [
-                Container(
-                    color: Colors.black38,
-                    child: Padding(
-                      padding: headerPadding,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: (MediaQuery.of(context).size.width - 32) /
-                                3 *
-                                2,
-                            child: const Text(
-                              "Zip code information",
-                              style: TextStyle(fontWeight: FontWeight.w500),
+              ElevatedButton(
+                onPressed: () {
+                  searchZipCode();
+                },
+                child: Text('SEARCH'),
+              ),
+              SizedBox(height: 32.0),
+              Column(
+                children: [
+                  Container(
+                      color: Colors.black38,
+                      child: Padding(
+                        padding: headerPadding,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: (MediaQuery.of(context).size.width - 32) /
+                                  3 *
+                                  2,
+                              child: const Text(
+                                "Zip code information",
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )),
-                Container(
-                    color: Colors.black12,
-                    child: Padding(
-                      padding: nonHeaderPadding,
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width - 44) /
-                                        3 *
-                                        2,
-                                child: const Text(
-                                  "Longitude",
+                          ],
+                        ),
+                      )),
+                  Container(
+                      color: Colors.black12,
+                      child: Padding(
+                        padding: nonHeaderPadding,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: (MediaQuery.of(context).size.width -
+                                          100) /
+                                      3 *
+                                      2,
+                                  child: const Text(
+                                    "Longitude",
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                longitude,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width - 44) /
-                                        3 *
-                                        2,
-                                child: const Text(
-                                  "Latitude",
+                                Text(
+                                  longitude,
                                 ),
-                              ),
-                              Text(
-                                latitude,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width - 44) /
-                                        3 *
-                                        2,
-                                child: const Text(
-                                  "X Coodrinate",
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: (MediaQuery.of(context).size.width -
+                                          100) /
+                                      3 *
+                                      2,
+                                  child: const Text(
+                                    "Latitude",
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                xCoordinate,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width - 44) /
-                                        3 *
-                                        2,
-                                child: const Text(
-                                  "Y Coordinate",
+                                Text(
+                                  latitude,
                                 ),
-                              ),
-                              Text(
-                                yCoordinate,
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width - 44) /
-                                        3 *
-                                        2,
-                                child: const Text(
-                                  "Numeriekwaarde",
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: (MediaQuery.of(context).size.width -
+                                          100) /
+                                      3 *
+                                      2,
+                                  child: const Text(
+                                    "X Coordinate",
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                closestNumeriekewaarde,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ))
-              ],
-            ),
-          ],
+                                Text(
+                                  xCoordinate,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: (MediaQuery.of(context).size.width -
+                                          100) /
+                                      3 *
+                                      2,
+                                  child: const Text(
+                                    "Y Coordinate",
+                                  ),
+                                ),
+                                Text(
+                                  yCoordinate,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: (MediaQuery.of(context).size.width -
+                                          100) /
+                                      3 *
+                                      2,
+                                  child: const Text(
+                                    "Numeriekwaarde",
+                                  ),
+                                ),
+                                Text(
+                                  closestNumeriekewaarde,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ))
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
