@@ -1,4 +1,4 @@
-import 'package:animo/pages/DeviceInstallationPage%20.dart';
+import 'package:animo/pages/deviceInstallationPage%20.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/pages/addNewDevice_page.dart';
