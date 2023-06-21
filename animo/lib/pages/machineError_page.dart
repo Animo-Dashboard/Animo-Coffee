@@ -17,12 +17,17 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments =
+        (ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?) ??
+            {};
+
+    final user = arguments["User"].toString().toLowerCase();
     return Scaffold(
       appBar: getAppBar(context, "Machine Errors"),
       body: Container(
         decoration: getAppBackground(),
         constraints:
-            BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+            BoxConstraints(minHeight: MediaQuery.of(context).size.height),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +41,7 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                   ),
                 ),
               ),
-              getErrorStreamBuilder(machinesCollection, "Error"),
+              getErrorStreamBuilder(machinesCollection, "Error", user),
               const Center(
                 child: Padding(
                   padding: EdgeInsets.all(16),
@@ -46,7 +51,7 @@ class _MachineErrorPageState extends State<MachineErrorPage> {
                   ),
                 ),
               ),
-              getErrorStreamBuilder(machinesCollection, "CurrentError"),
+              getErrorStreamBuilder(machinesCollection, "CurrentError", user),
             ],
           ),
         ),

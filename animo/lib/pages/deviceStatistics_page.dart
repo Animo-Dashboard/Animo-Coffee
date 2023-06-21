@@ -85,11 +85,11 @@ class _DeviceStatisticsPage extends State<DeviceStatisticsPage> {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map<String, dynamic>;
     var data = arguments['device'];
+    documentID = arguments['id'];
     try {
       DateFormat format = DateFormat("dd/MM/yyyy");
       var data = arguments["device"];
       var model = data["Model"];
-      documentID = data["documentID"];
       switch (model) {
         case "touch2":
           model = "OptiBean 2 Touch";

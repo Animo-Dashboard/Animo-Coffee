@@ -118,7 +118,7 @@ Image getModelImage(String modelName) {
 }
 
 StreamBuilder<QuerySnapshot> getErrorStreamBuilder(
-    CollectionReference machinesCollection, String errorType) {
+    CollectionReference machinesCollection, String errorType, String user) {
   return StreamBuilder<QuerySnapshot>(
     stream: machinesCollection.snapshots(),
     builder: (context, snapshot) {
@@ -136,8 +136,10 @@ StreamBuilder<QuerySnapshot> getErrorStreamBuilder(
 
       final machines = snapshot.data?.docs ?? [];
 
+      final userMachines = machines.where((machine) =>
+          (machine.data() as Map<String, dynamic>)["User"] == user);
       // Filter machines with new errors
-      final machinesWithNewErrors = machines
+      final machinesWithNewErrors = userMachines
           .where((machine) =>
               (machine.data() as Map<String, dynamic>?)
                   ?.containsKey(errorType) ??
@@ -149,7 +151,7 @@ StreamBuilder<QuerySnapshot> getErrorStreamBuilder(
           padding: EdgeInsets.all(10),
           child: Text(
             'No errors found.',
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
           ),
         );
       }
@@ -174,7 +176,7 @@ StreamBuilder<QuerySnapshot> getErrorStreamBuilder(
               onPressed: () {
                 moveToCurrentErrors(machine.id, machinesCollection);
                 Navigator.pushNamed(context, '/deviceStatistics',
-                    arguments: {"device": machine.data()});
+                    arguments: {"device": machine.data(), "id": machine.id});
               },
             ),
           );
@@ -189,15 +191,21 @@ getSubtitleText(String errorType, QueryDocumentSnapshot<Object?> machine) {
     case "Error":
       return Text(
         (machine.data() as Map<String, dynamic>)['Error'] ?? '',
+        style: TextStyle(fontWeight: FontWeight.w500, color: Colors.grey[800]),
       );
     case "CurrentError":
       final currentErrors = (machine.data()
           as Map<String, dynamic>)['CurrentError'] as List<dynamic>;
+      currentErrors.removeWhere((element) => element == null);
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(
           currentErrors.length,
-          (index) => Text(currentErrors[index].toString()),
+          (index) => Text(
+            currentErrors[index].toString(),
+            style:
+                TextStyle(fontWeight: FontWeight.w500, color: Colors.grey[800]),
+          ),
         ),
       );
     default:

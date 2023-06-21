@@ -91,7 +91,7 @@ class _AdminPageState extends State<AdminPage> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/roleChange');
                   },
-                  child: const Text('Role Manager'),
+                  child: const Text('ROLE MANAGE'),
                 ),
               ],
             ),

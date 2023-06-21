@@ -76,6 +76,9 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget getGraph(String option,
       List<QueryDocumentSnapshot<Map<String, dynamic>>> devices) {
+    if (devices.isEmpty) {
+      return Text("No data to display");
+    }
     switch (option) {
       case "Current errors":
         Map<String, int> errorCounts = {};
@@ -89,6 +92,10 @@ class _DashboardPageState extends State<DashboardPage> {
               errorCounts[error] = 1;
             }
           }
+        }
+
+        if (errorCounts.isEmpty) {
+          return Text("No data to display");
         }
 
         BarChartGroupData makeGroupData(

@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -43,51 +44,55 @@ class AssignRolePageState extends State<AssignRolePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Assign Role'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'User Email',
-                  hintText: 'Enter the email of the user',
+      appBar: getAppBar(context, "Assign role"),
+      body: Container(
+        decoration: getAppBackground(),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'User Email',
+                    hintText: 'Enter the email of the user',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an email';
-                  }
-                  return null;
-                },
-              ),
-              DropdownButtonFormField<String>(
-                value: _selectedRole,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedRole = newValue!;
-                  });
-                },
-                items: _roleList.map((role) {
-                  return DropdownMenuItem<String>(
-                    value: role,
-                    child: Text(role),
-                  );
-                }).toList(),
-                decoration: InputDecoration(
-                  labelText: 'Role',
-                  hintText: 'Select the role',
+                DropdownButtonFormField<String>(
+                  value: _selectedRole,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedRole = newValue!;
+                    });
+                  },
+                  items: _roleList.map((role) {
+                    return DropdownMenuItem<String>(
+                      value: role,
+                      child: Text(role),
+                    );
+                  }).toList(),
+                  decoration: InputDecoration(
+                    labelText: 'Role',
+                    hintText: 'Select the role',
+                  ),
                 ),
-              ),
-              ElevatedButton(
-                onPressed: _assignRole,
-                child: Text('Assign Role'),
-              ),
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: _assignRole,
+                  child: Text('Assign Role'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

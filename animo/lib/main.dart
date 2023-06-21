@@ -9,6 +9,7 @@ import 'package:animo/pages/deviceStatistics_page.dart';
 import 'package:animo/pages/errorHandling_page.dart';
 import 'package:animo/pages/forgotPasword_page.dart';
 import 'package:animo/pages/login_page.dart';
+import 'package:animo/pages/machineError_page.dart';
 import 'package:animo/pages/machineSpecs_page.dart';
 import 'package:animo/pages/registerDevice_page.dart';
 import 'package:animo/pages/registeredDevices_page.dart';
@@ -75,7 +76,8 @@ class MyApp extends StatelessWidget {
         '/machineSpecs': (context) => MachineSpecsPage(),
         '/maintenance': (context) => MaintenanceSelectionPage(),
         '/api': (context) => ZipCodeSearchPage(),
-        '/roleChange': (context) => AssignRolePage()
+        '/roleChange': (context) => AssignRolePage(),
+        '/machineErrors': (context) => MachineErrorPage()
       },
     );
   }

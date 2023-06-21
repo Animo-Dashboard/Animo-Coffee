@@ -19,6 +19,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   List<DocumentSnapshot> devices = [];
   String pageTitle = "Your devices";
+  String user = "";
   List<String> moreMenuOptions = ['Settings', 'Log out', 'All errors'];
 
   void handleClick(String value) {
@@ -33,12 +34,9 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
         Navigator.pushNamed(context, '/admin');
         break;
       case 'All errors':
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MachineErrorPage(),
-          ),
-        );
+        Navigator.pushNamed(context, '/machineErrors', arguments: {
+          "User": user,
+        });
         break;
     }
   }
@@ -63,19 +61,22 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
             {};
 
     final role = arguments["role"].toString().toLowerCase();
+    user = arguments["email"].toString().toLowerCase();
 
     if (role == "admin") {
       moreMenuOptions = ['Add new device', 'Admin', 'All errors', 'Log out'];
     } else if (role == "dealer") {
-      moreMenuOptions = ['Add new device', 'Log out'];
+      moreMenuOptions = ['Add new device', 'Log out', 'All errors'];
+    } else {
+      moreMenuOptions = ['Log out', 'All errors'];
     }
 
     if (devices.isEmpty) {
-      getMachines(arguments["email"]);
+      getMachines(user);
 
       _db
           .collection("Machines")
-          .where("User", isEqualTo: arguments["email"])
+          .where("User", isEqualTo: user)
           .snapshots()
           .listen((event) {
         devices = event.docs;
@@ -85,7 +86,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           backgroundColor: CustomColors.blue,
-          child: Icon(Icons.refresh),
+          child: const Icon(Icons.refresh),
           onPressed: () {
             setState(() {});
           }),
@@ -98,7 +99,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
           ),
           itemBuilder: (context, index) {
             var device = devices[index].data() as Map<String, dynamic>;
-            device["documentID"] = devices[index].id;
+            var documentId = devices[index].id;
             var model = device["Model"];
             switch (model) {
               case "touch2":
@@ -123,7 +124,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, '/deviceStatistics',
-                      arguments: {"device": device});
+                      arguments: {"device": device, "id": documentId});
                 },
                 child: Container(
                   decoration: getBackgroundIfError(error),
@@ -133,7 +134,7 @@ class _RegisteredDevicesPageState extends State<RegisteredDevicesPage> {
                         height: 10,
                       ),
                       Container(
-                        constraints: BoxConstraints(maxHeight: 160),
+                        constraints: const BoxConstraints(maxHeight: 160),
                         child: getModelImage(model),
                       ),
                       const SizedBox(
