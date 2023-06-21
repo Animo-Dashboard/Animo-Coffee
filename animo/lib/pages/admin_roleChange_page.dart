@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AssignRolePage extends StatefulWidget {
@@ -10,6 +9,8 @@ class AssignRolePage extends StatefulWidget {
 class AssignRolePageState extends State<AssignRolePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  String _selectedRole = 'admin';
+  List<String> _roleList = ['admin', 'dealer', 'user'];
 
   void _assignRole() async {
     if (_formKey.currentState!.validate()) {
@@ -25,7 +26,7 @@ class AssignRolePageState extends State<AssignRolePage> {
         if (userSnapshot.docs.isNotEmpty) {
           // Update the user's role in the Firestore entry
           DocumentReference userDocRef = userSnapshot.docs.first.reference;
-          await userDocRef.update({'role': 'dealer'});
+          await userDocRef.update({'role': _selectedRole});
           print('Role assigned successfully.');
         } else {
           print('User with email $email does not exist.');
@@ -63,6 +64,24 @@ class AssignRolePageState extends State<AssignRolePage> {
                   }
                   return null;
                 },
+              ),
+              DropdownButtonFormField<String>(
+                value: _selectedRole,
+                onChanged: (newValue) {
+                  setState(() {
+                    _selectedRole = newValue!;
+                  });
+                },
+                items: _roleList.map((role) {
+                  return DropdownMenuItem<String>(
+                    value: role,
+                    child: Text(role),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  labelText: 'Role',
+                  hintText: 'Select the role',
+                ),
               ),
               ElevatedButton(
                 onPressed: _assignRole,
