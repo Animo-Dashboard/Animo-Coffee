@@ -1,11 +1,8 @@
 import 'dart:math';
-
 import 'package:animo/reuseWidgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
-import 'addNewDevice_page.dart';
-import 'machineError_page.dart';
 
 class RegisteredDevicesPage extends StatefulWidget {
   const RegisteredDevicesPage({Key? key}) : super(key: key);

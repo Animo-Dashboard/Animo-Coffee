@@ -1,9 +1,7 @@
 // ignore: file_names
 import 'package:animo/pages/userData_page.dart';
 import 'package:flutter/material.dart';
-import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
-
 import 'addNewDevice_page.dart';
 
 class DeviceInstallationPage extends StatefulWidget {

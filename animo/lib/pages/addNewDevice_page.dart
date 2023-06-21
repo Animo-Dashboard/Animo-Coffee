@@ -2,9 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
-
 import 'DeviceInstallationPage .dart';
-import 'DeviceRegistrationPage.dart';
+import 'deviceRegistrationPage.dart';
 
 class AddNewDevicePage extends StatefulWidget {
   const AddNewDevicePage({super.key});
