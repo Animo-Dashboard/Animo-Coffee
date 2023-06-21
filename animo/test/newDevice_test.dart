@@ -81,6 +81,5 @@ void main() {
     // Tap on the added device (installed) to view the registration guide
     await tester.tap(find.byType(ListTile).first);
     await tester.pumpAndSettle();
-    // Add additional expectations or assertions if necessary
   });
 }

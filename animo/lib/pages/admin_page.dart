@@ -87,6 +87,13 @@ class _AdminPageState extends State<AdminPage> {
                   },
                   child: const Text('ZIP SEARCH'),
                 ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/roleChange');
+                  },
+                  child: const Text('Role Manager'),
+                ),
               ],
             ),
           ),

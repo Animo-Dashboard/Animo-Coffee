@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:animo/pages/MaintenanceSelection_page.dart';
 import 'package:animo/pages/addNewDevice_page.dart';
 import 'package:animo/pages/admin_page.dart';
+import 'package:animo/pages/admin_roleChange_page.dart';
 import 'package:animo/pages/calciumLevels_page.dart';
 import 'package:animo/pages/dashboard_page.dart';
 import 'package:animo/pages/deviceStatistics_page.dart';
@@ -73,7 +74,8 @@ class MyApp extends StatelessWidget {
         '/deviceStatistics': (context) => const DeviceStatisticsPage(),
         '/machineSpecs': (context) => MachineSpecsPage(),
         '/maintenance': (context) => MaintenanceSelectionPage(),
-        '/api': (context) => ZipCodeSearchPage()
+        '/api': (context) => ZipCodeSearchPage(),
+        '/roleChange': (context) => AssignRolePage()
       },
     );
   }

@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:animo/reuseWidgets.dart';
 import 'package:animo/pages/contact_page.dart';
 import 'package:animo/pages/MaintenanceSelection_page.dart';
 import 'package:animo/pages/Mainenance%20Pages/usingTheRinsingProgram_page.dart';
 import 'package:animo/pages/Mainenance Pages/cleaningProgram_page.dart';
-
-// Mock class for NavigatorObserver
-class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
 void main() {
   group('MaintenanceSelectionPage', () {

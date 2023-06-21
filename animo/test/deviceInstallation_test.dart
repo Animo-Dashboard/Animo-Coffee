@@ -1,14 +1,7 @@
 import 'package:animo/pages/DeviceInstallationPage%20.dart';
-import 'package:animo/pages/userData_page.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:mockito/mockito.dart';
-import 'package:animo/inAppFunctions.dart';
-import 'package:animo/reuseWidgets.dart';
 import 'package:animo/pages/addNewDevice_page.dart';
-import 'package:animo/pages/DeviceRegistrationPage.dart';
-
-class MockBuildContext extends Mock implements BuildContext {}
 
 void main() {
   group('DeviceInstallationPage', () {
@@ -39,7 +32,5 @@ void main() {
       expect(find.text('Step 1:'), findsNothing);
       expect(find.text('Step 2:'), findsOneWidget);
     });
-
-    // Add more test cases for DeviceInstallationPage
   });
 }
