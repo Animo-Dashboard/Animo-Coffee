@@ -83,12 +83,29 @@ class _DashboardPageState extends State<DashboardPage> {
         Map<String, int> errorCounts = {};
         for (var device in devices) {
           var deviceData = device.data();
-          String error = deviceData['Error'] ?? "";
-          if (error.isNotEmpty) {
-            if (errorCounts.containsKey(error)) {
-              errorCounts[error] = errorCounts[error]! + 1;
-            } else {
-              errorCounts[error] = 1;
+          String newError = deviceData["Error"] ?? "";
+          List<String> currentErrors = [];
+          List<dynamic> currentErrorFromDatabase =
+              deviceData["CurrentError"] ?? [];
+          for (var error in currentErrorFromDatabase) {
+            currentErrors.add(error.toString());
+          }
+
+          List<String> errors = [];
+          if (currentErrors.isNotEmpty) {
+            errors.addAll(currentErrors);
+          }
+          if (newError != "") {
+            errors.add(newError);
+          }
+
+          for (var error in errors) {
+            if (error.isNotEmpty && error != "null") {
+              if (errorCounts.containsKey(error)) {
+                errorCounts[error] = errorCounts[error]! + 1;
+              } else {
+                errorCounts[error] = 1;
+              }
             }
           }
         }
