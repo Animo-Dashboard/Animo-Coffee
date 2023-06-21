@@ -67,123 +67,125 @@ class _ContactPageState extends State<ContactPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(context, 'Contact Page'),
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("images/background.jpeg"),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/background.jpeg"),
+            fit: BoxFit.cover,
           ),
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 16.0),
-              const Text(
-                'Contact Information',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              const Text('Phone: +31 (0)592 - 376376'),
-              const Text('Email: info@animo.nl '),
-              const Text('Address: Dr. A.F. Philipsweg 47'),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _showForm = true;
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  shape: const RoundedRectangleBorder(),
-                ),
-                child: const Text(
-                  'If you wish to leave feedback, click this',
-                  style: TextStyle(fontSize: 18.0),
-                ),
-              ),
-              if (_showForm) ...[
-                const SizedBox(height: 16.0),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
                 const Text(
-                  'Contact Form',
+                  'Contact Information',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 16.0),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _nameController,
-                        decoration: InputDecoration(labelText: 'Name'),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your name';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(labelText: 'Email'),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          // Add additional email validation if required
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _phoneController,
-                        decoration: InputDecoration(labelText: 'Phone'),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your phone number';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _subjectController,
-                        decoration: InputDecoration(labelText: 'Subject'),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter a subject';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _messageController,
-                        decoration: InputDecoration(labelText: 'Message'),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter a message';
-                          }
-                          return null;
-                        },
-                        maxLines: 4,
-                      ),
-                      SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: _submitForm,
-                        child: Text('Submit'),
-                      ),
-                    ],
+                const SizedBox(height: 8.0),
+                const Text('Phone: +31 (0)592 - 376376'),
+                const Text('Email: info@animo.nl '),
+                const Text('Address: Dr. A.F. Philipsweg 47'),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _showForm = true;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    shape: const RoundedRectangleBorder(),
+                  ),
+                  child: const Text(
+                    'If you wish to leave feedback, click this',
+                    style: TextStyle(fontSize: 18.0),
                   ),
                 ),
+                if (_showForm) ...[
+                  const SizedBox(height: 16.0),
+                  const Text(
+                    'Contact Form',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(labelText: 'Name'),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your name';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _emailController,
+                          decoration: InputDecoration(labelText: 'Email'),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            // Add additional email validation if required
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _phoneController,
+                          decoration: InputDecoration(labelText: 'Phone'),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your phone number';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _subjectController,
+                          decoration:
+                              const InputDecoration(labelText: 'Subject'),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a subject';
+                            }
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: _messageController,
+                          decoration: InputDecoration(labelText: 'Message'),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a message';
+                            }
+                            return null;
+                          },
+                          maxLines: 4,
+                        ),
+                        SizedBox(height: 16.0),
+                        ElevatedButton(
+                          onPressed: _submitForm,
+                          child: Text('Submit'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
