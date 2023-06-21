@@ -10,7 +10,7 @@ class AssignRolePageState extends State<AssignRolePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   String _selectedRole = 'admin';
-  List<String> _roleList = ['admin', 'dealer', 'user'];
+  List<String> _roleList = ['dealer', 'admin', 'user'];
 
   void _assignRole() async {
     if (_formKey.currentState!.validate()) {
