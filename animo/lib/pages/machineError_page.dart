@@ -2,9 +2,6 @@ import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-
-import 'deviceStatistics_page.dart';
 
 class MachineErrorPage extends StatefulWidget {
   @override

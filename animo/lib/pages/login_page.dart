@@ -1,7 +1,4 @@
 import 'package:animo/inAppFunctions.dart';
-import 'package:animo/pages/DeviceInstallationPage%20.dart';
-import 'package:animo/pages/forgotPasword_page.dart';
-import 'package:animo/pages/registeredDevices_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
