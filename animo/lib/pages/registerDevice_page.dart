@@ -38,7 +38,7 @@ class _RegisterDevicePage extends State<RegisterDevicePage> {
   @override
   void initState() {
     super.initState();
-    retrieveBluetoothAddressAndName();
+    // retrieveBluetoothAddressAndName();
   }
 
   Future<void> retrieveBluetoothAddressAndName() async {

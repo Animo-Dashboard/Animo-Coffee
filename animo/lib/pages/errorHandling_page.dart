@@ -13,21 +13,6 @@ class _ErrorHandlingPageState extends State<ErrorHandlingPage> {
   List<ErrorItem> errorItems = [];
   String pageTitle = "Errors";
 
-  List<String> moreMenuOptions = ['Add new error', 'Settings', 'Log out'];
-  void handleClick(String value) {
-    switch (value) {
-      case 'Add new error':
-        addNewError();
-        break;
-      case 'Settings':
-        // Handle 'Settings' action
-        break;
-      case 'Log out':
-        logOut(context);
-        break;
-    }
-  }
-
   void addNewError() {
     ErrorItem newError = ErrorItem(
       id: 1,
@@ -42,7 +27,10 @@ class _ErrorHandlingPageState extends State<ErrorHandlingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(context, pageTitle, moreMenuOptions, handleClick),
+      appBar: getAppBar(
+        context,
+        pageTitle,
+      ),
       body: Container(
         decoration: getAppBackground(),
         child: ListView.builder(

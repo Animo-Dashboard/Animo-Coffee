@@ -1,4 +1,4 @@
-import 'package:animo/reuseWidgets.dart';
+import 'package:animo/inAppFunctions.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
@@ -6,7 +6,9 @@ import 'package:email_validator/email_validator.dart';
 import 'login_page.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({Key? key}) : super(key: key);
+  final FirebaseAuth? auth;
+
+  const ForgotPasswordPage({Key? key, this.auth}) : super(key: key);
 
   @override
   _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
@@ -66,7 +68,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -154,8 +155,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      child: const Text(
-                        "V16.05.23",
+                      child: Text(
+                        getVersion(),
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,

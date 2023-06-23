@@ -1,3 +1,4 @@
+import 'package:animo/inAppFunctions.dart';
 import 'package:animo/pages/Mainenance%20Pages/cleaningBeanCanister_page.dart';
 import 'package:animo/pages/Mainenance%20Pages/cleaningBrewer_page.dart';
 import 'package:animo/pages/Mainenance%20Pages/cleaningExteriorAndInterior_page.dart';
@@ -22,7 +23,7 @@ class MaintenanceSelectionPage extends StatefulWidget {
 }
 
 class _MaintenanceSelectionPageState extends State<MaintenanceSelectionPage> {
-  final List<String> moreMenuOptions = ['Contact', 'Settings', 'Log out'];
+  final List<String> moreMenuOptions = ['Contact', 'Log out'];
 
   void handleClick(String value) {
     switch (value) {
@@ -38,7 +39,7 @@ class _MaintenanceSelectionPageState extends State<MaintenanceSelectionPage> {
         // Handle settings option
         break;
       case 'Log out':
-        // Handle log out option
+        logOut(context);
         break;
     }
   }
@@ -53,7 +54,6 @@ class _MaintenanceSelectionPageState extends State<MaintenanceSelectionPage> {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(10),

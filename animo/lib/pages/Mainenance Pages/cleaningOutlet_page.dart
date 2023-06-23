@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class CleaningOutletPage extends StatefulWidget {
@@ -47,20 +48,18 @@ class _CleaningOutletPageState extends State<CleaningOutletPage> {
     ),
     const MainenanceStep(
       stepText: "Clean the parts.",
-      imagePath: 'images/cleaning the outlet 4.PNG.PNG',
+      imagePath: 'images/cleaning the outlet 4.PNG',
     ),
     const MainenanceStep(
       stepText: "Replace the outlet hoses.",
-      imagePath: 'images/cleaning the outlet 4.PNG.PNG',
+      imagePath: 'images/cleaning the outlet 4.PNG',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-      ),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(

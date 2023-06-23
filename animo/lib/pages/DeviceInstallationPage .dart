@@ -1,9 +1,7 @@
 // ignore: file_names
 import 'package:animo/pages/userData_page.dart';
 import 'package:flutter/material.dart';
-import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
-
 import 'addNewDevice_page.dart';
 
 class DeviceInstallationPage extends StatefulWidget {
@@ -118,7 +116,7 @@ class _DeviceInstallationPageState extends State<DeviceInstallationPage> {
                   backgroundColor: Colors.grey[300],
                   foregroundColor: Colors.black,
                   textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  fixedSize: Size.fromWidth(150),
+                  fixedSize: const Size.fromWidth(150),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                 ),
                 child: const Text('Previous'),
@@ -171,7 +169,7 @@ class InstallationStep extends StatelessWidget {
       child: Column(
         children: [
           if (imagePath != null) ...[
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Image.asset(
               imagePath!,
               height: 300,
@@ -179,9 +177,9 @@ class InstallationStep extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ],
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -193,12 +191,13 @@ class InstallationStep extends StatelessWidget {
                 children: [
                   Text(
                     'Step $stepNumber:',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     stepText,
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ],
               ),

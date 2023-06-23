@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class RinsingProgramPage extends StatefulWidget {
@@ -17,24 +18,22 @@ class _RinsingProgramPageState extends State<RinsingProgramPage> {
     ),
     const MaintenanceStep(
       stepText: "Tap 'Rinse'.",
-      imagePath: 'images/using the rinsing program.png',
+      imagePath: 'images/using the rinsing program.PNG',
     ),
     const MaintenanceStep(
       stepText: "Place a bowl (min. 1.5 l) under the outlet",
-      imagePath: 'images/using the rinsing program.png',
+      imagePath: 'images/using the rinsing program.PNG',
     ),
     const MaintenanceStep(
       stepText: "Follow the instructions on the touchscreen.",
-      imagePath: 'images/using the rinsing program.png',
+      imagePath: 'images/using the rinsing program.PNG',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-      ),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(

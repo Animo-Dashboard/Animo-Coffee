@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/rendering.dart';
@@ -76,19 +75,43 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget getGraph(String option,
       List<QueryDocumentSnapshot<Map<String, dynamic>>> devices) {
+    if (devices.isEmpty) {
+      return Text("No data to display");
+    }
     switch (option) {
       case "Current errors":
         Map<String, int> errorCounts = {};
         for (var device in devices) {
           var deviceData = device.data();
-          String error = deviceData['Error'] ?? "";
-          if (error.isNotEmpty) {
-            if (errorCounts.containsKey(error)) {
-              errorCounts[error] = errorCounts[error]! + 1;
-            } else {
-              errorCounts[error] = 1;
+          String newError = deviceData["Error"] ?? "";
+          List<String> currentErrors = [];
+          List<dynamic> currentErrorFromDatabase =
+              deviceData["CurrentError"] ?? [];
+          for (var error in currentErrorFromDatabase) {
+            currentErrors.add(error.toString());
+          }
+
+          List<String> errors = [];
+          if (currentErrors.isNotEmpty) {
+            errors.addAll(currentErrors);
+          }
+          if (newError != "") {
+            errors.add(newError);
+          }
+
+          for (var error in errors) {
+            if (error.isNotEmpty && error != "null") {
+              if (errorCounts.containsKey(error)) {
+                errorCounts[error] = errorCounts[error]! + 1;
+              } else {
+                errorCounts[error] = 1;
+              }
             }
           }
+        }
+
+        if (errorCounts.isEmpty) {
+          return Text("No data to display");
         }
 
         BarChartGroupData makeGroupData(

@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class CleaningTouchScreenPage extends StatefulWidget {
@@ -18,20 +19,18 @@ class _CleaningTouchScreenPageState extends State<CleaningTouchScreenPage> {
     ),
     const MainenanceStep(
       stepText: "Tap 'Clean the touchscreen'",
-      imagePath: 'images/using the rinsing program.png',
+      imagePath: 'images/using the rinsing program.PNG',
     ),
     const MainenanceStep(
       stepText: "Follow the instructions on the touchscreen",
-      imagePath: 'images/using the rinsing program.png',
+      imagePath: 'images/using the rinsing program.PNG',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-      ),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(

@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class CleaningBrewerPage extends StatefulWidget {
@@ -13,32 +14,30 @@ class _CleaningBrewerPageState extends State<CleaningBrewerPage> {
   List<Widget> maintenanceSteps = [
     const MainenanceStep(
       stepText: "Open the machine door.",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
     const MainenanceStep(
       stepText: "Switch off the machine.",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
     const MainenanceStep(
       stepText: "Remove and clean the hood (A)",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
     const MainenanceStep(
       stepText: "Clean the surface of the brewer with the brush.",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
     const MainenanceStep(
       stepText: "Replace the hood (A).",
-      imagePath: 'images/cleaning the brewer.png',
+      imagePath: 'images/cleaning the brewer.PNG',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-      ),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(

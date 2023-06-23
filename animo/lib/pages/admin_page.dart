@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:animo/inAppFunctions.dart';
 import 'package:animo/reuseWidgets.dart';
 
 class AdminPage extends StatefulWidget {
@@ -36,7 +35,7 @@ class _AdminPageState extends State<AdminPage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             appBar: getAppBar(context, pageTitle),
-            body: Center(child: CircularProgressIndicator()),
+            body: const Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -46,7 +45,7 @@ class _AdminPageState extends State<AdminPage> {
           if (userRole != "admin") {
             return Scaffold(
               appBar: getAppBar(context, pageTitle),
-              body: Center(
+              body: const Center(
                 child: Text(
                   "Access Denied",
                   style: TextStyle(fontSize: 20),
@@ -71,21 +70,28 @@ class _AdminPageState extends State<AdminPage> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/dashboard');
                   },
-                  child: Text('DASHBOARD'),
+                  child: const Text('DASHBOARD'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/machineSpecs');
                   },
-                  child: Text('MACHINE PAGE'),
+                  child: const Text('MACHINE PAGE'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/maintenance');
+                    Navigator.pushNamed(context, '/api');
                   },
-                  child: Text('MAINTENANCE'),
+                  child: const Text('ZIP SEARCH'),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/roleChange');
+                  },
+                  child: const Text('ROLE MANAGE'),
                 ),
               ],
             ),

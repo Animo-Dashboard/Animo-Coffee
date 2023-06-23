@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class EmptyingWasteBinsPage extends StatefulWidget {
@@ -12,44 +13,42 @@ class _EmptyingWasteBinsPageState extends State<EmptyingWasteBinsPage> {
   List<Widget> maintenanceSteps = [
     const MainenanceStep(
       stepText: "Open the machine door.",
-      imagePath: 'images/cleaning the bin.png',
+      imagePath: 'images/cleaning the bin.PNG',
     ),
     const MainenanceStep(
       stepText: "Lift the outlet.",
-      imagePath: 'images/cleaning the bin.png',
+      imagePath: 'images/cleaning the bin.PNG',
     ),
     const MainenanceStep(
       stepText: "Take out the waste bin (C).",
-      imagePath: 'images/cleaning the bin.png',
+      imagePath: 'images/cleaning the bin.PNG',
     ),
     const MainenanceStep(
       stepText: "Remove the cover (A).",
-      imagePath: 'images/cleaning the bin.png',
+      imagePath: 'images/cleaning the bin.PNG',
     ),
     const MainenanceStep(
       stepText: "Clean/Empty the waste bins (B & C).",
-      imagePath: 'images/cleaning the bin.png',
+      imagePath: 'images/cleaning the bin.PNG',
     ),
     const MainenanceStep(
       stepText: "Replace the waste bins.",
-      imagePath: 'images/cleaning the bin.png',
+      imagePath: 'images/cleaning the bin.PNG',
     ),
     const MainenanceStep(
       stepText: "Lower the outlet.",
-      imagePath: 'images/cleaning the bin.png',
+      imagePath: 'images/cleaning the bin.PNG',
     ),
     const MainenanceStep(
       stepText: "Close the machine door.",
-      imagePath: 'images/cleaning the bin.png',
+      imagePath: 'images/cleaning the bin.PNG',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-      ),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(

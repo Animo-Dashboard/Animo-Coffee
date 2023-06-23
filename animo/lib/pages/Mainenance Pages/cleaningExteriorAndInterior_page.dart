@@ -1,3 +1,4 @@
+import 'package:animo/reuseWidgets.dart';
 import 'package:flutter/material.dart';
 
 class CleaningExteriorAndInteriorPage extends StatefulWidget {
@@ -15,16 +16,14 @@ class _CleaningExteriorAndInteriorPageState
   List<Widget> maintenanceSteps = [
     const MaintenanceStep(
       stepText: "Clean the exterior and interior with a damp cloth.",
-      imagePath: "images/using the cleaning program.png",
+      imagePath: "images/using the cleaning program.PNG",
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(pageTitle),
-      ),
+      appBar: getAppBar(context, pageTitle),
       body: Column(
         children: [
           LinearProgressIndicator(
